@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusWell - Campus Voice</title>
+    <link rel="stylesheet" href="./campus-voice.css">
+</head>
+
+<body>
+    <div class="voice-container">
+        <header>
+            <h1>CampusWell</h1>
+            <p>Campus Voice</p>
+        </header>
+        <main>
+            <section class="intro">
+                <h2>Share Your Voice</h2>
+                <p>
+                    Your feedback can help improve student wellbeing and campus support services.
+                </p>
+            </section>
+            <form id="voiceForm">
+                <label for="category">Feedback Category</label>
+                <select id="category" required>
+                    <option value="">Select a category</option>
+                    <option value="wellness">Wellness Services</option>
+                    <option value="counselling">Counselling Support</option>
+                    <option value="academic">Academic Support</option>
+                    <option value="campus">Campus Facilities</option>
+                    <option value="other">Other</option>
+                </select>
+                <label for="feedback">Your Feedback</label>
+                <textarea id="feedback" rows="6" placeholder="Share your feedback or concern..." required>
+                </textarea>
+                <div class="anonymous-option">
+                    <input type="checkbox" id="anonymous">
+                    <label for="anonymous">
+                        Submit anonymously
+                    </label>
+                </div>
+                <button type="submit">
+                    Submit Feedback
+                </button>
+                <p id="message"></p>
+            </form>
+        </main>
+        <a href="../index.html">← Back to Home</a>
+    </div>
+    <script src="./campus-voice.js"></script>
+</body>
+
+</html>

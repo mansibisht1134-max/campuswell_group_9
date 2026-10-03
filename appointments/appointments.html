@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusWell - Appointments</title>
+
+    <link rel="stylesheet" href="./appointments.css">
+</head>
+
+<body>
+    <div class="appointments-container">
+        <header>
+            <h1>CampusWell</h1>
+            <p>Counselling Appointments</p>
+        </header>
+        <main>
+            <h2>Book an Appointment</h2>
+            <p>
+                Choose a counsellor and a convenient date and time.
+            </p>
+            <form id="appointmentForm">
+                <label for="counsellor">Choose Counsellor</label>
+                <select id="counsellor" required>
+                    <option value="">Select a counsellor</option>
+                    <option value="counsellor-1">Dr. Ananya Sharma</option>
+                    <option value="counsellor-2">Dr. Rahul Mehta</option>
+                    <option value="counsellor-3">Ms. Priya Verma</option>
+                </select>
+                <label for="date">Appointment Date</label>
+                <input type="date" id="date" required>
+                <label for="time">Appointment Time</label>
+                <input type="time" id="time" required>
+                <label for="reason">Reason for Appointment</label>
+                <textarea id="reason" rows="4" placeholder="Briefly describe what you would like support with..." required>
+                </textarea>
+                <button type="submit">
+                    Book Appointment
+                </button>
+                <p id="message"></p>
+            </form>
+        </main>
+        <a href="../index.html">← Back to Home</a>
+        <script src="./appointments.js"></script>
+    </div>
+</body>
+
+</html>

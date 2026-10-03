@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CampusWell - Wellness Check-in</title>
+    <link rel="stylesheet" href="./wellness.css">
+</head>
+
+<body>
+    <div class="wellness-container">
+        <header>
+            <h1>CampusWell</h1>
+            <p>Wellness Check-in</p>
+        </header>
+        <main>
+            <h2>How are you feeling today?</h2>
+            <p>
+                Take a moment to check in with yourself. Your responses can help you understand your wellbeing.
+            </p>
+            <form id="wellnessForm">
+                <label for="mood">Your mood</label>
+                <select id="mood" name="mood" required>
+                    <option value="">Select your mood</option>
+                    <option value="very-good">Very Good</option>
+                    <option value="good">Good</option>
+                    <option value="okay">Okay</option>
+                    <option value="low">Low</option>
+                    <option value="very-low">Very Low</option>
+                </select>
+                <label for="stress">Your stress level</label>
+                <select id="stress" name="stress" required>
+                    <option value="">Select stress level</option>
+                    <option value="very-low">Very Low</option>
+                    <option value="low">Low</option>
+                    <option value="moderate">Moderate</option>
+                    <option value="high">High</option>
+                    <option value="very-high">Very High</option>
+                </select>
+                <button type="submit">
+                    Submit Check-in
+                </button>
+                <p id="message"></p>
+            </form>
+        </main>
+        <a href="../index.html">← Back to Home</a>
+        <script src="./wellness.js"></script>
+    </div>
+</body>
+
+</html>

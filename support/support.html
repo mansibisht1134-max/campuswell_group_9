@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>CampusWell - Support</title>
+
+    <link rel="stylesheet" href="./support.css">
+</head>
+
+<body>
+
+    <div class="support-container">
+
+        <header>
+            <h1>CampusWell</h1>
+            <p>Counselling & Support</p>
+        </header>
+
+        <main>
+
+            <h2>How can we support you?</h2>
+            <p>
+                If you're facing academic, personal, emotional, or wellbeing-related concerns, you can reach out for support.
+            </p>
+            <form id="supportForm">
+                <label for="supportType">What would you like help with?</label>
+                <select id="supportType" required>
+                    <option value="">Select a concern</option>
+                    <option value="academic">Academic Stress</option>
+                    <option value="personal">Personal Concerns</option>
+                    <option value="stress">Stress & Anxiety</option>
+                    <option value="relationships">Relationships</option>
+                    <option value="other">Other</option>
+                </select>
+                <label for="supportMessage">Tell us more</label>
+                <textarea id="supportMessage" rows="5" placeholder="Describe your concern..." required></textarea>
+                <button type="submit">
+                    Request Support
+                </button>
+                <p id="message"></p>
+            </form>
+        </main>
+        <a href="../index.html">← Back to Home</a>
+        <script src="./support.js"></script>
+    </div>
+</body>
+
+</html>
