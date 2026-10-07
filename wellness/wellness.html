@@ -3,50 +3,190 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusWell - Wellness Check-in</title>
-    <link rel="stylesheet" href="./wellness.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Wellness</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="wellness.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <div class="wellness-container">
-        <header>
-            <h1>CampusWell</h1>
-            <p>Wellness Check-in</p>
-        </header>
-        <main>
-            <h2>How are you feeling today?</h2>
-            <p>
-                Take a moment to check in with yourself. Your responses can help you understand your wellbeing.
-            </p>
-            <form id="wellnessForm">
-                <label for="mood">Your mood</label>
-                <select id="mood" name="mood" required>
-                    <option value="">Select your mood</option>
-                    <option value="very-good">Very Good</option>
-                    <option value="good">Good</option>
-                    <option value="okay">Okay</option>
-                    <option value="low">Low</option>
-                    <option value="very-low">Very Low</option>
-                </select>
-                <label for="stress">Your stress level</label>
-                <select id="stress" name="stress" required>
-                    <option value="">Select stress level</option>
-                    <option value="very-low">Very Low</option>
-                    <option value="low">Low</option>
-                    <option value="moderate">Moderate</option>
-                    <option value="high">High</option>
-                    <option value="very-high">Very High</option>
-                </select>
-                <button type="submit">
-                    Submit Check-in
-                </button>
-                <p id="message"></p>
-            </form>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="./wellness.html" class="nav-link active"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="../appointments/appointments.html" class="nav-link"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="../support/support.html" class="nav-link"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="../campus-voice/campus-voice.html" class="nav-link"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="../resources/resources.html" class="nav-link"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="#profile" class="nav-link"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="#notifications" class="nav-link"><i data-lucide="bell"></i>Notifications<span class="notification-count">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search anything...">
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading">
+                        <h1>Wellness</h1>
+                        <p>Your mental and emotional wellbeing matters. Take care of yourself.</p>
+                    </div>
+                    <div class="wellness-grid">
+                        <section class="overview-card card">
+                            <div class="card-top">
+                                <div class="card-icon blue">♡</div>
+                                <div>
+                                    <span class="eyebrow">WELLNESS OVERVIEW</span>
+                                    <h2>Your Well-being at a Glance</h2>
+                                    <p>Track your progress and take small steps towards a healthier, happier you.</p>
+                                </div>
+                            </div>
+                            <div class="overview-stats">
+                                <div class="wellness-stat">
+                                    <div class="stat-icon">☺</div>
+                                    <div><span>Mood</span><strong id="overviewMood">Good</strong></div>
+                                </div>
+                                <div class="wellness-stat">
+                                    <div class="stat-icon">◔</div>
+                                    <div><span>Sleep</span><strong id="overviewSleep">7–8 hrs</strong></div>
+                                </div>
+                                <div class="wellness-stat">
+                                    <div class="stat-icon">♧</div>
+                                    <div><span>Activity</span><strong id="overviewActivity">Moderate</strong></div>
+                                </div>
+                                <div class="wellness-stat">
+                                    <div class="stat-icon">♧</div>
+                                    <div><span>Stress</span><strong id="overviewStress">Low</strong></div>
+                                </div>
+                            </div>
+                        </section>
+                        <section class="score-card card">
+                            <h2>Wellness Score</h2>
+                            <div class="score-content">
+                                <div class="score-circle">
+                                    <div>
+                                        <strong id="wellnessScore">78</strong>
+                                        <span>/100</span>
+                                    </div>
+                                </div>
+                                <div class="score-text">
+                                    <h3 id="wellnessStatus">Your well-being is going well!</h3>
+                                    <p>Keep up the good work.</p>
+                                    <p>Small steps make a big difference.</p>
+                                </div>
+                            </div>
+                            <div class="score-bar"><span id="scoreProgress"></span></div>
+                        </section>
+                        <section class="checkin-card card">
+                            <div class="checkin-icon">♡</div>
+                            <div class="checkin-content">
+                                <span class="eyebrow">DAILY CHECK-IN</span>
+                                <h2>How are you feeling today?</h2>
+                                <p>Take a moment to reflect on your mood, stress, and overall well-being. Your responses are private and help us support you better.</p>
+                                <a class="checkin-button" href="checkin.html"><span>→</span>Start Wellness Check-in</a>
+                            </div>
+                        </section>
+                        <section class="insights-card card">
+                            <div class="insights-heading">
+                                <div class="lightbulb">♧</div>
+                                <h2>Quick Insights</h2>
+                            </div>
+                            <div class="insight-row">
+                                <div class="insight-icon">☺</div>
+                                <div><strong>Mood</strong>
+                                    <p>You've been feeling positive lately!</p>
+                                </div>
+                                <span>›</span>
+                            </div>
+                            <div class="insight-row">
+                                <div class="insight-icon">◔</div>
+                                <div><strong>Sleep</strong>
+                                    <p>Your sleep quality is improving.</p>
+                                </div>
+                                <span>›</span>
+                            </div>
+                            <div class="insight-row">
+                                <div class="insight-icon">♧</div>
+                                <div><strong>Stress</strong>
+                                    <p>Stress levels are low. Keep it up!</p>
+                                </div>
+                                <span>›</span>
+                            </div>
+                            <div class="insight-row">
+                                <div class="insight-icon">♧</div>
+                                <div><strong>Activity</strong>
+                                    <p>You're staying active. Great job!</p>
+                                </div>
+                                <span>›</span>
+                            </div>
+                        </section>
+                        <section class="recent-card card">
+                            <div class="recent-heading">
+                                <div class="recent-title">
+                                    <div class="recent-icon">▣</div>
+                                    <div>
+                                        <h2>Recent Check-ins</h2>
+                                        <p>View your past wellness check-ins and track your progress over time.</p>
+                                    </div>
+                                </div>
+                                <button id="viewAllHistory">View all →</button>
+                            </div>
+                            <div id="historyList" class="history-list">
+                                <div class="empty-history">
+                                    <div>▤</div>
+                                    <strong>No check-ins yet</strong>
+                                    <p>Complete your first wellness check-in to start tracking your progress.</p>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </section>
+            </div>
         </main>
-        <a href="../index.html">← Back to Home</a>
-        <script src="./wellness.js"></script>
     </div>
+    <div id="toast" class="toast"></div>
+    <script src="wellness.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

@@ -4,318 +4,523 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CampusWell - Student Dashboard</title>
-
+    <title>CampusWell | Student Dashboard</title>
     <link rel="stylesheet" href="./dashboard.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+
 </head>
 
 <body>
 
-    <div class="dashboard-layout">
+    <div class="app">
+
 
         <aside class="sidebar">
-
-            <div class="sidebar-brand">
-                <div class="logo-icon">CW</div>
-
-                <div class="logo-text">
-                    Campus<span>Well</span>
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
                 </div>
             </div>
 
-
-            <div class="student-profile">
-
-                <div class="profile-avatar">
-                    S
-                </div>
-
-                <div class="profile-info">
-                    <strong>Student</strong>
-                    <span>Student Portal</span>
-                </div>
-
-            </div>
-
-
-            <nav class="sidebar-nav">
-
-                <p class="nav-title">MAIN MENU</p>
-
+            <nav class="main-nav">
                 <a href="./dashboard.html" class="nav-link active">
-                    <span>⌂</span> Dashboard
+                    <i data-lucide="house"></i> Dashboard
                 </a>
-
                 <a href="../wellness/wellness.html" class="nav-link">
-                    <span>♥</span> Wellness Check-in
+                    <i data-lucide="heart"></i> Wellness Check-in
                 </a>
-
                 <a href="../appointments/appointments.html" class="nav-link">
-                    <span>▣</span> Appointments
+                    <i data-lucide="calendar-days"></i> Appointments
                 </a>
-
                 <a href="../support/support.html" class="nav-link">
-                    <span>☏</span> Counselling & Support
+                    <i data-lucide="messages-square"></i> Counselling & Support
                 </a>
-
-                <a href="../resources/resources.html" class="nav-link">
-                    <span>▤</span> Wellness Resources
-                </a>
-
                 <a href="../campus-voice/campus-voice.html" class="nav-link">
-                    <span>◈</span> Campus Voice
+                    <i data-lucide="megaphone"></i> Campus Voice
                 </a>
-
-
-                <p class="nav-title account-title">ACCOUNT</p>
-
-                <a href="#" class="nav-link">
-                    <span>◎</span> My Profile
+                <a href="../resources/resources.html" class="nav-link">
+                    <i data-lucide="book-open"></i> Wellness Resources
                 </a>
-
-                <a href="#" class="nav-link">
-                    <span>●</span> Notifications
-                </a>
-
             </nav>
 
+            <div class="nav-divider"></div>
 
-            <div class="sidebar-bottom">
+            <p class="nav-heading">YOUR ACCOUNT</p>
 
-                <a href="../index.html" class="logout-link">
-                    <span>↪</span> Logout
+            <nav class="account-nav">
+                <a href="#profile" class="nav-link">
+                    <i data-lucide="user-round"></i> My Profile
                 </a>
+                <a href="#notifications" class="nav-link">
+                    <i data-lucide="bell"></i> Notifications
+                    <span class="notification-count">3</span>
+                </a>
+            </nav>
 
+            <div class="sidebar-support">
+                <div class="support-icon">
+                    <i data-lucide="heart-handshake"></i>
+                </div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">
+                Get Support <i data-lucide="arrow-right"></i>
+            </a>
             </div>
 
+            <a href="../index.html" class="logout">
+                <i data-lucide="log-out"></i> Logout
+            </a>
         </aside>
 
+        <main class="main-content">
 
-        <!-- MAIN DASHBOARD -->
-        <main class="dashboard-main">
-
-            <header class="dashboard-header">
-
-                <div>
-                    <p class="page-label">
-                        STUDENT PORTAL
-                    </p>
-
-                    <h1>
-                        Welcome to CampusWell
-                    </h1>
-
-                    <p class="header-description">
-                        Your personal student wellness space.
-                    </p>
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search anything...">
                 </div>
 
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="bell-dot">3</span>
+                </button>
 
-                <div class="header-profile">
-
-                    <div class="notification">
-                        ♢
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
                     </div>
-
-                    <div class="header-avatar">
-                        S
-                    </div>
-
                 </div>
-
             </header>
 
 
-            <!-- WELCOME SECTION -->
-            <section class="welcome-card">
+            <div class="dashboard-content">
 
-                <div class="welcome-content">
+                <!-- WELCOME BANNER -->
+                <section class="welcome-banner">
+                    <div class="welcome-overlay">
+                        <span class="portal-tag">STUDENT PORTAL</span>
+                        <h1>Good morning, Mansi! 👋</h1>
+                        <p>Your wellbeing matters. Take a moment to check in<br> with yourself today.</p>
+                    </div>
 
-                    <p class="welcome-label">
-                        STUDENT WELLNESS
-                    </p>
+                    <div class="banner-message">
+                        <p>Better Minds</p>
+                        <h2>Build Brighter</h2>
+                        <p>Futures</p>
+                        <span class="banner-wave">〰〰</span>
+                    </div>
+                </section>
 
-                    <h2>
-                        Take care of your wellbeing.
-                    </h2>
+                <section class="stats-grid">
 
-                    <p>
-                        Check in with yourself, access support, manage appointments and explore wellness resources.
-                    </p>
+                    <div class="stat-card wellness-stat">
+                        <div class="stat-icon blue-icon">
+                            <i data-lucide="heart"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p>Wellness Score</p>
+                            <h2>72 <span>/ 100</span></h2>
+                            <small class="positive">
+                            <i data-lucide="trending-up"></i>
+                            8% from last check-in
+                        </small>
+                        </div>
+                        <div class="score-ring">
+                            <div class="score-ring-inner"></div>
+                        </div>
+                    </div>
 
-                </div>
+                    <div class="stat-card">
+                        <div class="stat-icon purple-icon">
+                            <i data-lucide="calendar-days"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p>Upcoming Appointments</p>
+                            <h2>1</h2>
+                            <small>Next: Apr 30, 2025 →</small>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon blue-icon">
+                            <i data-lucide="message-circle"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p>Support Requests</p>
+                            <h2>0</h2>
+                            <small>No pending requests →</small>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon green-icon">
+                            <i data-lucide="clipboard-check"></i>
+                        </div>
+                        <div class="stat-content">
+                            <p>Check-ins This Month</p>
+                            <h2>3</h2>
+                            <small class="positive">↑ 1 more than last month</small>
+                        </div>
+                    </div>
+
+                    <div class="motivation-card">
+                        <div>
+                            <h2>You are stronger<br>than you think.</h2>
+                            <p>Small steps lead to<br>big changes.</p>
+                        </div>
+                        <div class="motivation-decoration">✦</div>
+                    </div>
+
+                </section>
 
 
-                <a href="../wellness/wellness.html" class="primary-button">
-                    Start Wellness Check-in
-                </a>
+                <section class="middle-grid">
 
-            </section>
 
-            <section class="dashboard-section">
+                    <div class="panel journey-panel">
+                        <div class="panel-heading">
+                            <div>
+                                <h2>Your Wellness Journey</h2>
+                                <p>Track your mood, stress and overall wellbeing over time.</p>
+                            </div>
 
-                <div class="section-heading">
+                            <div class="chart-filters">
+                                <button>7D</button>
+                                <button class="selected">30D</button>
+                                <button>3M</button>
+                                <button>6M</button>
+                            </div>
+                        </div>
 
-                    <div>
+                        <div class="chart-area">
+                            <div class="chart-labels">
+                                <span>Great</span>
+                                <span>Good</span>
+                                <span>Okay</span>
+                                <span>Low</span>
+                                <span>Stressed</span>
+                            </div>
 
-                        <p class="section-label">
-                            QUICK ACCESS
-                        </p>
+                            <div class="chart-graphic">
+                                <svg viewBox="0 0 620 185" preserveAspectRatio="none" class="wellness-chart">
 
-                        <h2>
-                            Wellness Services
-                        </h2>
+                                <defs>
+                                    <pattern id="grid" width="62" height="35"
+                                             patternUnits="userSpaceOnUse">
+                                        <path d="M 62 0 L 0 0 0 35"
+                                              fill="none"
+                                              stroke="#E6EEF7"
+                                              stroke-width="1"/>
+                                    </pattern>
+                                </defs>
+
+                                <rect width="620" height="185" fill="url(#grid)"/>
+
+                                <path d="M0 82 C40 72 45 60 80 65
+                                         S120 43 155 72
+                                         S205 35 245 42
+                                         S290 55 325 24
+                                         S370 55 410 43
+                                         S450 47 485 37
+                                         S530 15 565 25
+                                         S600 25 620 36"
+                                      fill="none" stroke="#2697FF"
+                                      stroke-width="2.5"/>
+
+                                <path d="M0 100 C40 85 45 80 80 83
+                                         S120 70 155 88
+                                         S205 60 245 70
+                                         S290 75 325 55
+                                         S370 83 410 70
+                                         S450 75 485 82
+                                         S530 55 565 58
+                                         S600 55 620 48"
+                                      fill="none" stroke="#12B991"
+                                      stroke-width="2.5"/>
+
+                                <path d="M0 126 C40 120 45 100 80 105
+                                         S120 100 155 116
+                                         S205 110 245 105
+                                         S290 90 325 100
+                                         S370 118 410 108
+                                         S450 100 485 110
+                                         S530 100 565 112
+                                         S600 115 620 105"
+                                      fill="none" stroke="#9580F8"
+                                      stroke-width="2.5"/>
+
+                                <g fill="#fff" stroke-width="2">
+                                    <circle cx="80" cy="65" r="3" stroke="#2697FF"/>
+                                    <circle cx="155" cy="72" r="3" stroke="#2697FF"/>
+                                    <circle cx="245" cy="42" r="3" stroke="#2697FF"/>
+                                    <circle cx="325" cy="24" r="3" stroke="#2697FF"/>
+                                    <circle cx="410" cy="43" r="3" stroke="#2697FF"/>
+                                    <circle cx="485" cy="37" r="3" stroke="#2697FF"/>
+                                    <circle cx="565" cy="25" r="3" stroke="#2697FF"/>
+
+                                    <circle cx="80" cy="83" r="3" stroke="#12B991"/>
+                                    <circle cx="155" cy="88" r="3" stroke="#12B991"/>
+                                    <circle cx="245" cy="70" r="3" stroke="#12B991"/>
+                                    <circle cx="325" cy="55" r="3" stroke="#12B991"/>
+                                    <circle cx="410" cy="70" r="3" stroke="#12B991"/>
+                                    <circle cx="485" cy="82" r="3" stroke="#12B991"/>
+                                    <circle cx="565" cy="58" r="3" stroke="#12B991"/>
+
+                                    <circle cx="80" cy="105" r="3" stroke="#9580F8"/>
+                                    <circle cx="155" cy="116" r="3" stroke="#9580F8"/>
+                                    <circle cx="245" cy="105" r="3" stroke="#9580F8"/>
+                                    <circle cx="325" cy="100" r="3" stroke="#9580F8"/>
+                                    <circle cx="410" cy="108" r="3" stroke="#9580F8"/>
+                                    <circle cx="485" cy="110" r="3" stroke="#9580F8"/>
+                                    <circle cx="565" cy="112" r="3" stroke="#9580F8"/>
+                                </g>
+                            </svg>
+
+                                <div class="chart-dates">
+                                    <span>Apr 3</span>
+                                    <span>Apr 7</span>
+                                    <span>Apr 12</span>
+                                    <span>Apr 17</span>
+                                    <span>Apr 22</span>
+                                    <span>Apr 27</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="chart-legend">
+                            <span><i class="legend-dot mood"></i>Mood</span>
+                            <span><i class="legend-dot stress"></i>Stress</span>
+                            <span><i class="legend-dot energy"></i>Energy</span>
+                        </div>
+                    </div>
+                    <div class="panel checkin-panel">
+                        <div class="checkin-heading">
+                            <div class="stat-icon blue-icon">
+                                <i data-lucide="clipboard-pen-line"></i>
+                            </div>
+                            <h2>Wellness Check-in</h2>
+                            <a href="../wellness/wellness.html">View History →</a>
+                        </div>
+
+                        <div class="last-checkin">
+                            <div class="mood-circle">
+                                <i data-lucide="smile"></i>
+                            </div>
+                            <div>
+                                <p>Last check-in</p>
+                                <h3>Apr 26, 2025</h3>
+                                <span class="improvement">
+                                <i data-lucide="check-circle"></i> Improvement
+                            </span>
+                            </div>
+                        </div>
+
+                        <div class="progress-message">
+                            <h4>Your score improved by 8%</h4>
+                            <p>Great progress! Keep taking care<br>of yourself.</p>
+                        </div>
+
+                        <a href="../wellness/wellness.html" class="primary-button">
+                        Take New Check-in
+                    </a>
+                    </div>
+
+                </section>
+
+                <section class="bottom-grid">
+
+                    <div class="panel activity-panel">
+                        <div class="panel-heading">
+                            <h2>Recent Activity</h2>
+                            <a href="../appointments/appointments.html">View All →</a>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon blue-icon">
+                                <i data-lucide="heart"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Wellness Check-in Completed</h4>
+                                <p>Apr 26, 2025 • Your mood score improved by 8%</p>
+                            </div>
+                            <i data-lucide="chevron-right"></i>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon purple-icon">
+                                <i data-lucide="calendar-days"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Appointment Booked</h4>
+                                <p>Apr 24, 2025 • Dr. Priya Nair • General Support</p>
+                            </div>
+                            <i data-lucide="chevron-right"></i>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon blue-icon">
+                                <i data-lucide="message-circle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Support Request Submitted</h4>
+                                <p>Apr 20, 2025 • Academic Stress • Response received</p>
+                            </div>
+                            <i data-lucide="chevron-right"></i>
+                        </div>
+
+                        <div class="activity-item">
+                            <div class="activity-icon green-icon">
+                                <i data-lucide="heart"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Wellness Check-in Completed</h4>
+                                <p>Apr 15, 2025 • Your mood score was 68/100</p>
+                            </div>
+                            <i data-lucide="chevron-right"></i>
+                        </div>
+                    </div>
+
+                    <div class="panel quick-panel">
+                        <div class="panel-heading">
+                            <h2>Quick Access</h2>
+                        </div>
+
+                        <div class="quick-grid">
+                            <a href="../wellness/wellness.html" class="quick-item">
+                                <div class="quick-icon blue-icon">
+                                    <i data-lucide="heart"></i>
+                                </div>
+                                <div>
+                                    <h4>Wellness Check-in</h4>
+                                    <p>Track your wellbeing</p>
+                                </div>
+                            </a>
+
+                            <a href="../appointments/appointments.html" class="quick-item">
+                                <div class="quick-icon purple-icon">
+                                    <i data-lucide="calendar-days"></i>
+                                </div>
+                                <div>
+                                    <h4>Appointments</h4>
+                                    <p>Book & manage</p>
+                                </div>
+                            </a>
+
+                            <a href="../support/support.html" class="quick-item">
+                                <div class="quick-icon blue-icon">
+                                    <i data-lucide="message-circle"></i>
+                                </div>
+                                <div>
+                                    <h4>Counselling & Support</h4>
+                                    <p>Get help when needed</p>
+                                </div>
+                            </a>
+
+                            <a href="../resources/resources.html" class="quick-item">
+                                <div class="quick-icon purple-icon">
+                                    <i data-lucide="book-open"></i>
+                                </div>
+                                <div>
+                                    <h4>Wellness Resources</h4>
+                                    <p>Explore helpful tools</p>
+                                </div>
+                            </a>
+
+                            <a href="../campus-voice/campus-voice.html" class="quick-item">
+                                <div class="quick-icon pink-icon">
+                                    <i data-lucide="megaphone"></i>
+                                </div>
+                                <div>
+                                    <h4>Campus Voice</h4>
+                                    <p>Share feedback</p>
+                                </div>
+                            </a>
+
+                            <a href="#profile" class="quick-item">
+                                <div class="quick-icon purple-icon">
+                                    <i data-lucide="user-round"></i>
+                                </div>
+                                <div>
+                                    <h4>My Profile</h4>
+                                    <p>Manage your account</p>
+                                </div>
+                            </a>
+                        </div>
+                    </div>
+
+
+
+                    <div class="right-column">
+
+                        <div class="panel appointment-panel">
+                            <div class="panel-heading">
+                                <h2>Upcoming Appointment</h2>
+                                <a href="../appointments/appointments.html">View All →</a>
+                            </div>
+
+                            <div class="appointment-info">
+                                <div class="date-box">
+                                    <span>APR</span>
+                                    <strong>30</strong>
+                                </div>
+
+                                <div>
+                                    <h4>10:00 AM - 10:45 AM</h4>
+                                    <h3>Dr. Priya Nair</h3>
+                                    <p>Counsellor</p>
+                                    <span class="confirmed">
+                                    <i data-lucide="check-circle"></i> Confirmed
+                                </span>
+                                </div>
+                            </div>
+
+                            <a href="../appointments/appointments.html" class="outline-button">
+                            View Details
+                        </a>
+                        </div>
+
+                        <div class="quote-card">
+                            <span class="quote-mark">“</span>
+                            <h2>Your mental health<br> is just as important<br> as your academic<br> success.
+                            </h2>
+                            <div class="quote-line"></div>
+                            <p><i data-lucide="heart"></i> CampusWell</p>
+                        </div>
 
                     </div>
 
-                </div>
+                </section>
 
+                <footer class="footer">
+                    <p>© 2025 CampusWell • Student Wellness Management System</p>
+                    <p>Your wellbeing matters.</p>
+                </footer>
 
-                <div class="service-grid">
-
-
-                    <a href="../wellness/wellness.html" class="service-card">
-
-                        <div class="service-icon">
-                            ♥
-                        </div>
-
-                        <h3>
-                            Wellness Check-in
-                        </h3>
-
-                        <p>
-                            Record how you are feeling and keep track of your wellbeing.
-                        </p>
-
-                        <span>
-                            Open →
-                        </span>
-
-                    </a>
-
-
-                    <a href="../appointments/appointments.html" class="service-card">
-
-                        <div class="service-icon">
-                            ▣
-                        </div>
-
-                        <h3>
-                            Appointments
-                        </h3>
-
-                        <p>
-                            Book and manage counselling appointments.
-                        </p>
-
-                        <span>
-                            Open →
-                        </span>
-
-                    </a>
-
-
-                    <a href="../support/support.html" class="service-card">
-
-                        <div class="service-icon">
-                            ☏
-                        </div>
-
-                        <h3>
-                            Counselling & Support
-                        </h3>
-
-                        <p>
-                            Reach out for help and submit a support request.
-                        </p>
-
-                        <span>
-                            Open →
-                        </span>
-
-                    </a>
-
-
-                    <a href="../resources/resources.html" class="service-card">
-
-                        <div class="service-icon">
-                            ▤
-                        </div>
-
-                        <h3>
-                            Wellness Resources
-                        </h3>
-
-                        <p>
-                            Explore resources for stress, academics and mental wellbeing.
-                        </p>
-
-                        <span>
-                            Open →
-                        </span>
-
-                    </a>
-
-
-                    <a href="../campus-voice/campus-voice.html" class="service-card">
-
-                        <div class="service-icon">
-                            ◈
-                        </div>
-
-                        <h3>
-                            Campus Voice
-                        </h3>
-
-                        <p>
-                            Share feedback, concerns and suggestions with the institution.
-                        </p>
-
-                        <span>
-                            Open →
-                        </span>
-
-                    </a>
-
-
-                    <a href="#" class="service-card">
-
-                        <div class="service-icon">
-                            ◎
-                        </div>
-
-                        <h3>
-                            My Profile
-                        </h3>
-
-                        <p>
-                            View and manage your student account information.
-                        </p>
-
-                        <span>
-                            Coming soon →
-                        </span>
-
-                    </a>
-
-                </div>
-
-            </section>
-
-
-            <footer class="dashboard-footer">
-
-                <p>
-                    CampusWell · Student Wellness Management System
-                </p>
-
-            </footer>
-
+            </div>
         </main>
-
     </div>
+
+    <script>
+        lucide.createIcons();
+
+
+        document.querySelectorAll(".chart-filters button").forEach(button => {
+            button.addEventListener("click", () => {
+                document.querySelectorAll(".chart-filters button")
+                    .forEach(item => item.classList.remove("selected"));
+
+                button.classList.add("selected");
+            });
+        });
+    </script>
 
 </body>
 

@@ -3,52 +3,375 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusWell - Campus Voice</title>
-    <link rel="stylesheet" href="./campus-voice.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Campus Voice</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="campus-voice.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <div class="voice-container">
-        <header>
-            <h1>CampusWell</h1>
-            <p>Campus Voice</p>
-        </header>
-        <main>
-            <section class="intro">
-                <h2>Share Your Voice</h2>
-                <p>
-                    Your feedback can help improve student wellbeing and campus support services.
-                </p>
-            </section>
-            <form id="voiceForm">
-                <label for="category">Feedback Category</label>
-                <select id="category" required>
-                    <option value="">Select a category</option>
-                    <option value="wellness">Wellness Services</option>
-                    <option value="counselling">Counselling Support</option>
-                    <option value="academic">Academic Support</option>
-                    <option value="campus">Campus Facilities</option>
-                    <option value="other">Other</option>
-                </select>
-                <label for="feedback">Your Feedback</label>
-                <textarea id="feedback" rows="6" placeholder="Share your feedback or concern..." required>
-                </textarea>
-                <div class="anonymous-option">
-                    <input type="checkbox" id="anonymous">
-                    <label for="anonymous">
-                        Submit anonymously
-                    </label>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
                 </div>
-                <button type="submit">
-                    Submit Feedback
-                </button>
-                <p id="message"></p>
-            </form>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="../wellness/wellness.html" class="nav-link"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="../appointments/appointments.html" class="nav-link"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="../support/support.html" class="nav-link"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="./campus-voice.html" class="nav-link active"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="../resources/resources.html" class="nav-link"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="#profile" class="nav-link"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="#notifications" class="nav-link"><i data-lucide="bell"></i>Notifications<span class="notification-count">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input id="voiceSearch" type="text" placeholder="Search feedback, updates, or submissions...">
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading voice-heading">
+                        <div>
+                            <span class="eyebrow">STUDENT VOICE</span>
+                            <h1>Campus Voice</h1>
+                            <p>Share your thoughts, raise concerns, and help us make campus better.</p>
+                        </div>
+                        <div class="voice-message">
+                            <div class="voice-message-icon"><i data-lucide="megaphone"></i></div>
+                            <div>
+                                <strong>Your voice matters</strong>
+                                <span>Every suggestion can create positive change.</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="voice-actions">
+                        <button type="button" class="voice-action blue" data-type="Feedback">
+<div class="voice-action-icon"><i data-lucide="message-square-more"></i></div>
+<div>
+<strong>Submit Feedback</strong>
+<span>Share your thoughts and experiences</span>
+<small>→</small>
+</div>
+</button>
+                        <button type="button" class="voice-action pink" data-type="Issue">
+<div class="voice-action-icon"><i data-lucide="triangle-alert"></i></div>
+<div>
+<strong>Report an Issue</strong>
+<span>Bring attention to a problem</span>
+<small>→</small>
+</div>
+</button>
+                        <button type="button" class="voice-action green" data-type="Suggestion">
+<div class="voice-action-icon"><i data-lucide="lightbulb"></i></div>
+<div>
+<strong>Suggestions & Ideas</strong>
+<span>Help improve campus life</span>
+<small>→</small>
+</div>
+</button>
+                        <button type="button" class="voice-action purple" data-type="Poll">
+<div class="voice-action-icon"><i data-lucide="bar-chart-3"></i></div>
+<div>
+<strong>Take a Poll / Survey</strong>
+<span>Your opinion helps shape change</span>
+<small>→</small>
+</div>
+</button>
+                    </div>
+
+                    <div class="voice-layout">
+                        <div class="voice-main">
+                            <section class="privacy-card card">
+                                <div class="privacy-icon"><i data-lucide="shield-check"></i></div>
+                                <div class="privacy-content">
+                                    <span class="eyebrow">YOUR PRIVACY</span>
+                                    <h2>Anonymous or Identified?</h2>
+                                    <p>You can choose to share your feedback anonymously or with your name. Both options help us improve.</p>
+                                </div>
+                                <label class="privacy-toggle">
+<input type="checkbox" id="anonymousToggle">
+<span></span>
+<em id="privacyLabel">Anonymous</em>
+</label>
+                                <button type="button" class="primary-button" id="privacySubmit">Submit Feedback <i data-lucide="arrow-right"></i></button>
+                            </section>
+
+                            <section class="updates-card card">
+                                <div class="section-header">
+                                    <div>
+                                        <span class="eyebrow">RECENT CAMPUS UPDATES</span>
+                                        <h2>What’s happening on campus</h2>
+                                        <p>Stay updated on changes and improvements shaped by student feedback.</p>
+                                    </div>
+                                    <button type="button" class="text-button" id="viewAllUpdates">View all <i data-lucide="arrow-right"></i></button>
+                                </div>
+                                <div class="updates-grid" id="updatesGrid">
+                                    <article class="update-card">
+                                        <div class="update-visual library"><i data-lucide="library"></i></div>
+                                        <div class="update-body">
+                                            <span class="update-tag blue-tag">Academics</span>
+                                            <h3>Library timings extended</h3>
+                                            <p>The central library will remain open until 10 PM from Monday to Friday.</p>
+                                            <small>12 Oct 2025</small>
+                                        </div>
+                                    </article>
+                                    <article class="update-card">
+                                        <div class="update-visual food"><i data-lucide="utensils"></i></div>
+                                        <div class="update-body">
+                                            <span class="update-tag green-tag">Food</span>
+                                            <h3>New menu at Canteen</h3>
+                                            <p>Healthy meal options and new varieties are now available at the main canteen.</p>
+                                            <small>10 Oct 2025</small>
+                                        </div>
+                                    </article>
+                                    <article class="update-card">
+                                        <div class="update-visual safety"><i data-lucide="shield"></i></div>
+                                        <div class="update-body">
+                                            <span class="update-tag purple-tag">Safety</span>
+                                            <h3>Improved campus security</h3>
+                                            <p>Additional security personnel will be deployed across campus during late hours.</p>
+                                            <small>8 Oct 2025</small>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+
+                            <section class="submissions-card card">
+                                <div class="section-header">
+                                    <div>
+                                        <span class="eyebrow">YOUR SUBMISSIONS</span>
+                                        <h2>Track your voice</h2>
+                                        <p>See how your feedback, concerns and suggestions are progressing.</p>
+                                    </div>
+                                    <button type="button" class="text-button" id="viewAllSubmissions">View all <i data-lucide="arrow-right"></i></button>
+                                </div>
+                                <div class="submission-table-wrap">
+                                    <table class="submission-table">
+                                        <thead>
+                                            <tr>
+                                                <th>Type</th>
+                                                <th>Title</th>
+                                                <th>Date</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody id="submissionList">
+                                            <tr>
+                                                <td><span class="submission-type feedback"><i data-lucide="message-square"></i>Feedback</span></td>
+                                                <td>Library seating is insufficient</td>
+                                                <td>12 Oct 2025</td>
+                                                <td><span class="status pending">Pending</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="submission-type issue"><i data-lucide="triangle-alert"></i>Issue</span></td>
+                                                <td>Wi-Fi not working in hostel</td>
+                                                <td>8 Oct 2025</td>
+                                                <td><span class="status reviewing">Reviewing</span></td>
+                                            </tr>
+                                            <tr>
+                                                <td><span class="submission-type suggestion"><i data-lucide="lightbulb"></i>Suggestion</span></td>
+                                                <td>Add more sports facilities</td>
+                                                <td>3 Oct 2025</td>
+                                                <td><span class="status resolved">Resolved</span></td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </section>
+                        </div>
+
+                        <aside class="voice-side">
+                            <section class="impact-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">YOU SAID. WE HEARD. WE ACTED.</span>
+                                        <h2>Feedback making a difference</h2>
+                                    </div>
+                                    <i data-lucide="hand-heart"></i>
+                                </div>
+                                <div class="impact-item">
+                                    <div class="impact-icon blue"><i data-lucide="library"></i></div>
+                                    <div>
+                                        <strong>Library timings</strong>
+                                        <p>Students asked for longer study hours.</p>
+                                        <span><i data-lucide="circle-check"></i> Implemented</span>
+                                    </div>
+                                </div>
+                                <div class="impact-item">
+                                    <div class="impact-icon green"><i data-lucide="utensils"></i></div>
+                                    <div>
+                                        <strong>Canteen options</strong>
+                                        <p>Students requested healthier meal choices.</p>
+                                        <span><i data-lucide="loader-circle"></i> In progress</span>
+                                    </div>
+                                </div>
+                                <div class="impact-item">
+                                    <div class="impact-icon purple"><i data-lucide="dumbbell"></i></div>
+                                    <div>
+                                        <strong>Sports facilities</strong>
+                                        <p>More equipment was requested by students.</p>
+                                        <span><i data-lucide="circle-check"></i> Resolved</span>
+                                    </div>
+                                </div>
+                                <button type="button" class="impact-button" id="viewResponses">View campus responses <i data-lucide="arrow-right"></i></button>
+                            </section>
+
+                            <section class="status-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">SUBMISSION STATUS</span>
+                                        <h2>Your voice at a glance</h2>
+                                    </div>
+                                    <i data-lucide="chart-no-axes-combined"></i>
+                                </div>
+                                <div class="status-summary">
+                                    <div class="donut-chart"><strong id="totalSubmissions">5</strong><span>Total</span></div>
+                                    <div class="status-list">
+                                        <div><span class="status-dot pending-dot"></span><strong>Pending</strong><b>2</b></div>
+                                        <div><span class="status-dot reviewing-dot"></span><strong>Reviewing</strong><b>1</b></div>
+                                        <div><span class="status-dot resolved-dot"></span><strong>Resolved</strong><b>2</b></div>
+                                    </div>
+                                </div>
+                            </section>
+
+                            <section class="poll-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">CAMPUS PULSE</span>
+                                        <h2>Quick Poll</h2>
+                                    </div>
+                                    <span class="poll-count">248 responses</span>
+                                </div>
+                                <p class="poll-question">What improvement would you like to see on campus the most?</p>
+                                <div class="poll-options">
+                                    <button type="button" class="poll-option" data-option="Better food options">
+<span>Better food options</span>
+<div><span style="width:42%"></span></div>
+<b>42%</b>
+</button>
+                                    <button type="button" class="poll-option" data-option="More study spaces">
+<span>More study spaces</span>
+<div><span style="width:28%"></span></div>
+<b>28%</b>
+</button>
+                                    <button type="button" class="poll-option" data-option="Improved hostel facilities">
+<span>Improved hostel facilities</span>
+<div><span style="width:18%"></span></div>
+<b>18%</b>
+</button>
+                                    <button type="button" class="poll-option" data-option="More events & activities">
+<span>More events & activities</span>
+<div><span style="width:12%"></span></div>
+<b>12%</b>
+</button>
+                                </div>
+                                <button type="button" class="poll-submit" id="pollSubmit">Choose an option</button>
+                            </section>
+                        </aside>
+                    </div>
+
+                    <section class="voice-footer card">
+                        <div class="voice-footer-icon"><i data-lucide="heart-handshake"></i></div>
+                        <div>
+                            <span class="eyebrow">TOGETHER WE CAN DO BETTER</span>
+                            <h2>Your voice builds a better campus</h2>
+                            <p>Every feedback, suggestion and concern helps create a safer, healthier and more supportive environment for everyone.</p>
+                        </div>
+                        <div class="voice-footer-mark">♡</div>
+                    </section>
+                </section>
+            </div>
         </main>
-        <a href="../index.html">← Back to Home</a>
     </div>
-    <script src="./campus-voice.js"></script>
+
+    <div class="voice-modal" id="voiceModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card">
+            <button type="button" class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+            <div class="modal-icon" id="modalIcon"><i data-lucide="message-square-more"></i></div>
+            <span class="eyebrow" id="modalEyebrow">STUDENT VOICE</span>
+            <h2 id="modalTitle">Submit Feedback</h2>
+            <p id="modalDescription">Share your thoughts or experience with us.</p>
+            <form id="voiceForm">
+                <div class="form-group">
+                    <label for="voiceCategory">Category</label>
+                    <select id="voiceCategory" required>
+<option value="">Select category</option>
+<option>Academics</option>
+<option>Facilities</option>
+<option>Hostel</option>
+<option>Food</option>
+<option>Safety</option>
+<option>Wellness</option>
+<option>Events</option>
+<option>Other</option>
+</select>
+                </div>
+                <div class="form-group">
+                    <label for="voiceTitle">Title</label>
+                    <input id="voiceTitle" type="text" maxlength="80" placeholder="Give your submission a short title" required>
+                </div>
+                <div class="form-group">
+                    <label for="voiceMessage">Tell us more</label>
+                    <textarea id="voiceMessage" maxlength="500" placeholder="Describe your feedback, concern or idea..." required></textarea>
+                    <div class="form-meta"><span id="messageCount">0/500</span><span>We value respectful feedback.</span></div>
+                </div>
+                <div class="anonymous-row">
+                    <div>
+                        <strong>Submit anonymously</strong>
+                        <span>Your name will not be shown with this submission.</span>
+                    </div>
+                    <label class="switch">
+<input type="checkbox" id="modalAnonymous">
+<span></span>
+</label>
+                </div>
+                <button type="submit" class="form-submit">Submit <i data-lucide="send"></i></button>
+            </form>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="campus-voice.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

@@ -3,71 +3,376 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusWell - Resources</title>
-    <link rel="stylesheet" href="./resources.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Wellness Resources</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="resources.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-
-    <div class="resources-container">
-
-        <header>
-            <h1>CampusWell</h1>
-            <p>Wellness Resources</p>
-        </header>
-
-        <main>
-
-            <section class="intro">
-                <h2>Wellness Resources</h2>
-                <p>
-                    Explore helpful resources to support your mental, emotional, academic, and overall wellbeing.
-                </p>
-            </section>
-
-            <section class="resources-grid">
-
-                <div class="resource-card">
-                    <h3>Stress Management</h3>
-                    <p>
-                        Learn simple techniques to manage stress and maintain a healthy daily routine.
-                    </p>
-                    <button>Explore</button>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
                 </div>
-
-                <div class="resource-card">
-                    <h3>Academic Wellbeing</h3>
-                    <p>
-                        Helpful guidance for managing academic pressure, study habits, and workload.
-                    </p>
-                    <button>Explore</button>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="../wellness/wellness.html" class="nav-link"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="../appointments/appointments.html" class="nav-link"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="../support/support.html" class="nav-link"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="../campus-voice/campus-voice.html" class="nav-link"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="./resources.html" class="nav-link active"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="#profile" class="nav-link"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="#notifications" class="nav-link"><i data-lucide="bell"></i>Notifications<span class="notification-count">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input id="resourceSearch" type="text" placeholder="Search resources, guides, or tools...">
                 </div>
-
-                <div class="resource-card">
-                    <h3>Mental Wellness</h3>
-                    <p>
-                        Learn more about emotional wellbeing and ways to take care of yourself.
-                    </p>
-                    <button>Explore</button>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
                 </div>
+            </header>
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading resources-heading">
+                        <div>
+                            <span class="eyebrow">WELLNESS LIBRARY</span>
+                            <h1>Wellness Resources</h1>
+                            <p>Explore practical guides and tools to support your mental, emotional and physical wellbeing.</p>
+                        </div>
+                        <div class="resources-intro-card">
+                            <div class="resources-intro-icon"><i data-lucide="leaf"></i></div>
+                            <div>
+                                <strong>Small steps lead to big changes</strong>
+                                <span>Take one helpful step today.</span>
+                            </div>
+                        </div>
+                    </div>
 
-                <div class="resource-card">
-                    <h3>Self-Care</h3>
-                    <p>
-                        Discover practical self-care activities that can become part of your everyday routine.
-                    </p>
-                    <button>Explore</button>
-                </div>
+                    <div class="resource-layout">
+                        <div class="resource-main">
 
-            </section>
+                            <section class="category-bar card">
+                                <button type="button" class="category-filter active" data-category="all">All</button>
+                                <button type="button" class="category-filter" data-category="stress"><i data-lucide="brain"></i>Stress</button>
+                                <button type="button" class="category-filter" data-category="sleep"><i data-lucide="moon"></i>Sleep</button>
+                                <button type="button" class="category-filter" data-category="anxiety"><i data-lucide="heart-pulse"></i>Anxiety</button>
+                                <button type="button" class="category-filter" data-category="academic"><i data-lucide="graduation-cap"></i>Academic</button>
+                                <button type="button" class="category-filter" data-category="lifestyle"><i data-lucide="activity"></i>Lifestyle</button>
+                                <button type="button" class="category-filter" data-category="self-care"><i data-lucide="heart"></i>Self-care</button>
+                            </section>
 
+                            <section class="featured-resource card">
+                                <div class="featured-content">
+                                    <span class="featured-label">FEATURED</span>
+                                    <h2>Managing Exam Stress</h2>
+                                    <p>Simple strategies to stay calm, focused and balanced during demanding academic periods.</p>
+                                    <div class="featured-meta">
+                                        <span><i data-lucide="clock-3"></i>7 min read</span>
+                                        <span><i data-lucide="book-open"></i>Academic wellbeing</span>
+                                    </div>
+                                    <button type="button" class="featured-button resource-open" data-title="Managing Exam Stress" data-category="Academic" data-time="7 min read" data-text="Learn practical ways to manage exam pressure, organise your study time, stay calm before assessments and build a healthier study routine.">Read Guide <i data-lucide="arrow-right"></i></button>
+                                </div>
+                                <div class="featured-art">
+                                    <div class="book-stack">
+                                        <div class="book book-one"></div>
+                                        <div class="book book-two"></div>
+                                        <div class="book book-three"></div>
+                                    </div>
+                                    <div class="plant-art"><span></span><span></span><span></span></div>
+                                    <div class="note-art">You<br>can<br>do this</div>
+                                </div>
+                            </section>
+
+                            <section class="library-card card">
+                                <div class="section-header">
+                                    <div>
+                                        <span class="eyebrow">RESOURCE LIBRARY</span>
+                                        <h2>Explore helpful resources</h2>
+                                        <p>Browse practical guides created to support different parts of student wellbeing.</p>
+                                    </div>
+                                    <span class="resource-total" id="resourceTotal">8 resources</span>
+                                </div>
+
+                                <div class="resource-grid" id="resourceGrid">
+
+                                    <article class="resource-card" data-category="stress" data-title="Stress Management">
+                                        <div class="resource-icon pink"><i data-lucide="brain"></i></div>
+                                        <span class="resource-category pink-text">STRESS</span>
+                                        <h3>Stress Management</h3>
+                                        <p>Understand stress and learn practical ways to manage it.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>5 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Stress Management" data-category="Stress" data-time="5 min read" data-text="Understand everyday stress, recognise common triggers and learn simple strategies that can help you feel more balanced during busy college days.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="sleep" data-title="Better Sleep">
+                                        <div class="resource-icon purple"><i data-lucide="moon"></i></div>
+                                        <span class="resource-category purple-text">SLEEP</span>
+                                        <h3>Better Sleep</h3>
+                                        <p>Improve your sleep quality with simple, effective habits.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>6 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Better Sleep" data-category="Sleep" data-time="6 min read" data-text="Build a healthier sleep routine with practical ideas for evening habits, consistent schedules, reducing distractions and getting better rest.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="anxiety" data-title="Exam Anxiety">
+                                        <div class="resource-icon green"><i data-lucide="heart-pulse"></i></div>
+                                        <span class="resource-category green-text">ANXIETY</span>
+                                        <h3>Exam Anxiety</h3>
+                                        <p>Stay calm and confident before and during exams.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>7 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Exam Anxiety" data-category="Anxiety" data-time="7 min read" data-text="Learn ways to handle pre-exam worry, improve focus and create routines that can help you approach assessments with more confidence.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="academic" data-title="Time Management">
+                                        <div class="resource-icon blue"><i data-lucide="graduation-cap"></i></div>
+                                        <span class="resource-category blue-text">ACADEMIC</span>
+                                        <h3>Time Management</h3>
+                                        <p>Make the most of your time and reduce last-minute stress.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>5 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Time Management" data-category="Academic" data-time="5 min read" data-text="Create realistic study plans, break large tasks into smaller steps and make room for rest while keeping up with academic responsibilities.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="lifestyle" data-title="Building Healthy Habits">
+                                        <div class="resource-icon orange"><i data-lucide="activity"></i></div>
+                                        <span class="resource-category orange-text">LIFESTYLE</span>
+                                        <h3>Building Healthy Habits</h3>
+                                        <p>Small habits can create a healthier, happier routine.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>6 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Building Healthy Habits" data-category="Lifestyle" data-time="6 min read" data-text="Explore manageable habits around movement, meals, routines and daily self-care that can support a healthier student lifestyle.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="self-care" data-title="Mindfulness & Relaxation">
+                                        <div class="resource-icon purple"><i data-lucide="sparkles"></i></div>
+                                        <span class="resource-category purple-text">SELF-CARE</span>
+                                        <h3>Mindfulness & Relaxation</h3>
+                                        <p>Be present, reduce stress and feel calmer.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>8 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Mindfulness & Relaxation" data-category="Self-care" data-time="8 min read" data-text="Discover simple mindfulness and relaxation practices you can use between classes, before studying or whenever you need a calmer moment.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="self-care" data-title="Emotional Wellbeing">
+                                        <div class="resource-icon green"><i data-lucide="heart"></i></div>
+                                        <span class="resource-category green-text">EMOTIONAL WELLBEING</span>
+                                        <h3>Emotional Wellbeing</h3>
+                                        <p>Build resilience and learn to manage your emotions.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>6 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Emotional Wellbeing" data-category="Self-care" data-time="6 min read" data-text="Learn ways to notice emotions, build resilience, respond to difficult moments and maintain healthy emotional routines throughout college.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                    <article class="resource-card" data-category="academic" data-title="Managing Academic Pressure">
+                                        <div class="resource-icon blue"><i data-lucide="book-open-check"></i></div>
+                                        <span class="resource-category blue-text">ACADEMIC</span>
+                                        <h3>Managing Academic Pressure</h3>
+                                        <p>Stay focused, motivated and in control.</p>
+                                        <div class="resource-card-bottom">
+                                            <span><i data-lucide="clock-3"></i>7 min read</span>
+                                            <button type="button" class="read-button resource-open" data-title="Managing Academic Pressure" data-category="Academic" data-time="7 min read" data-text="Explore practical approaches to academic pressure, prioritisation, realistic expectations and maintaining a healthy balance between study and personal life.">Read <i data-lucide="arrow-right"></i></button>
+                                        </div>
+                                    </article>
+
+                                </div>
+                            </section>
+
+                            <section class="your-resources card">
+                                <div class="section-header">
+                                    <div>
+                                        <span class="eyebrow">YOUR RESOURCES</span>
+                                        <h2>Recently viewed & saved</h2>
+                                        <p>Quick access to resources you have recently explored.</p>
+                                    </div>
+                                    <div class="resource-tabs">
+                                        <button type="button" class="resource-tab active" data-tab="recent">Recently Viewed</button>
+                                        <button type="button" class="resource-tab" data-tab="saved">Saved Resources</button>
+                                    </div>
+                                </div>
+                                <div class="personal-resource-grid" id="personalResourceGrid"></div>
+                            </section>
+                        </div>
+
+                        <aside class="resource-side">
+
+                            <section class="tools-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">WELLNESS TOOLS</span>
+                                        <h2>Take a moment for yourself</h2>
+                                    </div>
+                                    <i data-lucide="wrench"></i>
+                                </div>
+                                <a href="#breathing" class="tool-item" data-tool="Breathing Exercise">
+                                    <div class="tool-icon blue"><i data-lucide="wind"></i></div>
+                                    <div>
+                                        <strong>Breathing Exercise</strong>
+                                        <span>Calm your mind in 3 minutes</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                                <a href="#relaxation" class="tool-item" data-tool="5-Minute Relaxation">
+                                    <div class="tool-icon purple"><i data-lucide="flower-2"></i></div>
+                                    <div>
+                                        <strong>5-Minute Relaxation</strong>
+                                        <span>Feel lighter, instantly</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                                <a href="#sleep-check" class="tool-item" data-tool="Sleep Check">
+                                    <div class="tool-icon purple"><i data-lucide="moon"></i></div>
+                                    <div>
+                                        <strong>Sleep Check</strong>
+                                        <span>Understand your sleep better</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                                <a href="#study-timer" class="tool-item" data-tool="Study Break Timer">
+                                    <div class="tool-icon green"><i data-lucide="timer"></i></div>
+                                    <div>
+                                        <strong>Study Break Timer</strong>
+                                        <span>Rest • Reset • Focus</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                            </section>
+
+                            <section class="recommended-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">RECOMMENDED FOR YOU</span>
+                                        <h2>Based on your check-ins</h2>
+                                    </div>
+                                    <i data-lucide="sparkles"></i>
+                                </div>
+                                <a href="#better-sleep" class="recommended-item resource-open" data-title="Better Sleep" data-category="Sleep" data-time="6 min read" data-text="Improve your sleep quality with simple, effective habits.">
+                                    <div class="recommend-icon purple"><i data-lucide="moon"></i></div>
+                                    <div>
+                                        <strong>Better Sleep</strong>
+                                        <span>Improve your sleep quality</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                                <a href="#stress-management" class="recommended-item resource-open" data-title="Stress Management" data-category="Stress" data-time="5 min read" data-text="Understand stress and learn practical ways to manage it.">
+                                    <div class="recommend-icon pink"><i data-lucide="brain"></i></div>
+                                    <div>
+                                        <strong>Stress Management</strong>
+                                        <span>Learn to manage daily stress</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                                <a href="#mindfulness" class="recommended-item resource-open" data-title="Mindfulness & Relaxation" data-category="Self-care" data-time="8 min read" data-text="Be present, reduce stress and feel calmer.">
+                                    <div class="recommend-icon green"><i data-lucide="heart"></i></div>
+                                    <div>
+                                        <strong>Mindfulness</strong>
+                                        <span>Stay present and calm</span>
+                                    </div>
+                                    <i data-lucide="chevron-right"></i>
+                                </a>
+                            </section>
+
+                            <section class="glance-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">WELLNESS AT A GLANCE</span>
+                                        <h2>A healthier mind builds a brighter future.</h2>
+                                    </div>
+                                    <i data-lucide="flower-2"></i>
+                                </div>
+                                <div class="glance-art">
+                                    <div class="glance-sun"><i data-lucide="sun"></i></div>
+                                    <div class="glance-leaf leaf-one"></div>
+                                    <div class="glance-leaf leaf-two"></div>
+                                    <div class="glance-leaf leaf-three"></div>
+                                    <p>Take care of yourself.<br>One step at a time.</p>
+                                </div>
+                            </section>
+
+                        </aside>
+                    </div>
+                </section>
+            </div>
         </main>
-
-        <a href="../index.html">← Back to Home</a>
-
     </div>
 
+    <div class="resource-modal" id="resourceModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card">
+            <button type="button" class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+            <div class="modal-icon"><i data-lucide="book-open"></i></div>
+            <span class="eyebrow" id="modalCategory">WELLNESS RESOURCE</span>
+            <h2 id="modalTitle">Managing Exam Stress</h2>
+            <div class="modal-meta"><span id="modalTime"><i data-lucide="clock-3"></i>7 min read</span></div>
+            <p id="modalText"></p>
+            <div class="modal-tips">
+                <strong>What you can explore</strong>
+                <div><i data-lucide="check-circle-2"></i>Practical everyday strategies</div>
+                <div><i data-lucide="check-circle-2"></i>Simple habits you can start today</div>
+                <div><i data-lucide="check-circle-2"></i>Ideas for building a healthier routine</div>
+            </div>
+            <button type="button" class="modal-action" id="modalAction">Continue Reading <i data-lucide="arrow-right"></i></button>
+        </div>
+    </div>
+
+    <div class="tool-modal" id="toolModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card tool-modal-card">
+            <button type="button" class="modal-close" id="toolClose"><i data-lucide="x"></i></button>
+            <div class="modal-icon tool-modal-icon"><i data-lucide="wind"></i></div>
+            <span class="eyebrow">WELLNESS TOOL</span>
+            <h2 id="toolTitle">Breathing Exercise</h2>
+            <p id="toolText">Take a short pause and focus on slow, comfortable breathing.</p>
+            <div class="breathing-circle" id="breathingCircle">3</div>
+            <button type="button" class="modal-action" id="toolStart">Start Exercise</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+    <script src="resources.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

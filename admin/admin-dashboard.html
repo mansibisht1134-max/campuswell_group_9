@@ -4,200 +4,297 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administrator Dashboard - CampusWell</title>
-    <link rel="stylesheet" href="./admin-dashboard.css">
+    <title>CampusWell - User Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: "Segoe UI", Arial, sans-serif;
+            background: #e8f3fc;
+            color: #102d50;
+            min-height: 100vh;
+        }
+        
+        .users-container {
+            max-width: 1400px;
+            width: 100%;
+            margin: auto;
+            padding: 35px;
+        }
+        
+        header {
+            background: #102d50;
+            color: white;
+            padding: 25px 35px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(16, 45, 80, 0.15);
+        }
+        
+        header h1 {
+            font-size: 29px;
+            margin-bottom: 6px;
+        }
+        
+        header p {
+            color: #b9ddf5;
+            font-size: 15px;
+        }
+        
+        header a {
+            background: #b9ddf5;
+            color: #102d50;
+            text-decoration: none;
+            padding: 12px 22px;
+            border-radius: 7px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        
+        header a:hover {
+            background: white;
+        }
+        
+        .welcome-section {
+            background: #c4e1f5;
+            padding: 28px 30px;
+            border-radius: 12px;
+            border-left: 6px solid #1d5d96;
+            margin-bottom: 28px;
+        }
+        
+        .welcome-section h2 {
+            font-size: 25px;
+            margin-bottom: 10px;
+        }
+        
+        .welcome-section p {
+            color: #345a7b;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+        
+        .users-summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            margin-bottom: 30px;
+        }
+        
+        .summary-card {
+            background: white;
+            padding: 27px;
+            border-radius: 12px;
+            border-bottom: 5px solid #1d5d96;
+            box-shadow: 0 4px 14px rgba(16, 45, 80, 0.08);
+            transition: 0.3s;
+        }
+        
+        .summary-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .summary-card h3 {
+            color: #1d5d96;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+        
+        .summary-card p {
+            font-size: 34px;
+            font-weight: bold;
+            color: #102d50;
+        }
+        
+        .users-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(16, 45, 80, 0.08);
+        }
+        
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+        
+        .section-header h2 {
+            font-size: 23px;
+            color: #102d50;
+        }
+        
+        .section-header button {
+            background: #102d50;
+            color: white;
+            border: none;
+            padding: 13px 24px;
+            border-radius: 7px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        
+        .section-header button:hover {
+            background: #1d5d96;
+        }
+        
+        .table-container {
+            width: 100%;
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            text-align: left;
+        }
+        
+        thead {
+            background: #102d50;
+            color: white;
+        }
+        
+        th {
+            padding: 17px 18px;
+            font-size: 14px;
+        }
+        
+        td {
+            padding: 17px 18px;
+            font-size: 14px;
+            color: #345a7b;
+            border-bottom: 1px solid #d6e7f5;
+        }
+        
+        tbody tr:nth-child(even) {
+            background: #f0f7fc;
+        }
+        
+        tbody tr:hover {
+            background: #dcecf9;
+        }
+        
+        @media (max-width: 768px) {
+            .users-container {
+                padding: 18px;
+            }
+            header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .users-summary {
+                grid-template-columns: 1fr;
+            }
+            .users-section {
+                padding: 20px;
+            }
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <aside class="sidebar">
-        <div class="sidebar-brand">
-            <div class="brand-icon">CW</div>
-            <div class="brand-text">
-                <strong>Campus</strong><span>Well</span>
-            </div>
-        </div>
-        <div class="portal-title">
-            Administrator Portal
-        </div>
-        <div class="admin-profile">
-            <div class="profile-avatar">A</div>
+
+    <div class="users-container">
+
+        <header>
             <div>
-                <strong>Administrator</strong>
-                <span>Admin Account</span>
+                <h1>CampusWell</h1>
+                <p>User Management</p>
             </div>
-        </div>
-        <nav class="sidebar-nav">
-            <a href="./admin-dashboard.html" class="nav-item active">
-                <span class="nav-icon">⌂</span>
-                <span>Dashboard</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">👥</span>
-                <span>Users</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">🎓</span>
-                <span>Students</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">🧑‍⚕️</span>
-                <span>Counsellors</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">📅</span>
-                <span>Appointments</span>
-            </a>
-            <a href="../analytics/analytics.html" class="nav-item">
-                <span class="nav-icon">📊</span>
-                <span>Analytics</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">🛠️</span>
-                <span>Interventions</span>
-            </a>
-            <a href="#" class="nav-item">
-                <span class="nav-icon">📈</span>
-                <span>Outcomes</span>
-            </a>
-            <a href="../campus-voice/campus-voice.html" class="nav-item">
-                <span class="nav-icon">💬</span>
-                <span>Campus Voice</span>
-            </a>
-        </nav>
-        <a href="../index.html" class="logout-link">
-            <span>↪</span> Logout
-        </a>
-    </aside>
-    <main class="main-content">
-        <header class="dashboard-header">
-            <div>
-                <p class="page-label">Administrator Portal</p>
-                <h1>Administrator Dashboard</h1>
-                <p class="page-description">
-                    Manage student wellness services, users and institutional wellness activities from one place.
-                </p>
-            </div>
-            <div class="header-date">
-                <span>CampusWell</span>
-                <strong>Administration</strong>
-            </div>
+
+            <a href="../admin/admin.html">Back to Admin</a>
         </header>
-        <section class="overview-section">
-            <div class="section-heading">
-                <h2>System Overview</h2>
-                <p>Current CampusWell activity at a glance.</p>
-            </div>
-            <div class="overview-grid">
-                <div class="overview-card">
-                    <div class="overview-icon">🎓</div>
-                    <div>
-                        <span>Total Students</span>
-                        <strong>0</strong>
-                    </div>
-                </div>
-                <div class="overview-card">
-                    <div class="overview-icon">🧑‍⚕️</div>
-                    <div>
-                        <span>Counsellors</span>
-                        <strong>0</strong>
-                    </div>
-                </div>
-                <div class="overview-card">
-                    <div class="overview-icon">📅</div>
-                    <div>
-                        <span>Appointments</span>
-                        <strong>0</strong>
-                    </div>
-                </div>
-                <div class="overview-card">
-                    <div class="overview-icon">💬</div>
-                    <div>
-                        <span>Support Requests</span>
-                        <strong>0</strong>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <section class="admin-welcome">
-            <div class="welcome-content">
-                <p class="small-label">Campus Wellness Management</p>
-                <h2>Welcome to the Administrator Dashboard</h2>
+
+        <main>
+
+            <section class="welcome-section">
+                <h2>Users</h2>
                 <p>
-                    Use this dashboard to manage CampusWell users, monitor wellness services, review institutional analytics and oversee student support activities.
+                    Manage students, counsellors, and administrators registered in the CampusWell system.
                 </p>
-            </div>
-            <div class="welcome-icon">
-            </div>
-        </section>
-        <section class="quick-access">
-            <div class="section-heading">
-                <h2>Quick Access</h2>
-                <p>Access important administrative modules.</p>
-            </div>
-            <div class="quick-grid">
-                <a href="#" class="quick-card">
-                    <div class="quick-icon">👥</div>
-                    <div>
-                        <h3>User Management</h3>
-                        <p>
-                            Manage students, counsellors and institutional accounts.
-                        </p>
-                        <span>Coming soon →</span>
-                    </div>
-                </a>
-                <a href="../analytics/analytics.html" class="quick-card">
-                    <div class="quick-icon">📊</div>
-                    <div>
-                        <h3>Wellness Analytics</h3>
-                        <p>
-                            View wellness trends and institutional student-support data.
-                        </p>
-                        <span>View Analytics →</span>
-                    </div>
-                </a>
-                <a href="#" class="quick-card">
-                    <div class="quick-icon">🛠️</div>
-                    <div>
-                        <h3>Interventions</h3>
-                        <p>
-                            Monitor wellness interventions and support activities.
-                        </p>
-                        <span>Coming soon →</span>
-                    </div>
-                </a>
-                <a href="#" class="quick-card">
-                    <div class="quick-icon">📈</div>
-                    <div>
-                        <h3>Outcomes</h3>
-                        <p>
-                            Review intervention outcomes and student wellness progress.
-                        </p>
-                        <span>Coming soon →</span>
-                    </div>
-                </a>
-                <a href="../campus-voice/campus-voice.html" class="quick-card">
-                    <div class="quick-icon">💬</div>
-                    <div>
-                        <h3>Campus Voice</h3>
-                        <p>
-                            Review anonymous student feedback and campus concerns.
-                        </p>
-                        <span>View Campus Voice →</span>
-                    </div>
-                </a>
-                <a href="#" class="quick-card">
-                    <div class="quick-icon">⚙️</div>
-                    <div>
-                        <h3>System Settings</h3>
-                        <p>
-                            Configure administrative settings and CampusWell services.
-                        </p>
-                        <span>Coming soon →</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-    </main>
+            </section>
+
+            <section class="users-summary">
+
+                <div class="summary-card">
+                    <h3>Students</h3>
+                    <p>0</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Counsellors</h3>
+                    <p>0</p>
+                </div>
+
+                <div class="summary-card">
+                    <h3>Administrators</h3>
+                    <p>0</p>
+                </div>
+
+            </section>
+
+            <section class="users-section">
+
+                <div class="section-header">
+                    <h2>Registered Users</h2>
+
+                    <button type="button">
+                        Add User
+                    </button>
+                </div>
+
+                <div class="table-container">
+
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Role</th>
+                                <th>Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>No users yet</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
 </body>
 
 </html>

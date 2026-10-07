@@ -3,49 +3,424 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CampusWell - Support</title>
-
-    <link rel="stylesheet" href="./support.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Counselling & Support</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="support.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-
-    <div class="support-container">
-
-        <header>
-            <h1>CampusWell</h1>
-            <p>Counselling & Support</p>
-        </header>
-
-        <main>
-
-            <h2>How can we support you?</h2>
-            <p>
-                If you're facing academic, personal, emotional, or wellbeing-related concerns, you can reach out for support.
-            </p>
-            <form id="supportForm">
-                <label for="supportType">What would you like help with?</label>
-                <select id="supportType" required>
-                    <option value="">Select a concern</option>
-                    <option value="academic">Academic Stress</option>
-                    <option value="personal">Personal Concerns</option>
-                    <option value="stress">Stress & Anxiety</option>
-                    <option value="relationships">Relationships</option>
-                    <option value="other">Other</option>
-                </select>
-                <label for="supportMessage">Tell us more</label>
-                <textarea id="supportMessage" rows="5" placeholder="Describe your concern..." required></textarea>
-                <button type="submit">
-                    Request Support
-                </button>
-                <p id="message"></p>
-            </form>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="../wellness/wellness.html" class="nav-link"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="../appointments/appointments.html" class="nav-link"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="./support.html" class="nav-link active"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="../campus-voice/campus-voice.html" class="nav-link"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="../resources/resources.html" class="nav-link"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="#profile" class="nav-link"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="#notifications" class="nav-link"><i data-lucide="bell"></i>Notifications<span class="notification-count">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../appointments/appointments.html">Book a Session <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input id="supportSearch" type="text" placeholder="Search resources, counsellors, or support...">
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading support-heading">
+                        <div>
+                            <span class="eyebrow">STUDENT SUPPORT</span>
+                            <h1>Counselling & Support</h1>
+                            <p>Get the right support at the right time. You’re not alone.</p>
+                        </div>
+                        <div class="heading-wellness-card">
+                            <div class="heading-wellness-icon"><i data-lucide="flower-2"></i></div>
+                            <div>
+                                <strong>Your wellbeing matters</strong>
+                                <span>Small steps today can make a big difference.</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="support-stats">
+                        <div class="support-stat">
+                            <div class="support-stat-icon blue"><i data-lucide="users-round"></i></div>
+                            <div>
+                                <span>Counsellors</span>
+                                <strong>6</strong>
+                                <small>Available to support you</small>
+                            </div>
+                        </div>
+                        <div class="support-stat">
+                            <div class="support-stat-icon green"><i data-lucide="calendar-check-2"></i></div>
+                            <div>
+                                <span>Upcoming Session</span>
+                                <strong>1</strong>
+                                <small>Scheduled appointment</small>
+                            </div>
+                        </div>
+                        <div class="support-stat">
+                            <div class="support-stat-icon orange"><i data-lucide="file-clock"></i></div>
+                            <div>
+                                <span>Support Requests</span>
+                                <strong>2</strong>
+                                <small>Active or recent requests</small>
+                            </div>
+                        </div>
+                        <div class="support-stat">
+                            <div class="support-stat-icon purple"><i data-lucide="book-open"></i></div>
+                            <div>
+                                <span>Resources</span>
+                                <strong>12</strong>
+                                <small>Helpful wellness guides</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="support-main-grid">
+                        <div class="support-left">
+                            <section class="find-support-card card">
+                                <div class="section-title">
+                                    <div class="section-title-icon blue"><i data-lucide="hand-heart"></i></div>
+                                    <div>
+                                        <span class="eyebrow">FIND THE RIGHT SUPPORT</span>
+                                        <h2>What would you like support with?</h2>
+                                        <p>Select a category and we’ll help you find a suitable counsellor or resource.</p>
+                                    </div>
+                                </div>
+                                <div class="support-category-grid">
+                                    <button type="button" class="support-category active" data-category="Academic">
+<span class="category-icon blue"><i data-lucide="graduation-cap"></i></span>
+<strong>Academic</strong>
+<small>Study pressure & performance</small>
+</button>
+                                    <button type="button" class="support-category" data-category="Stress & Anxiety">
+<span class="category-icon green"><i data-lucide="brain"></i></span>
+<strong>Stress & Anxiety</strong>
+<small>Stress, worry & overwhelm</small>
+</button>
+                                    <button type="button" class="support-category" data-category="Personal">
+<span class="category-icon blue"><i data-lucide="user-round"></i></span>
+<strong>Personal</strong>
+<small>Personal concerns & emotions</small>
+</button>
+                                    <button type="button" class="support-category" data-category="Career">
+<span class="category-icon purple"><i data-lucide="briefcase-business"></i></span>
+<strong>Career</strong>
+<small>Goals & future planning</small>
+</button>
+                                    <button type="button" class="support-category" data-category="Relationships">
+<span class="category-icon pink"><i data-lucide="heart"></i></span>
+<strong>Relationships</strong>
+<small>Friends, family & relationships</small>
+</button>
+                                    <button type="button" class="support-category" data-category="Other">
+<span class="category-icon orange"><i data-lucide="messages-square"></i></span>
+<strong>Other</strong>
+<small>Something else on your mind</small>
+</button>
+                                </div>
+                                <div class="category-result" id="categoryResult">
+                                    <div>
+                                        <strong id="categoryTitle">Recommended for Academic support</strong>
+                                        <p id="categoryText">Start with an academic-focused counsellor or explore time-management and exam-stress resources.</p>
+                                    </div>
+                                    <a href="../appointments/appointments.html" class="result-button">Book Support <i data-lucide="arrow-right"></i></a>
+                                </div>
+                            </section>
+                            <section class="counsellors-card card">
+                                <div class="section-header">
+                                    <div>
+                                        <span class="eyebrow">AVAILABLE COUNSELLORS</span>
+                                        <h2>Connect with someone who can help</h2>
+                                        <p>Experienced counsellors are available for online and in-person sessions.</p>
+                                    </div>
+                                    <button type="button" class="text-button" id="viewAllCounsellors">View all <i data-lucide="arrow-right"></i></button>
+                                </div>
+                                <div class="counsellor-grid" id="counsellorGrid">
+                                    <article class="counsellor-card" data-name="Dr. Priya Sharma" data-specialization="Clinical Counsellor" data-category="Academic Stress & Anxiety Personal">
+                                        <div class="counsellor-top">
+                                            <div class="counsellor-avatar avatar-blue">PS</div>
+                                            <div class="availability"><span></span>Available</div>
+                                        </div>
+                                        <strong>Dr. Priya Sharma</strong>
+                                        <span class="specialization">Clinical Counsellor</span>
+                                        <div class="tag-row"><span>Anxiety</span><span>Stress</span><span>Personal</span></div>
+                                        <p>Support for emotional wellbeing, stress and personal concerns.</p>
+                                        <div class="counsellor-meta">
+                                            <span><i data-lucide="languages"></i>English, Hindi</span>
+                                            <span><i data-lucide="video"></i>Online & In-person</span>
+                                        </div>
+                                        <div class="counsellor-actions">
+                                            <button type="button" class="outline-button profile-button" data-counsellor="Dr. Priya Sharma">View Profile</button>
+                                            <button type="button" class="primary-button book-button" data-counsellor="Dr. Priya Sharma">Book Session</button>
+                                        </div>
+                                    </article>
+                                    <article class="counsellor-card" data-name="Dr. Rahul Mehta" data-specialization="Student Counsellor" data-category="Academic Career Personal">
+                                        <div class="counsellor-top">
+                                            <div class="counsellor-avatar avatar-green">RM</div>
+                                            <div class="availability"><span></span>Available</div>
+                                        </div>
+                                        <strong>Dr. Rahul Mehta</strong>
+                                        <span class="specialization">Student Counsellor</span>
+                                        <div class="tag-row"><span>Academic</span><span>Career</span><span>Life Skills</span></div>
+                                        <p>Guidance for academic pressure, decisions and future planning.</p>
+                                        <div class="counsellor-meta">
+                                            <span><i data-lucide="languages"></i>English, Hindi</span>
+                                            <span><i data-lucide="video"></i>Online & In-person</span>
+                                        </div>
+                                        <div class="counsellor-actions">
+                                            <button type="button" class="outline-button profile-button" data-counsellor="Dr. Rahul Mehta">View Profile</button>
+                                            <button type="button" class="primary-button book-button" data-counsellor="Dr. Rahul Mehta">Book Session</button>
+                                        </div>
+                                    </article>
+                                    <article class="counsellor-card" data-name="Ms. Ananya Kapoor" data-specialization="Wellness Counsellor" data-category="Stress & Anxiety Personal Relationships">
+                                        <div class="counsellor-top">
+                                            <div class="counsellor-avatar avatar-pink">AK</div>
+                                            <div class="availability"><span></span>Available</div>
+                                        </div>
+                                        <strong>Ms. Ananya Kapoor</strong>
+                                        <span class="specialization">Wellness Counsellor</span>
+                                        <div class="tag-row"><span>Stress</span><span>Self-esteem</span><span>Personal</span></div>
+                                        <p>Friendly wellbeing support for stress, self-esteem and life concerns.</p>
+                                        <div class="counsellor-meta">
+                                            <span><i data-lucide="languages"></i>English, Hindi</span>
+                                            <span><i data-lucide="video"></i>Online & In-person</span>
+                                        </div>
+                                        <div class="counsellor-actions">
+                                            <button type="button" class="outline-button profile-button" data-counsellor="Ms. Ananya Kapoor">View Profile</button>
+                                            <button type="button" class="primary-button book-button" data-counsellor="Ms. Ananya Kapoor">Book Session</button>
+                                        </div>
+                                    </article>
+                                    <article class="counsellor-card extra-counsellor" data-name="Dr. Vivek Nair" data-specialization="Career Counsellor" data-category="Career Academic">
+                                        <div class="counsellor-top">
+                                            <div class="counsellor-avatar avatar-purple">VN</div>
+                                            <div class="availability"><span></span>Available</div>
+                                        </div>
+                                        <strong>Dr. Vivek Nair</strong>
+                                        <span class="specialization">Career Counsellor</span>
+                                        <div class="tag-row"><span>Career</span><span>Guidance</span><span>Goal Setting</span></div>
+                                        <p>Support with career choices, goal setting and study planning.</p>
+                                        <div class="counsellor-meta">
+                                            <span><i data-lucide="languages"></i>English, Malayalam</span>
+                                            <span><i data-lucide="map-pin"></i>In-person</span>
+                                        </div>
+                                        <div class="counsellor-actions">
+                                            <button type="button" class="outline-button profile-button" data-counsellor="Dr. Vivek Nair">View Profile</button>
+                                            <button type="button" class="primary-button book-button" data-counsellor="Dr. Vivek Nair">Book Session</button>
+                                        </div>
+                                    </article>
+                                    <article class="counsellor-card extra-counsellor" data-name="Ms. Rhea Kapoor" data-specialization="Relationship Counsellor" data-category="Relationships Personal">
+                                        <div class="counsellor-top">
+                                            <div class="counsellor-avatar avatar-orange">RK</div>
+                                            <div class="availability limited"><span></span>Limited availability</div>
+                                        </div>
+                                        <strong>Ms. Rhea Kapoor</strong>
+                                        <span class="specialization">Relationship Counsellor</span>
+                                        <div class="tag-row"><span>Relationships</span><span>Personal</span><span>Life Skills</span></div>
+                                        <p>A supportive space for relationship concerns and communication.</p>
+                                        <div class="counsellor-meta">
+                                            <span><i data-lucide="languages"></i>English, Hindi</span>
+                                            <span><i data-lucide="video"></i>Online</span>
+                                        </div>
+                                        <div class="counsellor-actions">
+                                            <button type="button" class="outline-button profile-button" data-counsellor="Ms. Rhea Kapoor">View Profile</button>
+                                            <button type="button" class="primary-button book-button" data-counsellor="Ms. Rhea Kapoor">Book Session</button>
+                                        </div>
+                                    </article>
+                                    <article class="counsellor-card extra-counsellor" data-name="Dr. Arjun Menon" data-specialization="Academic Counsellor" data-category="Academic Stress & Anxiety">
+                                        <div class="counsellor-top">
+                                            <div class="counsellor-avatar avatar-blue">AM</div>
+                                            <div class="availability"><span></span>Available</div>
+                                        </div>
+                                        <strong>Dr. Arjun Menon</strong>
+                                        <span class="specialization">Academic Counsellor</span>
+                                        <div class="tag-row"><span>Academic</span><span>Stress</span><span>Motivation</span></div>
+                                        <p>Helps students manage academic demands and regain confidence.</p>
+                                        <div class="counsellor-meta">
+                                            <span><i data-lucide="languages"></i>English, Hindi</span>
+                                            <span><i data-lucide="video"></i>Online & In-person</span>
+                                        </div>
+                                        <div class="counsellor-actions">
+                                            <button type="button" class="outline-button profile-button" data-counsellor="Dr. Arjun Menon">View Profile</button>
+                                            <button type="button" class="primary-button book-button" data-counsellor="Dr. Arjun Menon">Book Session</button>
+                                        </div>
+                                    </article>
+                                </div>
+                            </section>
+                        </div>
+                        <aside class="support-right">
+                            <section class="upcoming-session-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">YOUR SCHEDULE</span>
+                                        <h2>My Upcoming Session</h2>
+                                    </div>
+                                    <i data-lucide="calendar-clock"></i>
+                                </div>
+                                <div class="session-profile">
+                                    <div class="session-avatar avatar-blue">PS</div>
+                                    <div>
+                                        <strong>Dr. Priya Sharma</strong>
+                                        <span>Clinical Counsellor</span>
+                                    </div>
+                                </div>
+                                <div class="session-info">
+                                    <div><i data-lucide="calendar"></i><span>14 Oct 2025</span></div>
+                                    <div><i data-lucide="clock-3"></i><span>3:00 PM – 4:00 PM</span></div>
+                                    <div><i data-lucide="video"></i><span>Online</span></div>
+                                </div>
+                                <div class="status-badge">Confirmed</div>
+                                <a href="../appointments/appointments.html" class="session-button">View Appointment <i data-lucide="arrow-right"></i></a>
+                            </section>
+                            <section class="requests-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">SUPPORT REQUESTS</span>
+                                        <h2>My Support Requests</h2>
+                                    </div>
+                                    <button type="button" class="text-button" id="viewRequests">View all <i data-lucide="arrow-right"></i></button>
+                                </div>
+                                <div class="request-table">
+                                    <div class="request-row request-head"><span>Request</span><span>Counsellor</span><span>Date</span><span>Status</span></div>
+                                    <div class="request-row"><strong>Academic Stress</strong><span>Dr. Priya Sharma</span><span>12 Oct</span><b class="status scheduled">Scheduled</b></div>
+                                    <div class="request-row"><strong>Personal Concern</strong><span>Dr. Rahul Mehta</span><span>5 Oct</span><b class="status completed">Completed</b></div>
+                                    <div class="request-row"><strong>Career Guidance</strong><span>Dr. Vivek Nair</span><span>28 Sep</span><b class="status completed">Completed</b></div>
+                                </div>
+                            </section>
+                            <section class="resources-card card">
+                                <div class="section-header compact">
+                                    <div>
+                                        <span class="eyebrow">WELLNESS RESOURCES</span>
+                                        <h2>Helpful Resources</h2>
+                                    </div>
+                                    <a href="../resources/resources.html" class="text-button">View all <i data-lucide="arrow-right"></i></a>
+                                </div>
+                                <div class="resource-grid">
+                                    <a href="../resources/resources.html" class="resource-item blue-resource">
+                                        <div><i data-lucide="leaf"></i></div>
+                                        <strong>Stress Management</strong>
+                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
+                                    </a>
+                                    <a href="../resources/resources.html" class="resource-item purple-resource">
+                                        <div><i data-lucide="moon"></i></div>
+                                        <strong>Better Sleep</strong>
+                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
+                                    </a>
+                                    <a href="../resources/resources.html" class="resource-item pink-resource">
+                                        <div><i data-lucide="brain"></i></div>
+                                        <strong>Exam Anxiety</strong>
+                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
+                                    </a>
+                                    <a href="../resources/resources.html" class="resource-item green-resource">
+                                        <div><i data-lucide="clock-3"></i></div>
+                                        <strong>Time Management</strong>
+                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
+                                    </a>
+                                </div>
+                            </section>
+                        </aside>
+                    </div>
+                    <section class="urgent-support card">
+                        <div class="urgent-intro">
+                            <div class="urgent-icon"><i data-lucide="heart-handshake"></i></div>
+                            <div>
+                                <span class="eyebrow">IMMEDIATE SUPPORT</span>
+                                <h2>Need help right now?</h2>
+                                <p>If you need urgent support, use the campus contacts below or reach out to a trusted person near you.</p>
+                            </div>
+                        </div>
+                        <div class="urgent-actions">
+                            <a href="tel:+91100" class="urgent-action">
+                                <div class="urgent-action-icon red"><i data-lucide="phone"></i></div>
+                                <div>
+                                    <strong>Contact Campus Counsellor</strong>
+                                    <span>Get help now <i data-lucide="arrow-right"></i></span>
+                                </div>
+                            </a>
+                            <a href="tel:+91112" class="urgent-action">
+                                <div class="urgent-action-icon blue"><i data-lucide="shield"></i></div>
+                                <div>
+                                    <strong>Campus Emergency Contact</strong>
+                                    <span>24/7 support <i data-lucide="arrow-right"></i></span>
+                                </div>
+                            </a>
+                            <a href="#trusted-support" class="urgent-action">
+                                <div class="urgent-action-icon purple"><i data-lucide="users"></i></div>
+                                <div>
+                                    <strong>Trusted Campus Support</strong>
+                                    <span>Guidance & assistance <i data-lucide="arrow-right"></i></span>
+                                </div>
+                            </a>
+                        </div>
+                    </section>
+                </section>
+            </div>
         </main>
-        <a href="../index.html">← Back to Home</a>
-        <script src="./support.js"></script>
     </div>
+    <div class="profile-modal" id="profileModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card">
+            <button type="button" class="modal-close" id="profileClose"><i data-lucide="x"></i></button>
+            <div class="modal-profile">
+                <div class="modal-avatar avatar-blue" id="modalAvatar">PS</div>
+                <div>
+                    <span class="eyebrow">COUNSELLOR PROFILE</span>
+                    <h2 id="modalName">Dr. Priya Sharma</h2>
+                    <p id="modalSpecialization">Clinical Counsellor</p>
+                </div>
+            </div>
+            <div class="modal-info-grid">
+                <div><span>Specialization</span><strong id="modalCategories">Anxiety, Stress, Personal</strong></div>
+                <div><span>Languages</span><strong>English, Hindi</strong></div>
+                <div><span>Session Modes</span><strong>Online & In-person</strong></div>
+                <div><span>Availability</span><strong class="modal-available">Available</strong></div>
+            </div>
+            <p class="modal-description">Choose a suitable session time and continue to Appointments to complete your booking.</p>
+            <a href="../appointments/appointments.html" class="modal-book">Continue to Appointments <i data-lucide="arrow-right"></i></a>
+        </div>
+    </div>
+    <div class="toast" id="toast"></div>
+    <script src="support.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

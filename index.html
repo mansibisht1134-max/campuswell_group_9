@@ -3,92 +3,121 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CampusWell - Login</title>
-
-    <link rel="stylesheet" href="./home.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Student Wellness Management System</title>
+    <link rel="stylesheet" href="home.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <div class="login-page">
-
-        <header class="login-header">
-            <div class="campuswell-logo">
-                <div class="logo-icon">CW</div>
-
-                <div class="logo-text">
-                    <strong>Campus</strong><span>Well</span>
+    <header class="site-header">
+        <div class="brand">
+            <div class="brand-logo">CW</div>
+            <div>
+                <h2>Campus<span>Well</span></h2>
+                <p>Student Wellness Management System</p>
+            </div>
+        </div>
+        <div class="header-links">
+            <span>Better Minds</span>
+            <b>•</b>
+            <span>Healthier Campuses</span>
+            <b>•</b>
+            <span>Brighter Futures</span>
+        </div>
+    </header>
+    <main>
+        <section class="hero">
+            <div class="hero-content">
+                <span class="eyebrow">CAMPUSWELL</span>
+                <h1>Student Wellness<br>Management <span>System</span></h1>
+                <p>Your well-being. Your campus. Your support.</p>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-circle"></div>
+                <div class="hero-campus">
+                    <div class="sun"></div>
+                    <div class="building building-one"></div>
+                    <div class="building building-two"></div>
+                    <div class="building building-three"></div>
+                    <div class="tree tree-one"></div>
+                    <div class="tree tree-two"></div>
+                    <div class="student-figure">
+                        <div class="head"></div>
+                        <div class="hair"></div>
+                        <div class="body"></div>
+                        <div class="leg leg-one"></div>
+                        <div class="leg leg-two"></div>
+                        <div class="shoe shoe-one"></div>
+                        <div class="shoe shoe-two"></div>
+                    </div>
+                    <div class="plant plant-one"></div>
+                    <div class="plant plant-two"></div>
                 </div>
             </div>
-        </header>
-        <main class="login-main">
-            <div class="welcome-section">
-                <h1>Welcome to CampusWell</h1>
-                <p>
-                    Student Wellness Management System
-                </p>
-                <p class="welcome-text">
-                    Choose your account type to continue.
-                </p>
+        </section>
+        <section class="portal-section">
+            <div class="section-heading">
+                <h2>Choose your portal</h2>
+                <p>Select your account type to continue.</p>
             </div>
-            <section class="login-options">
-                <div class="login-card">
-                    <div class="card-icon">
-                        👤
-                    </div>
-                    <h2>Student Login</h2>
-                    <p>
-                        Access your wellness dashboard, counselling appointments, wellness check-ins and campus support services.
-                    </p>
-                    <a href="./login/login.html" class="login-now">
-                        Login Now
-                    </a>
+            <div class="portal-grid">
+                <a class="portal-card student-card" href="student-login/student-login.html">
+                    <div class="portal-icon"><i data-lucide="user-round"></i></div>
+                    <span>STUDENT</span>
+                    <h3>Student Login</h3>
+                    <p>Access your wellness dashboard, check-ins, counselling appointments and campus support services.</p>
+                    <div class="portal-action">Login <i data-lucide="arrow-right"></i></div>
+                    <div class="card-shape"></div>
+                </a>
+                <a class="portal-card counsellor-card" href="login/login.html?role=counsellor">
+                    <div class="portal-icon"><i data-lucide="heart"></i></div>
+                    <span>COUNSELLOR</span>
+                    <h3>Counsellor Login</h3>
+                    <p>Manage student appointments, support requests, follow-ups and wellness information.</p>
+                    <div class="portal-action">Login <i data-lucide="arrow-right"></i></div>
+                    <div class="card-shape"></div>
+                </a>
+                <a class="portal-card admin-card" href="login/login.html?role=admin">
+                    <div class="portal-icon"><i data-lucide="settings"></i></div>
+                    <span>ADMINISTRATOR</span>
+                    <h3>Administrator Login</h3>
+                    <p>Manage CampusWell users, analytics, appointments, interventions, outcomes and campus wellness services.</p>
+                    <div class="portal-action">Login <i data-lucide="arrow-right"></i></div>
+                    <div class="card-shape"></div>
+                </a>
+            </div>
+        </section>
+        <section class="feature-strip">
+            <div class="feature">
+                <div class="feature-icon"><i data-lucide="lock-keyhole"></i></div>
+                <div>
+                    <strong>Private & Secure</strong>
+                    <span>Your information is protected.</span>
                 </div>
-                <div class="login-card">
-                    <div class="card-icon">
-                        🧑
-                    </div>
-                    <h2>Counsellor Login</h2>
-                    <p>
-                        Manage student appointments, support requests, follow-ups and wellness information.
-                    </p>
-                    <a href="./counsellor/counsellor.html" class="login-now">
-                        Login Now
-                    </a>
+            </div>
+            <div class="feature">
+                <div class="feature-icon"><i data-lucide="graduation-cap"></i></div>
+                <div>
+                    <strong>Student-Centred</strong>
+                    <span>Support built around your well-being.</span>
                 </div>
-                <div class="login-card">
-                    <div class="card-icon">
-                        🛡️
-                    </div>
-                    <h2>Administrator Login</h2>
-                    <p>
-                        Manage CampusWell users, analytics, interventions, outcomes and campus wellness services.
-                    </p>
-                    <a href="./admin/admin.html" class="login-now">
-                        Login Now
-                    </a>
+            </div>
+            <div class="feature">
+                <div class="feature-icon"><i data-lucide="users-round"></i></div>
+                <div>
+                    <strong>Campus Support</strong>
+                    <span>Help when you need it.</span>
                 </div>
-                <div class="login-card">
-                    <div class="card-icon">
-                        🏫
-                    </div>
-                    <h2>Staff Login</h2>
-                    <p>
-                        Access institutional wellness information and student support services.
-                    </p>
-                    <a href="./counsellor/counsellor.html" class="login-now">
-                        Login Now
-                    </a>
-                </div>
-            </section>
-        </main>
-        <footer class="login-footer">
-            <p>
-                © 2026 CampusWell · Student Wellness Management System
-            </p>
-        </footer>
-    </div>
+            </div>
+        </section>
+    </main>
+    <footer>
+        <p>© 2026 CampusWell&nbsp;&nbsp;·&nbsp;&nbsp;Student Wellness Management System</p>
+    </footer>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>

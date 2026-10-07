@@ -1,181 +1,628 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+:root {
+    --navy: #062b52;
+    --blue: #0879c9;
+    --blue-bright: #2198ed;
+    --background: #f7fbff;
+    --text: #092f5c;
+    --muted: #6685a9;
+    --border: #d8eaf8;
+}
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+html,
 body {
-    font-family: Arial, Helvetica, sans-serif;
-    background: #f5f8fc;
-    color: #172033;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
 }
 
-.login-page {
-    min-height: 100vh;
+body {
+    font-family: 'Inter', Arial, sans-serif;
+    background: #fff;
+    color: var(--text);
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.site-header {
+    height: 72px;
     display: flex;
-    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    background: #fff;
+    border-bottom: 1px solid #e1edf7;
 }
 
-.login-header {
-    background: #ffffff;
-    border-bottom: 1px solid #e4e9ef;
-    padding: 22px 6%;
-}
-
-.campuswell-logo {
+.brand {
     display: flex;
     align-items: center;
     gap: 12px;
 }
 
-.logo-icon {
-    width: 48px;
-    height: 48px;
-    border-radius: 12px;
+.brand-logo {
+    width: 46px;
+    height: 46px;
     display: grid;
     place-items: center;
-    background: #173b6c;
-    color: #ffffff;
-    font-size: 14px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #4ab8ff, #0879c9);
+    color: #fff;
+    font-size: 18px;
     font-weight: 800;
-    letter-spacing: 1px;
 }
 
-.logo-text {
-    font-size: 25px;
-    color: #172033;
+.brand h2 {
+    font-size: 21px;
+    letter-spacing: -.6px;
 }
 
-.logo-text span {
-    color: #2463a8;
+.brand h2 span {
+    color: var(--blue-bright);
 }
 
-.login-main {
-    flex: 1;
-    width: min(1150px, 90%);
-    margin: 0 auto;
-    padding: 65px 0 80px;
+.brand p {
+    margin-top: 2px;
+    color: var(--muted);
+    font-size: 9px;
 }
 
-.welcome-section {
-    text-align: center;
-    max-width: 750px;
-    margin: 0 auto 50px;
+.header-links {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #6685a9;
+    font-size: 10px;
 }
 
-.welcome-section h1 {
-    font-size: clamp(38px, 5vw, 56px);
-    line-height: 1.15;
-    color: #172033;
+.header-links b {
+    color: var(--blue);
 }
 
-.welcome-section p {
+main {
+    height: calc(100vh - 72px);
+    display: flex;
+    flex-direction: column;
+}
+
+.hero {
+    height: 32vh;
+    min-height: 235px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 25px 9%;
+    overflow: hidden;
+    background: linear-gradient(105deg, #eef8ff, #e4f4ff);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.eyebrow {
+    display: block;
+    margin-bottom: 9px;
+    color: var(--blue-bright);
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: 2.5px;
+}
+
+.hero h1 {
+    font-size: 43px;
+    line-height: 1.06;
+    letter-spacing: -1.8px;
+}
+
+.hero h1 span {
+    color: var(--blue-bright);
+}
+
+.hero p {
     margin-top: 12px;
-    color: #2463a8;
-    font-size: 16px;
-    font-weight: 700;
+    color: #6685a9;
+    font-size: 14px;
 }
 
-.welcome-section .welcome-text {
-    margin-top: 8px;
-    color: #687386;
-    font-size: 15px;
-    font-weight: 400;
+.hero-visual {
+    position: relative;
+    width: 500px;
+    height: 230px;
+    flex: 0 0 500px;
 }
 
-.login-options {
+.hero-circle {
+    position: absolute;
+    right: 35px;
+    top: 8px;
+    width: 370px;
+    height: 215px;
+    border-radius: 55% 45% 50% 50%;
+    background: linear-gradient(145deg, #d9efff, #b9def7);
+}
+
+.sun {
+    position: absolute;
+    right: 195px;
+    top: 28px;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #f1faff;
+}
+
+.campus-building {
+    position: absolute;
+    bottom: 34px;
+    background: #a8d5f3;
+}
+
+.building-one {
+    right: 83px;
+    width: 83px;
+    height: 90px;
+}
+
+.building-two {
+    right: 151px;
+    width: 52px;
+    height: 63px;
+}
+
+.building-three {
+    right: 25px;
+    width: 49px;
+    height: 51px;
+}
+
+.building-one:before {
+    content: "";
+    position: absolute;
+    top: -19px;
+    left: 29px;
+    border-left: 12px solid transparent;
+    border-right: 12px solid transparent;
+    border-bottom: 19px solid #8fc7ed;
+}
+
+.building-one:after {
+    content: "";
+    position: absolute;
+    left: 35px;
+    bottom: 0;
+    width: 13px;
+    height: 29px;
+    border-radius: 7px 7px 0 0;
+    background: #e6f4fc;
+}
+
+.tree {
+    position: absolute;
+    bottom: 27px;
+    width: 14px;
+    height: 70px;
+    border-radius: 12px;
+    background: #70b6e7;
+}
+
+.tree:before,
+.tree:after {
+    content: "";
+    position: absolute;
+    width: 38px;
+    height: 61px;
+    border-radius: 70% 30% 70% 30%;
+    background: #78bce9;
+}
+
+.tree:before {
+    left: -21px;
+    top: -27px;
+    transform: rotate(-25deg);
+}
+
+.tree:after {
+    left: 4px;
+    top: -38px;
+    transform: rotate(25deg);
+}
+
+.tree-one {
+    left: 64px;
+}
+
+.tree-two {
+    right: 10px;
+    transform: scale(.8);
+}
+
+.student {
+    position: absolute;
+    left: 205px;
+    bottom: 29px;
+    width: 120px;
+    height: 135px;
+}
+
+.student-head {
+    position: absolute;
+    left: 46px;
+    top: 3px;
+    width: 24px;
+    height: 27px;
+    border-radius: 50%;
+    background: #d99774;
+}
+
+.student-hair {
+    position: absolute;
+    left: 40px;
+    top: 0;
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    background: #172f52;
+}
+
+.student-body {
+    position: absolute;
+    left: 35px;
+    top: 29px;
+    width: 57px;
+    height: 68px;
+    border-radius: 25px 25px 10px 10px;
+    background: #4b80b2;
+    transform: rotate(8deg);
+}
+
+.student-leg {
+    position: absolute;
+    width: 66px;
+    height: 18px;
+    border-radius: 12px;
+    background: #254b70;
+}
+
+.leg-one {
+    left: 25px;
+    top: 88px;
+    transform: rotate(18deg);
+}
+
+.leg-two {
+    left: 56px;
+    top: 100px;
+    transform: rotate(-14deg);
+}
+
+.plant {
+    position: absolute;
+    bottom: 20px;
+    width: 80px;
+    height: 80px;
+}
+
+.plant:before,
+.plant:after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    width: 23px;
+    height: 67px;
+    border-radius: 80% 20% 80% 20%;
+    background: #67ace0;
+}
+
+.plant:before {
+    left: 20px;
+    transform: rotate(-28deg);
+}
+
+.plant:after {
+    left: 43px;
+    transform: rotate(28deg);
+}
+
+.plant-one {
+    left: 5px;
+}
+
+.plant-two {
+    right: -4px;
+}
+
+.portal-section {
+    height: 45vh;
+    min-height: 315px;
+    padding: 18px 6% 15px;
+    background: #fff;
+}
+
+.section-heading {
+    text-align: center;
+}
+
+.section-heading h2 {
+    font-size: 26px;
+    letter-spacing: -.6px;
+}
+
+.section-heading p {
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: 11px;
+}
+
+.portal-grid {
+    max-width: 1240px;
+    height: 270px;
+    margin: 17px auto 0;
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
-.login-card {
-    background: #ffffff;
-    border: 1px solid #e1e7ef;
-    border-radius: 16px;
-    padding: 30px 25px;
-    min-height: 350px;
+.portal-card {
+    position: relative;
     display: flex;
     flex-direction: column;
-    box-shadow: 0 12px 35px rgba(23, 59, 108, 0.06);
-    transition: 0.25s ease;
+    align-items: flex-start;
+    padding: 20px 28px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 4px 14px rgba(42, 96, 150, .04);
+    transition: transform .2s ease, box-shadow .2s ease;
 }
 
-.login-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 18px 40px rgba(23, 59, 108, 0.11);
-    border-color: #cbd8e6;
+.portal-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 22px rgba(42, 96, 150, .1);
 }
 
-.card-icon {
-    width: 58px;
-    height: 58px;
+.portal-icon {
+    width: 52px;
+    height: 52px;
     display: grid;
     place-items: center;
-    background: #edf5fb;
-    color: #2463a8;
-    border-radius: 14px;
-    font-size: 26px;
-    margin-bottom: 22px;
+    margin-bottom: 11px;
+    border-radius: 50%;
+    background: #dff1ff;
+    color: var(--blue-bright);
 }
 
-.login-card h2 {
-    font-size: 21px;
-    color: #172033;
+.portal-icon svg {
+    width: 25px;
+    height: 25px;
 }
 
-.login-card p {
-    margin-top: 12px;
-    color: #687386;
-    font-size: 14px;
-    line-height: 1.7;
-    flex: 1;
+.counsellor-card .portal-icon {
+    background: #ddf8f2;
+    color: #0aa58b;
 }
 
-.login-now {
-    display: block;
-    margin-top: 25px;
-    padding: 12px 18px;
-    border-radius: 8px;
-    background: #173b6c;
-    color: #ffffff;
-    text-align: center;
-    font-size: 14px;
+.admin-card .portal-icon {
+    background: #eeecff;
+    color: #7864e7;
+}
+
+.portal-card>span {
+    color: var(--blue-bright);
+    font-size: 9px;
+    font-weight: 800;
+    letter-spacing: 1.5px;
+}
+
+.counsellor-card>span {
+    color: #0aa58b;
+}
+
+.admin-card>span {
+    color: #7864e7;
+}
+
+.portal-card h3 {
+    margin-top: 5px;
+    font-size: 18px;
+}
+
+.portal-card p {
+    max-width: 310px;
+    margin-top: 7px;
+    color: var(--muted);
+    font-size: 10px;
+    line-height: 1.45;
+}
+
+.portal-action {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: auto;
+    padding: 8px 17px;
+    border-radius: 20px;
+    background: #0b4b84;
+    color: #fff;
+    font-size: 10px;
     font-weight: 700;
-    text-decoration: none;
-    transition: 0.2s ease;
 }
 
-.login-now:hover {
-    background: #2463a8;
+.portal-action svg {
+    width: 14px;
+    height: 14px;
 }
 
-.login-footer {
-    background: #101d2e;
-    padding: 20px;
-    text-align: center;
-    color: #aab6c6;
-    font-size: 12px;
+.card-shape {
+    position: absolute;
+    right: -18px;
+    bottom: -38px;
+    width: 120px;
+    height: 95px;
+    border-radius: 55% 0 0 0;
+    background: #d9efff;
 }
 
-@media (max-width: 1000px) {
-    .login-options {
-        grid-template-columns: repeat(2, 1fr);
+.counsellor-card .card-shape {
+    background: #d7f5ef;
+}
+
+.admin-card .card-shape {
+    background: #e8e5ff;
+}
+
+.feature-strip {
+    height: 82px;
+    max-width: 1240px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-radius: 12px;
+    background: #edf7ff;
+}
+
+.feature {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 25px;
+    border-right: 1px solid #cfe4f5;
+}
+
+.feature:last-child {
+    border-right: 0;
+}
+
+.feature-icon {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #d9edff;
+    color: var(--blue);
+}
+
+.feature-icon svg {
+    width: 18px;
+    height: 18px;
+}
+
+.feature strong {
+    display: block;
+    font-size: 10px;
+}
+
+.feature span {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 8px;
+}
+
+footer {
+    height: 42px;
+    display: grid;
+    place-items: center;
+    color: #7893b2;
+    font-size: 8px;
+    background: #fff;
+}
+
+@media(max-width:1000px) {
+    .header-links {
+        display: none;
+    }
+    .hero {
+        padding: 20px 6%;
+    }
+    .hero-visual {
+        width: 390px;
+        flex-basis: 390px;
+    }
+    .hero h1 {
+        font-size: 36px;
+    }
+    .portal-grid {
+        gap: 12px;
+    }
+    .portal-card {
+        padding: 18px 20px;
+    }
+    .portal-card p {
+        font-size: 9px;
     }
 }
 
-@media (max-width: 600px) {
-    .login-main {
-        width: 90%;
-        padding: 45px 0 60px;
+@media(max-width:700px) {
+    html,
+    body {
+        overflow: auto;
     }
-    .login-options {
+    .site-header {
+        height: 68px;
+        padding: 0 20px;
+    }
+    .brand h2 {
+        font-size: 18px;
+    }
+    main {
+        height: auto;
+    }
+    .hero {
+        height: auto;
+        min-height: 250px;
+        padding: 30px 20px;
+    }
+    .hero-content {
+        text-align: center;
+        margin: auto;
+    }
+    .hero h1 {
+        font-size: 32px;
+    }
+    .hero p {
+        font-size: 12px;
+    }
+    .hero-visual {
+        display: none;
+    }
+    .portal-section {
+        height: auto;
+        padding: 25px 20px 18px;
+    }
+    .portal-grid {
+        height: auto;
         grid-template-columns: 1fr;
     }
-    .welcome-section h1 {
-        font-size: 38px;
+    .portal-card {
+        min-height: 220px;
     }
-    .login-card {
-        min-height: 320px;
+    .feature-strip {
+        height: auto;
+        margin: 0 20px;
+        grid-template-columns: 1fr;
+    }
+    .feature {
+        border-right: 0;
+        border-bottom: 1px solid #cfe4f5;
+    }
+    .feature:last-child {
+        border-bottom: 0;
+    }
+    footer {
+        height: 40px;
     }
 }

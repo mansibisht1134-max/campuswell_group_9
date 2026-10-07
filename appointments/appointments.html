@@ -3,48 +3,248 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CampusWell - Appointments</title>
-
-    <link rel="stylesheet" href="./appointments.css">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Appointments</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="appointments.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 
 <body>
-    <div class="appointments-container">
-        <header>
-            <h1>CampusWell</h1>
-            <p>Counselling Appointments</p>
-        </header>
-        <main>
-            <h2>Book an Appointment</h2>
-            <p>
-                Choose a counsellor and a convenient date and time.
-            </p>
-            <form id="appointmentForm">
-                <label for="counsellor">Choose Counsellor</label>
-                <select id="counsellor" required>
-                    <option value="">Select a counsellor</option>
-                    <option value="counsellor-1">Dr. Ananya Sharma</option>
-                    <option value="counsellor-2">Dr. Rahul Mehta</option>
-                    <option value="counsellor-3">Ms. Priya Verma</option>
-                </select>
-                <label for="date">Appointment Date</label>
-                <input type="date" id="date" required>
-                <label for="time">Appointment Time</label>
-                <input type="time" id="time" required>
-                <label for="reason">Reason for Appointment</label>
-                <textarea id="reason" rows="4" placeholder="Briefly describe what you would like support with..." required>
-                </textarea>
-                <button type="submit">
-                    Book Appointment
-                </button>
-                <p id="message"></p>
-            </form>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="../wellness/wellness.html" class="nav-link"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="./appointments.html" class="nav-link active"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="../support/support.html" class="nav-link"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="../campus-voice/campus-voice.html" class="nav-link"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="../resources/resources.html" class="nav-link"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="#profile" class="nav-link"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="#notifications" class="nav-link"><i data-lucide="bell"></i>Notifications<span class="notification-count">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input type="text" placeholder="Search anything...">
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading">
+                        <h1>Appointments</h1>
+                        <p>Connect with a counsellor and take a step towards your well-being.</p>
+                    </div>
+                    <div class="appointment-stats">
+                        <div class="appointment-stat">
+                            <div class="appointment-stat-icon blue"><i data-lucide="calendar-check-2"></i></div>
+                            <div><span>Upcoming</span><strong id="upcomingCount">0</strong></div>
+                        </div>
+                        <div class="appointment-stat">
+                            <div class="appointment-stat-icon green"><i data-lucide="circle-check"></i></div>
+                            <div><span>Completed</span><strong id="completedCount">0</strong></div>
+                        </div>
+                        <div class="appointment-stat">
+                            <div class="appointment-stat-icon orange"><i data-lucide="clock-3"></i></div>
+                            <div><span>Pending</span><strong id="pendingCount">0</strong></div>
+                        </div>
+                        <div class="appointment-stat">
+                            <div class="appointment-stat-icon purple"><i data-lucide="calendar-days"></i></div>
+                            <div><span>Total</span><strong id="totalCount">0</strong></div>
+                        </div>
+                    </div>
+                    <div class="appointments-layout">
+                        <section class="booking-card card" id="bookingSection">
+                            <div class="section-heading">
+                                <div>
+                                    <span class="eyebrow">BOOK A SESSION</span>
+                                    <h2>Schedule an Appointment</h2>
+                                    <p>Choose a counsellor, preferred time and tell us how we can support you.</p>
+                                </div>
+                                <div class="section-heading-icon"><i data-lucide="calendar-plus-2"></i></div>
+                            </div>
+                            <div class="form-section">
+                                <label>Choose Counsellor</label>
+                                <div class="counsellor-grid">
+                                    <button class="counsellor-card active" data-counsellor="Dr. Priya Sharma">
+<div class="counsellor-avatar">PS</div>
+<div>
+<strong>Dr. Priya Sharma</strong>
+<span>Clinical Counsellor</span>
+<small><i data-lucide="circle-check"></i> Available</small>
+</div>
+</button>
+                                    <button class="counsellor-card" data-counsellor="Dr. Rahul Mehta">
+<div class="counsellor-avatar">RM</div>
+<div>
+<strong>Dr. Rahul Mehta</strong>
+<span>Student Counsellor</span>
+<small><i data-lucide="circle-check"></i> Available</small>
+</div>
+</button>
+                                    <button class="counsellor-card" data-counsellor="Ms. Ananya Kapoor">
+<div class="counsellor-avatar">AK</div>
+<div>
+<strong>Ms. Ananya Kapoor</strong>
+<span>Wellness Counsellor</span>
+<small><i data-lucide="circle-check"></i> Available</small>
+</div>
+</button>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="appointmentDate">Preferred Date</label>
+                                    <div class="input-wrap">
+                                        <i data-lucide="calendar"></i>
+                                        <input type="date" id="appointmentDate">
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="appointmentTime">Preferred Time</label>
+                                    <div class="input-wrap">
+                                        <i data-lucide="clock-3"></i>
+                                        <select id="appointmentTime">
+<option value="">Select time</option>
+<option>09:00 AM</option>
+<option>10:00 AM</option>
+<option>11:00 AM</option>
+<option>12:00 PM</option>
+<option>02:00 PM</option>
+<option>03:00 PM</option>
+<option>04:00 PM</option>
+<option>05:00 PM</option>
+</select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="appointmentReason">Reason for Appointment</label>
+                                <div class="reason-grid">
+                                    <button type="button" class="reason-option" data-reason="Academic Stress">Academic Stress</button>
+                                    <button type="button" class="reason-option" data-reason="Personal Concerns">Personal Concerns</button>
+                                    <button type="button" class="reason-option" data-reason="Anxiety & Stress">Anxiety & Stress</button>
+                                    <button type="button" class="reason-option" data-reason="Relationships">Relationships</button>
+                                    <button type="button" class="reason-option" data-reason="Career Guidance">Career Guidance</button>
+                                    <button type="button" class="reason-option" data-reason="Other">Other</button>
+                                </div>
+                                <input type="hidden" id="appointmentReason">
+                            </div>
+                            <div class="form-group">
+                                <div class="message-label">
+                                    <label for="appointmentMessage">Anything you'd like to share?</label>
+                                    <span id="characterCount">0/300</span>
+                                </div>
+                                <textarea id="appointmentMessage" maxlength="300" placeholder="Share anything that may help your counsellor prepare for the session..."></textarea>
+                            </div>
+                            <button class="confirm-button" id="confirmAppointment"><i data-lucide="calendar-check-2"></i>Confirm Appointment</button>
+                        </section>
+                        <div class="appointment-side">
+                            <section class="upcoming-card card">
+                                <div class="card-heading">
+                                    <div>
+                                        <span class="eyebrow">YOUR SCHEDULE</span>
+                                        <h2>Upcoming Appointment</h2>
+                                    </div>
+                                    <i data-lucide="calendar-clock"></i>
+                                </div>
+                                <div id="upcomingAppointment">
+                                    <div class="no-appointment">
+                                        <div class="no-appointment-icon"><i data-lucide="calendar-off"></i></div>
+                                        <strong>No upcoming appointments</strong>
+                                        <p>Your scheduled sessions will appear here.</p>
+                                        <button id="startBooking">Book an Appointment</button>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="history-card card">
+                                <div class="card-heading">
+                                    <div>
+                                        <span class="eyebrow">APPOINTMENT HISTORY</span>
+                                        <h2>Past Sessions</h2>
+                                    </div>
+                                    <span class="history-count" id="historyCount">0</span>
+                                </div>
+                                <div id="appointmentHistory" class="appointment-history">
+                                    <div class="empty-history">
+                                        <i data-lucide="calendar-search"></i>
+                                        <p>No appointment history yet.</p>
+                                    </div>
+                                </div>
+                            </section>
+                            <section class="support-card card">
+                                <div class="support-card-icon"><i data-lucide="heart-handshake"></i></div>
+                                <div>
+                                    <h3>Need immediate support?</h3>
+                                    <p>If you need someone to talk to before your appointment, our support resources are available anytime.</p>
+                                    <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                </section>
+            </div>
         </main>
-        <a href="../index.html">← Back to Home</a>
-        <script src="./appointments.js"></script>
     </div>
+    <div class="toast" id="toast"></div>
+    <div class="confirmation-modal" id="confirmationModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-card">
+            <button class="modal-close" id="closeModal"><i data-lucide="x"></i></button>
+            <div class="modal-icon"><i data-lucide="calendar-check-2"></i></div>
+            <h2>Appointment Confirmed</h2>
+            <p>Your counselling appointment has been successfully scheduled.</p>
+            <div class="modal-details">
+                <div><span>Counsellor</span><strong id="modalCounsellor"></strong></div>
+                <div><span>Date</span><strong id="modalDate"></strong></div>
+                <div><span>Time</span><strong id="modalTime"></strong></div>
+            </div>
+            <button class="done-modal" id="doneModal">Done</button>
+        </div>
+    </div>
+    <script src="appointments.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <script src="appointments.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
 </body>
 
 </html>
