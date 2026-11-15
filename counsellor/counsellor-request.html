@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Student Requests</title>
+<link href="./counsellor-request.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<div class="brand-logo">CW</div>
+<div>
+<h2>Campus<span>Well</span></h2>
+<p>Counsellor Portal</p>
+</div>
+</div>
+<nav class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a aria-current="page" class="nav-link active" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span><span class="notification-count">5</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a class="nav-link" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="nav-divider"></div>
+<div class="nav-heading">ACCOUNT</div>
+<nav class="account-nav">
+<a class="nav-link" data-page="Profile" href="#"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link" data-page="Notifications" href="#"><i data-lucide="bell"></i><span>Notifications</span><span class="notification-count">3</span></a>
+<a class="nav-link" data-page="Settings" href="#"><i data-lucide="settings-2"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-support">
+<div class="support-icon"><i data-lucide="headphones"></i></div>
+<h3>Need Assistance?</h3>
+<p>Contact CampusWell administration for portal support.</p>
+<a href="#" id="supportButton">Contact Support <i data-lucide="arrow-right"></i></a>
+</div>
+<a class="logout" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<div class="search-box">
+<i data-lucide="search"></i>
+<input id="searchInput" placeholder="Search students or requests" type="text"/>
+</div>
+<div class="topbar-right">
+<button class="icon-button" id="notificationButton">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+<div class="counsellor-profile">
+<div class="avatar">DS</div>
+<div class="profile-info">
+<h4>Dr. Sharma</h4>
+<p>Counsellor</p>
+</div>
+</div>
+</div>
+</header>
+<section class="page-content">
+<div class="page-heading">
+<div>
+<span class="page-label">COUNSELLOR PORTAL</span>
+<h1>Student Requests</h1>
+<p>Review, prioritize and respond to students seeking wellness support.</p>
+</div>
+</div>
+<div class="summary-grid">
+<div class="summary-card">
+<div class="summary-icon blue"><i data-lucide="inbox"></i></div>
+<div><strong>8</strong><span>New Requests</span></div>
+</div>
+<div class="summary-card">
+<div class="summary-icon purple"><i data-lucide="eye"></i></div>
+<div><strong>4</strong><span>In Review</span></div>
+</div>
+<div class="summary-card">
+<div class="summary-icon red"><i data-lucide="triangle-alert"></i></div>
+<div><strong>2</strong><span>Urgent</span></div>
+</div>
+<div class="summary-card">
+<div class="summary-icon green"><i data-lucide="circle-check"></i></div>
+<div><strong>31</strong><span>Resolved</span></div>
+</div>
+</div>
+<div class="request-toolbar">
+<div class="request-tabs">
+<button class="tab active" data-filter="all">All Requests</button>
+<button class="tab" data-filter="new">New</button>
+<button class="tab" data-filter="urgent">Urgent</button>
+<button class="tab" data-filter="review">In Review</button>
+<button class="tab" data-filter="waiting">Waiting</button>
+<button class="tab" data-filter="resolved">Resolved</button>
+</div>
+<div class="toolbar-filters">
+<select id="categoryFilter">
+<option value="all">All Categories</option>
+<option value="academic">Academic Pressure</option>
+<option value="stress">Stress &amp; Anxiety</option>
+<option value="personal">Personal Concern</option>
+<option value="sleep">Sleep &amp; Wellbeing</option>
+<option value="adjustment">Campus Adjustment</option>
+<option value="financial">Financial Stress</option>
+</select>
+<select id="priorityFilter">
+<option value="all">All Priorities</option>
+<option value="urgent">Urgent</option>
+<option value="high">High</option>
+<option value="medium">Medium</option>
+<option value="low">Low</option>
+</select>
+</div>
+</div>
+<div class="requests-layout">
+<section class="requests-panel">
+<div class="section-header">
+<div>
+<h2>Support Request Inbox</h2>
+<p>Requests submitted by students through CampusWell.</p>
+</div>
+<span id="resultCount">6 requests</span>
+</div>
+<div class="request-list" id="requestList">
+<article class="request-card selected" data-category="academic" data-priority="high" data-search="Priya Kapoor STU1024 academic pressure assignments overwhelmed" data-status="new">
+<div class="request-top">
+<div class="student-info">
+<div class="student-avatar">PK</div>
+<div>
+<h3>Priya Kapoor</h3>
+<span>Student ID: STU1024</span>
+</div>
+</div>
+<div class="request-badges">
+<span class="status new">New</span>
+<span class="priority high">High</span>
+</div>
+</div>
+<div class="request-category"><i data-lucide="book-open"></i><strong>Academic Pressure</strong></div>
+<p class="request-message">Overwhelmed with assignments and need guidance with coursework.</p>
+<div class="request-meta">
+<span><i data-lucide="clock-3"></i>18 min ago</span>
+<span><i data-lucide="video"></i>Online</span>
+<span><i data-lucide="calendar"></i>Flexible</span>
+</div>
+<div class="request-footer">
+<span class="request-label">Needs counsellor response</span>
+<button class="review-button">Review Request <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="request-card" data-category="stress" data-priority="urgent" data-search="Rahul Malik STU1087 stress anxiety" data-status="new">
+<div class="request-top">
+<div class="student-info">
+<div class="student-avatar purple">RM</div>
+<div>
+<h3>Rahul Malik</h3>
+<span>Student ID: STU1087</span>
+</div>
+</div>
+<div class="request-badges">
+<span class="status new">New</span>
+<span class="priority urgent">Urgent</span>
+</div>
+</div>
+<div class="request-category"><i data-lucide="brain"></i><strong>Stress &amp; Anxiety</strong></div>
+<p class="request-message">Struggling to manage stress and wants to speak with a counsellor soon.</p>
+<div class="request-meta">
+<span><i data-lucide="clock-3"></i>42 min ago</span>
+<span><i data-lucide="building-2"></i>In-person</span>
+<span><i data-lucide="calendar"></i>Today</span>
+</div>
+<div class="request-footer">
+<span class="request-label urgent-label">Priority attention required</span>
+<button class="review-button">Review Request <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="request-card" data-category="sleep" data-priority="medium" data-search="Neha Singh STU1139 sleep wellbeing" data-status="review">
+<div class="request-top">
+<div class="student-info">
+<div class="student-avatar green">NS</div>
+<div>
+<h3>Neha Singh</h3>
+<span>Student ID: STU1139</span>
+</div>
+</div>
+<div class="request-badges">
+<span class="status review">In Review</span>
+<span class="priority medium">Medium</span>
+</div>
+</div>
+<div class="request-category"><i data-lucide="moon"></i><strong>Sleep &amp; Wellbeing</strong></div>
+<p class="request-message">Sleep schedule is irregular and affecting concentration during classes.</p>
+<div class="request-meta">
+<span><i data-lucide="clock-3"></i>1 hour ago</span>
+<span><i data-lucide="video"></i>Online</span>
+<span><i data-lucide="calendar"></i>This week</span>
+</div>
+<div class="request-footer">
+<span class="request-label review-label">Currently being reviewed</span>
+<button class="review-button">Open Request <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="request-card" data-category="personal" data-priority="medium" data-search="Karan Verma STU1174 personal concern" data-status="new">
+<div class="request-top">
+<div class="student-info">
+<div class="student-avatar orange">KV</div>
+<div>
+<h3>Karan Verma</h3>
+<span>Student ID: STU1174</span>
+</div>
+</div>
+<div class="request-badges">
+<span class="status new">New</span>
+<span class="priority medium">Medium</span>
+</div>
+</div>
+<div class="request-category"><i data-lucide="message-circle-heart"></i><strong>Personal Concern</strong></div>
+<p class="request-message">A personal issue has been affecting studies and needs support.</p>
+<div class="request-meta">
+<span><i data-lucide="clock-3"></i>2 hours ago</span>
+<span><i data-lucide="video"></i>Online</span>
+<span><i data-lucide="calendar"></i>Tomorrow</span>
+</div>
+<div class="request-footer">
+<span class="request-label">Needs counsellor response</span>
+<button class="review-button">Review Request <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="request-card" data-category="adjustment" data-priority="low" data-search="Ishita Sharma STU1211 campus adjustment" data-status="waiting">
+<div class="request-top">
+<div class="student-info">
+<div class="student-avatar">IS</div>
+<div>
+<h3>Ishita Sharma</h3>
+<span>Student ID: STU1211</span>
+</div>
+</div>
+<div class="request-badges">
+<span class="status waiting">Waiting</span>
+<span class="priority low">Low</span>
+</div>
+</div>
+<div class="request-category"><i data-lucide="users-round"></i><strong>Campus Adjustment</strong></div>
+<p class="request-message">Finding it difficult to adjust to campus life and needs guidance.</p>
+<div class="request-meta">
+<span><i data-lucide="clock-3"></i>Yesterday</span>
+<span><i data-lucide="building-2"></i>In-person</span>
+<span><i data-lucide="calendar"></i>This week</span>
+</div>
+<div class="request-footer">
+<span class="request-label waiting-label">Waiting for student response</span>
+<button class="review-button">Open Request <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="request-card" data-category="financial" data-priority="high" data-search="Mohit Kumar STU1228 financial stress" data-status="new">
+<div class="request-top">
+<div class="student-info">
+<div class="student-avatar purple">MK</div>
+<div>
+<h3>Mohit Kumar</h3>
+<span>Student ID: STU1228</span>
+</div>
+</div>
+<div class="request-badges">
+<span class="status new">New</span>
+<span class="priority high">High</span>
+</div>
+</div>
+<div class="request-category"><i data-lucide="wallet-cards"></i><strong>Financial Stress</strong></div>
+<p class="request-message">Financial concerns are causing stress and support is requested.</p>
+<div class="request-meta">
+<span><i data-lucide="clock-3"></i>Yesterday</span>
+<span><i data-lucide="video"></i>Online</span>
+<span><i data-lucide="calendar"></i>Flexible</span>
+</div>
+<div class="request-footer">
+<span class="request-label">Needs counsellor response</span>
+<button class="review-button">Review Request <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+</div>
+</section>
+<aside class="details-panel" id="detailsPanel">
+<div class="details-header">
+<div>
+<span>SELECTED REQUEST</span>
+<h2 id="selectedName">Priya Kapoor</h2>
+<p id="selectedStudentId">STU1024 · Student Record</p>
+</div>
+<button id="closeDetails"><i data-lucide="x"></i></button>
+</div>
+<div class="student-record">
+<div class="record-avatar" id="recordAvatar">PK</div>
+<div>
+<strong id="recordName">Priya Kapoor</strong>
+<span id="recordCategory">Academic Pressure</span>
+<span>B.Tech Computer Science · Year 2</span>
+</div>
+</div>
+<div class="detail-section">
+<h3>Request Information</h3>
+<div class="detail-row">
+<span>Category</span>
+<strong id="detailCategory">Academic Pressure</strong>
+</div>
+<div class="detail-row">
+<span>Priority</span>
+<b class="priority high" id="detailPriority">High</b>
+</div>
+<div class="detail-row">
+<span>Submitted</span>
+<strong>5 Oct 2026 · 9:42 AM</strong>
+</div>
+<div class="detail-row">
+<span>Preferred Mode</span>
+<strong>Online</strong>
+</div>
+<div class="detail-row">
+<span>Status</span>
+<strong id="detailStatus">New</strong>
+</div>
+</div>
+<div class="detail-section">
+<h3>Student Message</h3>
+<div class="message-box" id="selectedMessage">Overwhelmed with assignments and need guidance with coursework.</div>
+</div>
+<div class="detail-section">
+<h3>Counsellor Response</h3>
+<textarea id="responseBox" placeholder="Write a response to the student..."></textarea>
+<div class="response-actions">
+<button class="secondary-action" id="saveDraft">Save Draft</button>
+<button class="send-button" id="sendResponse">Send Response <i data-lucide="send"></i></button>
+</div>
+</div>
+<div class="action-grid">
+<button class="action-card" id="appointmentAction"><i data-lucide="calendar-plus"></i><span>Schedule Appointment</span></button>
+<button class="action-card" id="conversationAction"><i data-lucide="message-square"></i><span>Start Conversation</span></button>
+<button class="action-card" id="reviewAction"><i data-lucide="eye"></i><span>Mark In Review</span></button>
+<button class="action-card danger" id="closeRequest"><i data-lucide="circle-check"></i><span>Close Request</span></button>
+</div>
+<div class="request-overview">
+<div class="overview-heading">
+<h3>Request Overview</h3>
+</div>
+<div class="overview-grid">
+<div><span>New</span><strong>8</strong></div>
+<div><span>High Priority</span><strong>2</strong></div>
+<div><span>Awaiting Reply</span><strong>3</strong></div>
+<div><span>Resolved</span><strong>31</strong></div>
+</div>
+</div>
+<div class="activity-section">
+<h3>Recent Response Activity</h3>
+<div class="activity-item">
+<div class="activity-dot green"></div>
+<div><strong>Priya Kapoor</strong><span>Response sent</span></div>
+<small>10:42 AM</small>
+</div>
+<div class="activity-item">
+<div class="activity-dot purple"></div>
+<div><strong>Neha Singh</strong><span>Marked in review</span></div>
+<small>Yesterday</small>
+</div>
+<div class="activity-item">
+<div class="activity-dot blue"></div>
+<div><strong>Rahul Malik</strong><span>Appointment scheduled</span></div>
+<small>Yesterday</small>
+</div>
+</div>
+</aside>
+</div>
+</section>
+</main>
+</div>
+<div class="modal" id="modal">
+<div class="modal-card">
+<button class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+<div class="modal-icon"><i data-lucide="messages-square"></i></div>
+<h2 id="modalTitle">Student Request</h2>
+<p id="modalText"></p>
+<div class="modal-actions" id="modalActions"></div>
+<button class="primary-button modal-button" id="modalButton">Close</button>
+</div>
+</div>
+<script src="./counsellor-request.js"></script>
+<script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

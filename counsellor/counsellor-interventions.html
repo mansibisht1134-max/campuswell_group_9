@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Interventions</title>
+<link href="./counsellor-interventions.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar">
+<a aria-label="CampusWell Dashboard" class="brand" href="counsellor-dashboard.html">
+<span class="brand-logo">CW</span>
+<span class="brand-copy"><strong>Campus<span>Well</span></strong><small>Counsellor Portal</small></span>
+</a>
+<nav aria-label="Main navigation" class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a class="nav-link" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a aria-current="page" class="nav-link active" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="nav-divider"></div>
+<div class="nav-heading">ACCOUNT</div>
+<nav aria-label="Account navigation" class="account-nav">
+<a class="nav-link" data-placeholder="Profile" href="#profile"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link" data-placeholder="Notifications" href="#notifications"><i data-lucide="bell"></i><span>Notifications</span><span class="nav-count">3</span></a>
+<a class="nav-link" data-placeholder="Settings" href="#settings"><i data-lucide="settings-2"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-help">
+<span class="help-icon"><i data-lucide="headset"></i></span>
+<h3>Need Assistance?</h3>
+<p>Contact CampusWell administration for portal support.</p>
+<a href="mailto:support@campuswell.edu">Contact Support <i data-lucide="arrow-right"></i></a>
+</div>
+<a class="logout-link" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<label class="global-search" for="globalSearch">
+<i data-lucide="search"></i>
+<input autocomplete="off" id="globalSearch" placeholder="Search students, appointments or requests" type="search"/>
+</label>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button" id="notificationButton" type="button"><i data-lucide="bell"></i><span class="bell-dot">3</span></button>
+<div class="profile-divider"></div>
+<div class="counsellor-profile">
+<div class="profile-avatar">DS</div>
+<div class="profile-copy"><strong>Dr. Sharma</strong><small>Counsellor</small></div>
+<i class="profile-chevron" data-lucide="chevron-down"></i>
+</div>
+</div>
+</header>
+<section class="page-content">
+<div class="page-heading-row">
+<div>
+<span class="eyebrow">COUNSELLOR PORTAL</span>
+<h1>Interventions</h1>
+<p>Plan and monitor student support.</p>
+</div>
+<button class="primary-button" id="createPlanButton" type="button"><i data-lucide="plus"></i><span>Create Plan</span></button>
+</div>
+<section aria-label="Intervention summary" class="metrics-grid">
+<article class="metric-card">
+<span class="metric-icon icon-blue"><i data-lucide="clipboard-list"></i></span>
+<div class="metric-copy"><span>Total Intervention Plans</span><strong id="totalPlans">42</strong></div>
+</article>
+<article class="metric-card">
+<span class="metric-icon icon-green"><i data-lucide="hand-heart"></i></span>
+<div class="metric-copy"><span>Students Supported</span><strong id="studentsSupported">35</strong></div>
+</article>
+<article class="metric-card">
+<span class="metric-icon icon-purple"><i data-lucide="target"></i></span>
+<div class="metric-copy"><span>Goals Achieved</span><strong id="goalsAchieved">76%</strong></div>
+</article>
+<article class="metric-card">
+<span class="metric-icon icon-orange"><i data-lucide="refresh-cw"></i></span>
+<div class="metric-copy"><span>Plans Requiring Review</span><strong id="plansReview">6</strong></div>
+</article>
+</section>
+<section class="plans-panel">
+<div class="plans-heading">
+<div>
+<h2>Intervention Plans</h2>
+<p>Search, review and update student support plans.</p>
+</div>
+<span class="plan-count" id="planCount">3 example plans</span>
+</div>
+<div class="filters-row">
+<label class="plan-search" for="planSearch"><i data-lucide="search"></i><input autocomplete="off" id="planSearch" placeholder="Search student name or ID…" type="search"/></label>
+<label class="filter-select"><span class="sr-only">Intervention type</span><select id="typeFilter"><option value="all">All Types</option><option value="Individual Counselling">Individual Counselling</option><option value="Academic Support">Academic Support</option><option value="Group Workshop">Group Workshop</option><option value="Stress Management">Stress Management</option><option value="Peer Support">Peer Support</option><option value="Referral">Referral</option><option value="Follow-up Support Plan">Follow-up Support Plan</option><option value="Other">Other</option></select><i data-lucide="chevron-down"></i></label>
+<label class="filter-select"><span class="sr-only">Plan status</span><select id="statusFilter"><option value="all">All Statuses</option><option value="Active">Active</option><option value="Needs Review">Needs Review</option><option value="Planned">Planned</option><option value="On Hold">On Hold</option><option value="Completed">Completed</option><option value="Cancelled">Cancelled</option></select><i data-lucide="chevron-down"></i></label>
+<label class="filter-select priority-filter"><span class="sr-only">Priority</span><select id="priorityFilter"><option value="all">Priority</option><option value="Low">Low Priority</option><option value="Medium">Medium Priority</option><option value="High">High Priority</option></select><i data-lucide="chevron-down"></i></label>
+<label class="date-filter"><i data-lucide="calendar-days"></i><input aria-label="Start date filter" id="dateFrom" type="date"/><span class="date-dash">–</span><input aria-label="End date filter" id="dateTo" type="date"/></label>
+<button class="reset-button" id="resetFilters" title="Clear filters" type="button">Reset</button>
+</div>
+<div aria-live="polite" class="plans-list" id="plansList"></div>
+<div class="empty-state" hidden="" id="emptyState">
+<span><i data-lucide="search-x"></i></span>
+<h3>No intervention plans found</h3>
+<p>Try changing your search or filters.</p>
+<button class="secondary-button" id="clearEmptyFilters" type="button">Clear filters</button>
+</div>
+<div class="panel-footer"><span>Sample records shown for the project prototype.</span><span id="visibleCount">Showing 3 plans</span></div>
+</section>
+</section>
+</main>
+</div>
+<div class="modal-backdrop" hidden="" id="planModal">
+<section aria-labelledby="modalTitle" aria-modal="true" class="modal-card" role="dialog">
+<div class="modal-header">
+<div><span class="eyebrow">CAMPUSWELL SUPPORT PLAN</span><h2 id="modalTitle">Create Intervention Plan</h2><p>Record the planned support and how progress will be reviewed.</p></div>
+<button aria-label="Close dialog" class="modal-close" id="closeModalButton" type="button"><i data-lucide="x"></i></button>
+</div>
+<form id="planForm">
+<input id="planId" type="hidden"/>
+<div class="form-grid">
+<label class="form-field"><span>Student name <b>*</b></span><input id="studentName" maxlength="100" name="studentName" placeholder="Enter student name" required="" type="text"/></label>
+<label class="form-field"><span>Student ID</span><input id="studentId" maxlength="40" name="studentId" placeholder="e.g. STU1032" type="text"/></label>
+<label class="form-field span-two"><span>Intervention title <b>*</b></span><input id="interventionTitle" maxlength="120" name="interventionTitle" placeholder="e.g. Stress management support" required="" type="text"/></label>
+<label class="form-field"><span>Intervention type <b>*</b></span><select id="interventionType" name="interventionType" required=""><option value="">Select type</option><option>Individual Counselling</option><option>Academic Support</option><option>Group Workshop</option><option>Stress Management</option><option>Peer Support</option><option>Referral</option><option>Follow-up Support Plan</option><option>Other</option></select></label>
+<label class="form-field"><span>Assigned counsellor <b>*</b></span><input id="assignedCounsellor" maxlength="100" name="assignedCounsellor" placeholder="Counsellor name" required="" type="text"/></label>
+<label class="form-field"><span>Priority</span><select id="planPriority" name="priority"><option>Low</option><option selected="">Medium</option><option>High</option></select></label>
+<label class="form-field"><span>Status</span><select id="planStatus" name="status"><option>Planned</option><option>Active</option><option>Needs Review</option><option>On Hold</option><option>Completed</option><option>Cancelled</option></select></label>
+<label class="form-field"><span>Start date <b>*</b></span><input id="startDate" name="startDate" required="" type="date"/></label>
+<label class="form-field"><span>Target completion</span><input id="targetDate" name="targetDate" type="date"/></label>
+<label class="form-field"><span>Next action / review</span><input id="nextAction" maxlength="120" name="nextAction" placeholder="e.g. Progress review" type="text"/></label>
+<label class="form-field"><span>Next action date</span><input id="nextActionDate" name="nextActionDate" type="date"/></label>
+<label class="form-field span-two"><span>Support goals</span><textarea id="supportGoals" maxlength="1000" name="supportGoals" placeholder="What does the plan aim to help the student achieve?" rows="2"></textarea></label>
+<label class="form-field span-two"><span>Action plan</span><textarea id="actionPlan" maxlength="2000" name="actionPlan" placeholder="List the planned sessions, activities or support steps." rows="3"></textarea></label>
+<label class="form-field"><span>Goal progress <small>(%)</small></span><input id="goalProgress" max="100" min="0" name="goalProgress" type="number" value="0"/></label>
+<label class="form-field span-two"><span>Progress notes</span><textarea id="progressNotes" maxlength="2000" name="progressNotes" placeholder="Add a brief, appropriate progress note." rows="2"></textarea></label>
+</div>
+<p class="privacy-note"><i data-lucide="lock-keyhole"></i> Use only information appropriate for the counsellor's authorized access. This prototype stores demo data in this browser only.</p>
+<div class="form-error" hidden="" id="formError" role="alert"></div>
+<div class="modal-actions"><button class="secondary-button" id="cancelModalButton" type="button">Cancel</button><button class="primary-button" type="submit"><i data-lucide="check"></i><span id="saveButtonText">Save Intervention</span></button></div>
+</form>
+</section>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"></div>
+<script src="./counsellor-interventions.js"></script>
+<script>if (window.lucide) lucide.createIcons();</script>
+</body>
+</html>

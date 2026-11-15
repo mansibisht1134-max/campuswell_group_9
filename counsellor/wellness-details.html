@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Check-in Details</title>
+<link href="./wellness-details.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="details">
+<div class="app">
+<aside class="sidebar">
+<a class="brand" href="counsellor-dashboard.html">
+<span class="brand-mark"><i data-lucide="heart-handshake"></i></span>
+<span><span class="brand-name">Campus<span>Well</span></span><span class="brand-caption">Counsellor Portal</span></span>
+</a>
+<nav class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a aria-current="page" class="nav-link active" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="sidebar-spacer"></div>
+<div class="sidebar-user"><div class="sidebar-avatar">SM</div><div><strong>Counsellor</strong><span>Dr. Sarah Mitchell</span></div></div>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<label class="global-search"><i data-lucide="search"></i><input id="globalSearch" placeholder="Search students, IDs or keywords..." type="search"/></label>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button" id="notificationButton"><i data-lucide="bell"></i><span class="bell-dot"></span></button>
+<button class="profile-button" id="profileButton"><span class="avatar">SM</span><span class="profile-copy"><strong>Dr. Sarah Mitchell</strong><span>Counsellor</span></span><i data-lucide="chevron-down"></i></button>
+</div>
+</header>
+<section class="page-content">
+<div class="page-heading details-page-heading">
+<div class="heading-title"><div class="heading-icon"><i data-lucide="user-round-search"></i></div><div><p class="eyebrow">WELLNESS CHECK-INS</p><h1>Check-in Details</h1><p class="page-subtitle">Read individual student responses and record appropriate support actions.</p></div></div>
+<a class="secondary-button" href="wellness-records.html"><i data-lucide="arrow-left"></i>Back to records</a>
+</div>
+<div class="details-layout">
+<section class="card panel"><div class="panel-heading"><h2>Student Check-ins</h2><p>Select a student to view their responses.</p></div><label class="detail-search"><i data-lucide="search"></i><input id="detailSearch" placeholder="Search by name or ID..." type="search"/></label><div class="student-pick-list" id="studentPickList"><button class="student-pick active" data-id="STU00123"><span class="student-avatar">AS</span><span class="student-pick-copy"><strong>Aarav Sharma</strong><small>STU00123</small></span><span class="badge blue">New</span></button><button class="student-pick" data-id="STU00145"><span class="student-avatar purple">PN</span><span class="student-pick-copy"><strong>Priya Nair</strong><small>STU00145</small></span><span class="badge green">Reviewed</span></button><button class="student-pick" data-id="STU00354"><span class="student-avatar orange">RM</span><span class="student-pick-copy"><strong>Rohan Mehta</strong><small>STU00354</small></span><span class="badge red">Support Req.</span></button><button class="student-pick" data-id="STU00321"><span class="student-avatar green">SI</span><span class="student-pick-copy"><strong>Sneha Iyer</strong><small>STU00321</small></span><span class="badge green">Reviewed</span></button><button class="student-pick" data-id="STU00456"><span class="student-avatar pink">KD</span><span class="student-pick-copy"><strong>Karan Desai</strong><small>STU00456</small></span><span class="badge blue">New</span></button><button class="student-pick" data-id="STU00567"><span class="student-avatar">MP</span><span class="student-pick-copy"><strong>Maya Patel</strong><small>STU00567</small></span><span class="badge red">Support Req.</span></button></div></section>
+<section class="card response-panel"><div class="selected-student-head"><span class="student-avatar" id="detailAvatar">AS</span><div><h2 id="detailStudentName">Aarav Sharma</h2><p><span id="detailStudentId">STU00123</span> · Student Submission · Apr 28, 2026, 10:24 AM</p></div><span class="badge blue" id="detailBadge">New</span></div><h3 class="response-heading">Student Responses</h3><div class="response-grid"><div class="response-row"><span>How are you feeling today?</span><strong class="mood good" id="answerMood"><i data-lucide="smile"></i>Good</strong></div><div class="response-row"><span>How are you managing academics?</span><strong id="answerAcademic">Manageable</strong></div><div class="response-row"><span>How stressed do you feel?</span><strong id="answerStress">2 / 5</strong></div><div class="response-row"><span>Would you like support?</span><strong id="answerSupport">Not right now</strong></div><div class="response-row"><span>How has your sleep been?</span><strong id="answerSleep">Good</strong></div><div class="response-row"><span>Energy level</span><strong id="answerEnergy">High</strong></div></div><div class="student-note"><h4>Student's Optional Note</h4><p id="answerNote">“Just feeling a bit overwhelmed with assignments this week.”</p></div><div class="history-table"><h3>Previous Check-ins</h3><div class="table-scroll"><table><thead><tr><th>DATE</th><th>MOOD</th><th>STRESS</th><th>SLEEP</th><th>STATUS</th></tr></thead><tbody id="historyBody"><tr><td>Apr 21, 2026</td><td>Okay</td><td>3/5</td><td>Good</td><td><span class="badge green">Reviewed</span></td></tr><tr><td>Apr 14, 2026</td><td>Good</td><td>2/5</td><td>Good</td><td><span class="badge green">Reviewed</span></td></tr></tbody></table></div></div></section>
+<div class="side-stack"><section class="card note-card"><h3>Counsellor Notes</h3><textarea id="counsellorNote" placeholder="Add your private note here..."></textarea><button class="primary-button" id="saveNote"><i data-lucide="save"></i>Save Note</button><p class="saved-note" id="savedNoteMessage">Notes are stored only in this browser demo.</p></section><section class="card note-card"><h3>Actions</h3><div class="action-stack"><a class="quick-link" href="counsellor-appointments.html"><i data-lucide="calendar-plus"></i>Create Appointment<i data-lucide="arrow-right"></i></a><a class="quick-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i>Arrange Follow-up<i data-lucide="arrow-right"></i></a><button class="quick-link" id="markReviewed"><i data-lucide="check-circle-2"></i>Mark as Reviewed<i data-lucide="arrow-right"></i></button></div></section><section class="card note-card privacy-card"><h3><i data-lucide="shield-check"></i> Privacy reminder</h3><p>Keep notes factual, respectful and relevant to student support. Follow institutional guidance for urgent concerns.</p></section></div>
+</div>
+</section>
+</main>
+</div>
+<div aria-labelledby="modalTitle" aria-modal="true" class="modal-backdrop" id="modalBackdrop" role="dialog">
+<div class="modal-card">
+<button aria-label="Close" class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+<div class="modal-symbol"><i data-lucide="heart-pulse"></i></div>
+<h2 id="modalTitle">CampusWell</h2>
+<p id="modalMessage"></p>
+<button class="primary-button" id="modalOk">Got it</button>
+</div>
+</div>
+<script src="./wellness-details.js"></script>
+<script>if (window.lucide) { lucide.createIcons(); }</script>
+</body>
+</html>

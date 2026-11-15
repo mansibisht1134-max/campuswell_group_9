@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Check-in Records</title>
+<link href="./wellness-records.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="records">
+<div class="app">
+<aside class="sidebar">
+<a class="brand" href="counsellor-dashboard.html">
+<span class="brand-mark"><i data-lucide="heart-handshake"></i></span>
+<span><span class="brand-name">Campus<span>Well</span></span><span class="brand-caption">Counsellor Portal</span></span>
+</a>
+<nav class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a aria-current="page" class="nav-link active" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="sidebar-spacer"></div>
+<div class="sidebar-user"><div class="sidebar-avatar">SM</div><div><strong>Counsellor</strong><span>Dr. Sarah Mitchell</span></div></div>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<label class="global-search"><i data-lucide="search"></i><input id="globalSearch" placeholder="Search students, IDs or keywords..." type="search"/></label>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button" id="notificationButton"><i data-lucide="bell"></i><span class="bell-dot"></span></button>
+<button class="profile-button" id="profileButton"><span class="avatar">SM</span><span class="profile-copy"><strong>Dr. Sarah Mitchell</strong><span>Counsellor</span></span><i data-lucide="chevron-down"></i></button>
+</div>
+</header>
+<section class="page-content">
+<div class="page-heading">
+<div class="heading-title"><div class="heading-icon"><i data-lucide="clipboard-list"></i></div><div><p class="eyebrow">WELLNESS CHECK-INS</p><h1>Check-in Records</h1><p class="page-subtitle">View and manage student wellness check-ins and their review status.</p></div></div>
+<a class="secondary-button" href="wellness-checkins.html"><i data-lucide="arrow-left"></i>All check-in views</a>
+</div>
+<div class="metrics-grid compact-metrics">
+<article class="card metric-card"><div class="metric-top"><span class="metric-icon blue"><i data-lucide="clipboard-check"></i></span><span class="metric-label">Total Records</span></div><div class="metric-value">248</div><div class="metric-foot">Across all reporting periods</div></article>
+<article class="card metric-card"><div class="metric-top"><span class="metric-icon blue"><i data-lucide="sparkles"></i></span><span class="metric-label">New</span></div><div class="metric-value">18</div><div class="metric-foot">Waiting for initial review</div></article>
+<article class="card metric-card"><div class="metric-top"><span class="metric-icon orange"><i data-lucide="hand-heart"></i></span><span class="metric-label">Support Requested</span></div><div class="metric-value">12</div><div class="metric-foot">Student selected “Yes”</div></article>
+<article class="card metric-card"><div class="metric-top"><span class="metric-icon green"><i data-lucide="check-circle-2"></i></span><span class="metric-label">Reviewed</span></div><div class="metric-value">218</div><div class="metric-foot">Review status recorded</div></article>
+</div>
+<div class="toolbar records-toolbar"><div class="tabs" id="recordTabs"><button class="tab-button active" data-status="all">All Records</button><button class="tab-button" data-status="new">New</button><button class="tab-button" data-status="reviewed">Reviewed</button><button class="tab-button" data-status="support">Support Requested</button></div><div class="filters"><label class="filter-search"><i data-lucide="search"></i><input id="recordSearch" placeholder="Search name or ID..." type="search"/></label><select class="filter-select" id="moodFilter"><option value="all">Mood (All)</option><option value="good">Good</option><option value="okay">Okay</option><option value="low">Low</option><option value="verygood">Very good</option></select><select class="filter-select" id="statusFilter"><option value="all">Status (All)</option><option value="new">New</option><option value="reviewed">Reviewed</option><option value="support">Support Req.</option></select></div></div>
+<div class="card table-card"><div class="table-scroll"><table id="recordsTable"><thead><tr><th>STUDENT</th><th>DATE &amp; TIME</th><th>MOOD</th><th>STRESS</th><th>SLEEP</th><th>ENERGY</th><th>STATUS</th><th>SOURCE</th><th></th></tr></thead><tbody>
+<tr data-id="STU00123" data-mood="good" data-search="aarav sharma stu00123 computer science" data-status="new" data-student="Aarav Sharma"><td><div class="student-cell"><span class="student-avatar">AS</span><span><strong>Aarav Sharma</strong><small>STU00123</small></span></div></td><td>Apr 28, 2026 · 10:24</td><td><span class="mood good"><i data-lucide="smile"></i>Good</span></td><td>2/5</td><td>Good</td><td>High</td><td><span class="badge blue">New</span></td><td><span class="badge gray">Student</span></td><td><a class="view-button" href="wellness-details.html?student=STU00123">View <i data-lucide="arrow-up-right"></i></a></td></tr>
+<tr data-id="STU00145" data-mood="okay" data-search="priya nair stu00145 engineering" data-status="reviewed" data-student="Priya Nair"><td><div class="student-cell"><span class="student-avatar purple">PN</span><span><strong>Priya Nair</strong><small>STU00145</small></span></div></td><td>Apr 28, 2026 · 09:37</td><td><span class="mood okay"><i data-lucide="meh"></i>Okay</span></td><td>4/5</td><td>Fair</td><td>Medium</td><td><span class="badge green">Reviewed</span></td><td><span class="badge gray">Student</span></td><td><a class="view-button" href="wellness-details.html?student=STU00145">View <i data-lucide="arrow-up-right"></i></a></td></tr>
+<tr data-id="STU00354" data-mood="low" data-search="rohan mehta stu00354 support stress" data-status="support" data-student="Rohan Mehta"><td><div class="student-cell"><span class="student-avatar orange">RM</span><span><strong>Rohan Mehta</strong><small>STU00354</small></span></div></td><td>Apr 27, 2026 · 20:56</td><td><span class="mood low"><i data-lucide="frown"></i>Low</span></td><td>5/5</td><td>Poor</td><td>Low</td><td><span class="badge red">Support Req.</span></td><td><span class="badge gray">Student</span></td><td><a class="view-button" href="wellness-details.html?student=STU00354">View <i data-lucide="arrow-up-right"></i></a></td></tr>
+<tr data-id="STU00321" data-mood="good" data-search="sneha iyer stu00321 wellness" data-status="reviewed" data-student="Sneha Iyer"><td><div class="student-cell"><span class="student-avatar green">SI</span><span><strong>Sneha Iyer</strong><small>STU00321</small></span></div></td><td>Apr 27, 2026 · 15:42</td><td><span class="mood good"><i data-lucide="smile"></i>Good</span></td><td>2/5</td><td>Good</td><td>High</td><td><span class="badge green">Reviewed</span></td><td><span class="badge gray">Student</span></td><td><a class="view-button" href="wellness-details.html?student=STU00321">View <i data-lucide="arrow-up-right"></i></a></td></tr>
+<tr data-id="STU00456" data-mood="verygood" data-search="karan desai stu00456 wellbeing" data-status="new" data-student="Karan Desai"><td><div class="student-cell"><span class="student-avatar pink">KD</span><span><strong>Karan Desai</strong><small>STU00456</small></span></div></td><td>Apr 27, 2026 · 11:08</td><td><span class="mood good"><i data-lucide="smile-plus"></i>Very good</span></td><td>1/5</td><td>Very good</td><td>High</td><td><span class="badge blue">New</span></td><td><span class="badge gray">Student</span></td><td><a class="view-button" href="wellness-details.html?student=STU00456">View <i data-lucide="arrow-up-right"></i></a></td></tr>
+<tr data-id="STU00567" data-mood="okay" data-search="maya patel stu00567 academic pressure" data-status="support" data-student="Maya Patel"><td><div class="student-cell"><span class="student-avatar">MP</span><span><strong>Maya Patel</strong><small>STU00567</small></span></div></td><td>Apr 26, 2026 · 18:32</td><td><span class="mood okay"><i data-lucide="meh"></i>Okay</span></td><td>4/5</td><td>Fair</td><td>Medium</td><td><span class="badge red">Support Req.</span></td><td><span class="badge gray">Student</span></td><td><a class="view-button" href="wellness-details.html?student=STU00567">View <i data-lucide="arrow-up-right"></i></a></td></tr>
+</tbody></table></div><div class="empty-state" id="recordsEmpty">No check-ins match these filters.</div><div class="table-footer"><span id="recordResultCount">Showing 6 of 248 check-ins</span><div class="pagination"><button aria-label="Previous page" class="page-number"><i data-lucide="chevron-left"></i></button><button class="page-number active">1</button><button class="page-number">2</button><button class="page-number">3</button><button class="page-number">4</button><button class="page-number">5</button><button aria-label="Next page" class="page-number"><i data-lucide="chevron-right"></i></button></div></div></div>
+</section>
+</main>
+</div>
+<div aria-labelledby="modalTitle" aria-modal="true" class="modal-backdrop" id="modalBackdrop" role="dialog">
+<div class="modal-card">
+<button aria-label="Close" class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+<div class="modal-symbol"><i data-lucide="heart-pulse"></i></div>
+<h2 id="modalTitle">CampusWell</h2>
+<p id="modalMessage"></p>
+<button class="primary-button" id="modalOk">Got it</button>
+</div>
+</div>
+<script src="./wellness-records.js"></script>
+<script>if (window.lucide) { lucide.createIcons(); }</script>
+</body>
+</html>

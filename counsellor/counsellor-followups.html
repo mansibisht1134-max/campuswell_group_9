@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Follow-ups</title>
+<link href="./counsellor-followups.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<div class="brand-logo"><i data-lucide="heart-handshake"></i></div>
+<div>
+<h2>Campus<span>Well</span></h2>
+<p>Counsellor Portal</p>
+</div>
+</div>
+<nav class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span><span class="notification-count">5</span></a>
+                <a aria-current="page" class="nav-link active" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a class="nav-link" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="nav-divider"></div>
+<div class="nav-heading">ACCOUNT</div>
+<nav class="account-nav">
+<a class="nav-link" data-page="Profile" href="#"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link" data-page="Notifications" href="#"><i data-lucide="bell"></i><span>Notifications</span><span class="notification-count">3</span></a>
+<a class="nav-link" data-page="Settings" href="#"><i data-lucide="settings-2"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-support">
+<div class="support-icon"><i data-lucide="headset"></i></div>
+<h3>Need Assistance?</h3>
+<p>Contact CampusWell administration for portal support.</p>
+<a href="#" id="supportButton">Contact Support <i data-lucide="arrow-right"></i></a>
+</div>
+<a class="logout" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<div class="search-box">
+<i data-lucide="search"></i>
+<input id="globalSearch" placeholder="Search students, follow-ups or concerns..." type="text"/>
+</div>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button" id="notificationButton">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+<div class="counsellor-profile">
+<div class="avatar">DS</div>
+<div class="profile-info">
+<h4>Dr. Sharma</h4>
+<p>Counsellor</p>
+</div>
+<i class="profile-chevron" data-lucide="chevron-down"></i>
+</div>
+</div>
+</header>
+<section class="page-content">
+<div class="page-layout">
+<div class="left-column">
+<div class="page-heading">
+<span class="page-label">COUNSELLOR PORTAL</span>
+<h1>Follow-ups</h1>
+<p>Track student progress, complete follow-up actions and ensure continued support.</p>
+</div>
+<div class="summary-grid">
+<div class="summary-card due-card">
+<div class="summary-icon"><i data-lucide="calendar-check"></i></div>
+<div>
+<strong id="dueCount">8</strong>
+<span>Due Today</span>
+<small>Follow-ups scheduled today</small>
+</div>
+</div>
+<div class="summary-card overdue-card">
+<div class="summary-icon"><i data-lucide="alert-circle"></i></div>
+<div>
+<strong id="overdueCount">3</strong>
+<span>Overdue</span>
+<small>Past the planned date</small>
+</div>
+</div>
+<div class="summary-card upcoming-card">
+<div class="summary-icon"><i data-lucide="calendar-days"></i></div>
+<div>
+<strong id="upcomingCount">12</strong>
+<span>Upcoming</span>
+<small>Scheduled for later dates</small>
+</div>
+</div>
+<div class="summary-card completed-card">
+<div class="summary-icon"><i data-lucide="circle-check"></i></div>
+<div>
+<strong id="completedCount">26</strong>
+<span>Completed</span>
+<small>This month</small>
+</div>
+</div>
+</div>
+<div class="list-toolbar">
+<div class="filter-tabs">
+<button class="filter-tab active" data-filter="all">All</button>
+<button class="filter-tab" data-filter="due">Due Today</button>
+<button class="filter-tab" data-filter="overdue">Overdue</button>
+<button class="filter-tab" data-filter="upcoming">Upcoming</button>
+<button class="filter-tab" data-filter="completed">Completed</button>
+</div>
+<div class="case-search">
+<i data-lucide="search"></i>
+<input id="caseSearch" placeholder="Search by student name or ID..." type="text"/>
+</div>
+</div>
+<section class="cases-panel">
+<div class="cases-heading">
+<div>
+<h2>Follow-up Cases</h2>
+<p>Students who need continued support after their counselling session.</p>
+</div>
+<span id="caseCount">6 follow-ups</span>
+</div>
+<div class="case-list" id="caseList">
+<article class="case-card selected" data-concern="Stress Management" data-counsellor="Dr. Sharma" data-goal1="Reduce academic stress and improve time management." data-goal2="Build healthy coping strategies for exam pressure." data-id="STU1032" data-initials="AM" data-mode="Online" data-name="Aarav Mehta" data-next="Today · 4:00 PM" data-nextmode="Online" data-notes="Shows motivation and is open to suggestions. Monitor for any signs of increased stress before exams." data-program="B.Tech CSE · Year 2" data-progress="Student reports feeling slightly better. Using breathing exercises and attending classes regularly." data-search="Aarav Mehta STU1032 stress management academic stress" data-session="28 Sep 2026 · 11:30 AM" data-status="due" data-statuslabel="Due Today" tabindex="0">
+<div class="case-main">
+<div class="case-avatar blue-avatar">AM</div>
+<div class="case-info">
+<div class="case-name-row">
+<h3>Aarav Mehta</h3>
+<span class="student-id">STU1032</span>
+</div>
+<p><i data-lucide="brain"></i>Stress Management</p>
+<small><i data-lucide="clock-3"></i>Previous session: 28 Sep 2026</small>
+</div>
+</div>
+<div class="case-next">
+<span><i data-lucide="calendar-days"></i>Next follow-up:</span>
+<strong>Today · 4:00 PM</strong>
+<small>(Online)</small>
+</div>
+<div class="case-action">
+<span class="case-status due">Due Today</span>
+<button class="view-details">View Details <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="case-card" data-concern="Academic Anxiety" data-counsellor="Dr. Sharma" data-goal1="Use a manageable weekly study plan." data-goal2="Practice grounding techniques before exams." data-id="STU1056" data-initials="SK" data-mode="In-person" data-name="Simran Kaur" data-next="Yesterday · 3:00 PM" data-nextmode="In-person" data-notes="Review which parts of the study plan are difficult to maintain. Agree on one achievable next step." data-program="B.Sc Psychology · Year 3" data-progress="Student has tried the study plan but continues to report anxiety before exams." data-search="Simran Kaur STU1056 academic anxiety exam stress" data-session="25 Sep 2026 · 2:00 PM" data-status="overdue" data-statuslabel="Overdue" tabindex="0">
+<div class="case-main">
+<div class="case-avatar purple-avatar">SK</div>
+<div class="case-info">
+<div class="case-name-row">
+<h3>Simran Kaur</h3>
+<span class="student-id">STU1056</span>
+</div>
+<p><i data-lucide="brain"></i>Academic Anxiety</p>
+<small><i data-lucide="clock-3"></i>Previous session: 25 Sep 2026</small>
+</div>
+</div>
+<div class="case-next">
+<span><i data-lucide="calendar-days"></i>Next follow-up:</span>
+<strong>Yesterday · 3:00 PM</strong>
+<small>(In-person)</small>
+</div>
+<div class="case-action">
+<span class="case-status overdue">Overdue</span>
+<button class="view-details">View Details <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="case-card" data-concern="Sleep &amp; Wellbeing" data-counsellor="Dr. Sharma" data-goal1="Maintain a consistent sleep and wake-up time." data-goal2="Reduce late-night screen time on weekdays." data-id="STU1139" data-initials="NS" data-mode="Online" data-name="Neha Singh" data-next="12 Oct 2026 · 11:00 AM" data-nextmode="Online" data-notes="Ask the student which routine changes are working and identify barriers without making assumptions." data-program="B.Com · Year 2" data-progress="Student is trying to follow a consistent sleep routine and reports some improvement in daytime concentration." data-search="Neha Singh STU1139 sleep wellbeing concentration" data-session="2 Oct 2026 · 10:00 AM" data-status="upcoming" data-statuslabel="Upcoming" tabindex="0">
+<div class="case-main">
+<div class="case-avatar green-avatar">NS</div>
+<div class="case-info">
+<div class="case-name-row">
+<h3>Neha Singh</h3>
+<span class="student-id">STU1139</span>
+</div>
+<p><i data-lucide="moon"></i>Sleep &amp; Wellbeing</p>
+<small><i data-lucide="clock-3"></i>Previous session: 2 Oct 2026</small>
+</div>
+</div>
+<div class="case-next">
+<span><i data-lucide="calendar-days"></i>Next follow-up:</span>
+<strong>12 Oct 2026 · 11:00 AM</strong>
+<small>(Online)</small>
+</div>
+<div class="case-action">
+<span class="case-status upcoming">Upcoming</span>
+<button class="view-details">View Details <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="case-card" data-concern="Personal Support" data-counsellor="Dr. Sharma" data-goal1="Identify supportive routines and coping strategies." data-goal2="Maintain a manageable academic and personal schedule." data-id="STU1087" data-initials="RM" data-mode="In-person" data-name="Rahul Malik" data-next="14 Oct 2026 · 2:00 PM" data-nextmode="In-person" data-notes="Allow the student to set the pace. Review agreed strategies at the next session." data-program="B.Tech Mechanical · Year 3" data-progress="Student is reflecting on coping strategies and would like to continue discussing ways to manage personal stress." data-search="Rahul Malik STU1087 personal support coping" data-session="30 Sep 2026 · 1:00 PM" data-status="upcoming" data-statuslabel="Upcoming" tabindex="0">
+<div class="case-main">
+<div class="case-avatar purple-avatar">RM</div>
+<div class="case-info">
+<div class="case-name-row">
+<h3>Rahul Malik</h3>
+<span class="student-id">STU1087</span>
+</div>
+<p><i data-lucide="message-circle"></i>Personal Support</p>
+<small><i data-lucide="clock-3"></i>Previous session: 30 Sep 2026</small>
+</div>
+</div>
+<div class="case-next">
+<span><i data-lucide="calendar-days"></i>Next follow-up:</span>
+<strong>14 Oct 2026 · 2:00 PM</strong>
+<small>(In-person)</small>
+</div>
+<div class="case-action">
+<span class="case-status upcoming">Upcoming</span>
+<button class="view-details">View Details <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="case-card" data-concern="Family Issues" data-counsellor="Dr. Sharma" data-goal1="Practice clear and respectful communication." data-goal2="Identify trusted sources of support when needed." data-id="STU1168" data-initials="PV" data-mode="Online" data-name="Pooja Verma" data-next="16 Oct 2026 · 10:00 AM" data-nextmode="Online" data-notes="Check what feels helpful to the student and reinforce their autonomy in choosing next steps." data-program="B.A. Sociology · Year 2" data-progress="Student reports trying the communication strategies discussed during the previous session." data-search="Pooja Verma STU1168 family issues communication" data-session="27 Sep 2026 · 10:00 AM" data-status="upcoming" data-statuslabel="Upcoming" tabindex="0">
+<div class="case-main">
+<div class="case-avatar orange-avatar">PV</div>
+<div class="case-info">
+<div class="case-name-row">
+<h3>Pooja Verma</h3>
+<span class="student-id">STU1168</span>
+</div>
+<p><i data-lucide="users-round"></i>Family Issues</p>
+<small><i data-lucide="clock-3"></i>Previous session: 27 Sep 2026</small>
+</div>
+</div>
+<div class="case-next">
+<span><i data-lucide="calendar-days"></i>Next follow-up:</span>
+<strong>16 Oct 2026 · 10:00 AM</strong>
+<small>(Online)</small>
+</div>
+<div class="case-action">
+<span class="case-status upcoming">Upcoming</span>
+<button class="view-details">View Details <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+<article class="case-card" data-concern="Career Guidance" data-counsellor="Dr. Sharma" data-goal1="Explore two career paths of interest." data-goal2="Prepare questions for the academic mentor." data-id="STU1202" data-initials="AK" data-mode="In-person" data-name="Ankit Kumar" data-next="Completed · 28 Sep 2026" data-nextmode="Online" data-notes="Goals reviewed and completed. Invite the student to request further support if circumstances change." data-program="BBA · Year 3" data-progress="Student completed the agreed exploration tasks and feels more confident about available options." data-search="Ankit Kumar STU1202 career guidance confidence" data-session="22 Sep 2026 · 1:00 PM" data-status="completed" data-statuslabel="Completed" tabindex="0">
+<div class="case-main">
+<div class="case-avatar cyan-avatar">AK</div>
+<div class="case-info">
+<div class="case-name-row">
+<h3>Ankit Kumar</h3>
+<span class="student-id">STU1202</span>
+</div>
+<p><i data-lucide="compass"></i>Career Guidance</p>
+<small><i data-lucide="clock-3"></i>Previous session: 22 Sep 2026</small>
+</div>
+</div>
+<div class="case-next">
+<span><i data-lucide="calendar-days"></i>Next follow-up:</span>
+<strong>Completed · 28 Sep 2026</strong>
+<small>(Online)</small>
+</div>
+<div class="case-action">
+<span class="case-status completed">Completed</span>
+<button class="view-details">View Details <i data-lucide="arrow-right"></i></button>
+</div>
+</article>
+</div>
+</section>
+</div>
+<aside class="details-panel" id="detailsPanel">
+<div class="details-header">
+<div>
+<span>SELECTED FOLLOW-UP</span>
+<div class="selected-student">
+<div class="detail-avatar" id="detailAvatar">AM</div>
+<div>
+<h2 id="detailName">Aarav Mehta</h2>
+<p id="detailIdentity">STU1032 · B.Tech CSE · Year 2</p>
+</div>
+</div>
+</div>
+<button aria-label="Close details" class="close-details" id="closeDetails"><i data-lucide="x"></i></button>
+</div>
+<div class="session-facts">
+<div>
+<i data-lucide="calendar-days"></i>
+<span>Previous Session<strong id="previousSession">28 Sep 2026 · 11:30 AM</strong><small id="previousMode">(Online)</small></span>
+</div>
+<div>
+<i data-lucide="brain"></i>
+<span>Concern<strong id="detailConcern">Stress Management</strong></span>
+</div>
+<div>
+<i data-lucide="user-round"></i>
+<span>Counsellor<strong id="detailCounsellor">Dr. Sharma</strong></span>
+</div>
+</div>
+<div class="detail-content">
+<section class="detail-card goals-card">
+<div class="detail-card-heading">
+<div class="detail-icon blue-icon"><i data-lucide="target"></i></div>
+<h3>Support Goals</h3>
+<button data-panel-action="View Plan">View Plan</button>
+</div>
+<ul>
+<li id="goalOne">Reduce academic stress and improve time management.</li>
+<li id="goalTwo">Build healthy coping strategies for exam pressure.</li>
+</ul>
+</section>
+<section class="detail-card progress-card">
+<div class="detail-card-heading">
+<div class="detail-icon green-icon"><i data-lucide="trending-up"></i></div>
+<h3>Student Progress</h3>
+<button data-panel-action="View Progress">View Progress</button>
+</div>
+<p id="progressText">Student reports feeling slightly better. Using breathing exercises and attending classes regularly.</p>
+</section>
+<section class="detail-card notes-card">
+<div class="detail-card-heading">
+<div class="detail-icon purple-icon"><i data-lucide="notebook-pen"></i></div>
+<h3>Counsellor Notes</h3>
+<span><i data-lucide="lock-keyhole"></i>Private</span>
+</div>
+<p id="notesText">Shows motivation and is open to suggestions. Monitor for any signs of increased stress before exams.</p>
+<button class="edit-notes" id="editNotes">Edit Notes</button>
+</section>
+<section class="next-card">
+<div class="detail-icon blue-icon"><i data-lucide="calendar-check"></i></div>
+<div class="next-info">
+<h3>Next Follow-up</h3>
+<p id="nextDate">Today · 4:00 PM (Online)</p>
+</div>
+<button id="editNext">Edit</button>
+<span class="case-status due" id="detailDueStatus">Due Today</span>
+</section>
+<div class="quick-actions">
+<button class="quick-action checkin-action" id="recordCheckin">
+<span class="quick-icon"><i data-lucide="message-square-text"></i></span>
+<strong>Record Check-in</strong>
+<small>Update progress &amp; notes</small>
+</button>
+<button class="quick-action reschedule-action" id="reschedule">
+<span class="quick-icon"><i data-lucide="calendar-days"></i></span>
+<strong>Reschedule</strong>
+<small>Change date or time</small>
+</button>
+<button class="quick-action complete-action" id="markCompleted">
+<span class="quick-icon"><i data-lucide="circle-check"></i></span>
+<strong>Mark Completed</strong>
+<small>Close this follow-up</small>
+</button>
+</div>
+<section class="recent-activity">
+<div class="activity-heading">
+<h3>Recent Activity</h3>
+<button id="viewActivity">View All</button>
+</div>
+<div class="activity-row">
+<span class="activity-dot green-dot"></span>
+<div><strong>Student check-in</strong><small id="activityStudent">Aarav Mehta</small></div>
+<time>28 Sep 2026 · 4:12 PM</time>
+</div>
+<div class="activity-row">
+<span class="activity-dot purple-dot"></span>
+<div><strong>Progress note added</strong><small>Dr. Sharma</small></div>
+<time>28 Sep 2026 · 5:03 PM</time>
+</div>
+<div class="activity-row">
+<span class="activity-dot blue-dot"></span>
+<div><strong>Next follow-up scheduled</strong><small id="activityNext">Aarav Mehta</small></div>
+<time>28 Sep 2026 · 5:15 PM</time>
+</div>
+</section>
+</div>
+</aside>
+</div>
+</section>
+</main>
+</div>
+<div aria-labelledby="modalTitle" aria-modal="true" class="modal" id="modal" role="dialog">
+<div class="modal-card">
+<button aria-label="Close" class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+<div class="modal-icon"><i data-lucide="clipboard-check"></i></div>
+<h2 id="modalTitle">Follow-up</h2>
+<p id="modalText"></p>
+<div class="modal-form" id="modalForm"></div>
+<div class="modal-actions" id="modalActions"></div>
+<button class="primary-button modal-primary" id="modalPrimary">Done</button>
+</div>
+</div>
+<script src="./counsellor-followups.js"></script>
+<script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>

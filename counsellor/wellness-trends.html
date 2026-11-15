@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Wellness Trends</title>
+<link href="./wellness-trends.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body data-page="trends">
+<div class="app">
+<aside class="sidebar">
+<a class="brand" href="counsellor-dashboard.html">
+<span class="brand-mark"><i data-lucide="heart-handshake"></i></span>
+<span><span class="brand-name">Campus<span>Well</span></span><span class="brand-caption">Counsellor Portal</span></span>
+</a>
+<nav class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a aria-current="page" class="nav-link active" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="sidebar-spacer"></div>
+<div class="sidebar-user"><div class="sidebar-avatar">SM</div><div><strong>Counsellor</strong><span>Dr. Sarah Mitchell</span></div></div>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<label class="global-search"><i data-lucide="search"></i><input id="globalSearch" placeholder="Search students, IDs or keywords..." type="search"/></label>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button" id="notificationButton"><i data-lucide="bell"></i><span class="bell-dot"></span></button>
+<button class="profile-button" id="profileButton"><span class="avatar">SM</span><span class="profile-copy"><strong>Dr. Sarah Mitchell</strong><span>Counsellor</span></span><i data-lucide="chevron-down"></i></button>
+</div>
+</header>
+<section class="page-content">
+<div class="page-heading">
+<div class="heading-title"><div class="heading-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><p class="eyebrow">WELLNESS CHECK-INS</p><h1>Wellness Trends</h1><p class="page-subtitle">Track changes in mood, stress and wellbeing over time.</p></div></div>
+<select aria-label="Select date range" class="period-select" id="trendPeriod"><option value="7">Apr 22 – Apr 28, 2026</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select>
+</div>
+<div class="trends-grid">
+<article class="card mini-chart-card"><h3>Mood Trend</h3><p>Average mood score</p><svg aria-label="Mood trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><path d="M20 96 L20 78 L48 58 L76 66 L104 39 L132 48 L160 32 L188 44 L210 24 L210 96Z" fill="#2db88c" opacity=".1"></path><polyline class="chart-line green" points="20,78 48,58 76,66 104,39 132,48 160,32 188,44 210,24"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
+<article class="card mini-chart-card"><h3>Stress Trend</h3><p>Average stress score</p><svg aria-label="Stress trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><polyline class="chart-line purple" points="20,33 48,58 76,48 104,66 132,55 160,68 188,58 210,65"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
+<article class="card mini-chart-card"><h3>Sleep Quality</h3><p>Average sleep rating</p><svg aria-label="Sleep quality trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><polyline class="chart-line" points="20,65 48,44 76,52 104,38 132,42 160,36 188,40 210,20"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
+<article class="card mini-chart-card"><h3>Energy Level</h3><p>Average energy rating</p><svg aria-label="Energy level trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><polyline class="chart-line orange" points="20,36 48,54 76,42 104,63 132,49 160,58 188,41 210,51"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
+</div>
+<div class="trends-lower">
+<section class="card"><div class="card-header"><div><h2>Wellbeing Distribution</h2><p>Reported rating distribution across recent check-ins.</p></div><div class="chart-legend"><span class="legend-item"><span class="legend-dot green"></span>Mood</span><span class="legend-item"><span class="legend-dot purple"></span>Stress</span><span class="legend-item"><span class="legend-dot"></span>Sleep</span><span class="legend-item"><span class="legend-dot orange"></span>Energy</span></div></div><div class="distribution-wrap"><div class="distribution-chart"><div class="distribution-group"><div class="bars"><span class="bar" style="height:46%"></span><span class="bar purple" style="height:77%"></span><span class="bar green" style="height:64%"></span><span class="bar orange" style="height:41%"></span></div><span class="distribution-label">Very good</span></div><div class="distribution-group"><div class="bars"><span class="bar" style="height:74%"></span><span class="bar purple" style="height:55%"></span><span class="bar green" style="height:70%"></span><span class="bar orange" style="height:66%"></span></div><span class="distribution-label">Good</span></div><div class="distribution-group"><div class="bars"><span class="bar" style="height:58%"></span><span class="bar purple" style="height:45%"></span><span class="bar green" style="height:52%"></span><span class="bar orange" style="height:42%"></span></div><span class="distribution-label">Okay</span></div><div class="distribution-group"><div class="bars"><span class="bar" style="height:25%"></span><span class="bar purple" style="height:34%"></span><span class="bar green" style="height:22%"></span><span class="bar orange" style="height:19%"></span></div><span class="distribution-label">Low</span></div><div class="distribution-group"><div class="bars"><span class="bar" style="height:9%"></span><span class="bar purple" style="height:19%"></span><span class="bar green" style="height:8%"></span><span class="bar orange" style="height:14%"></span></div><span class="distribution-label">Very low</span></div></div></div></section>
+<section class="card"><div class="card-header"><div><h2><i data-lucide="lightbulb"></i> Key Insights</h2><p>Patterns to consider during counsellor review.</p></div></div><div class="insights-list"><div class="insight-item"><span></span>Average mood ratings have improved across this sample week.</div><div class="insight-item"><span></span>Some students report high stress even when mood is rated as okay.</div><div class="insight-item"><span></span>Sleep quality is worth exploring when students report low energy.</div><div class="insight-item"><span></span>Consider reaching out when a student repeatedly reports low mood or high stress.</div><p class="disclaimer">These are descriptive patterns in self-reported data, not clinical diagnoses or automated risk determinations.</p></div></section>
+</div>
+</section>
+</main>
+</div>
+<div aria-labelledby="modalTitle" aria-modal="true" class="modal-backdrop" id="modalBackdrop" role="dialog">
+<div class="modal-card">
+<button aria-label="Close" class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+<div class="modal-symbol"><i data-lucide="heart-pulse"></i></div>
+<h2 id="modalTitle">CampusWell</h2>
+<p id="modalMessage"></p>
+<button class="primary-button" id="modalOk">Got it</button>
+</div>
+</div>
+<script src="./wellness-trends.js"></script>
+<script>if (window.lucide) { lucide.createIcons(); }</script>
+</body>
+</html>

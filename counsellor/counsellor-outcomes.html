@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<meta content="#102d50" name="theme-color"/>
+<title>CampusWell | Outcomes</title>
+<link href="./counsellor-outcomes.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+<div class="app-shell">
+<aside class="sidebar">
+<a class="brand" href="counsellor-dashboard.html">
+<span class="brand-mark">CW</span>
+<span class="brand-copy"><strong>Campus<span>Well</span></strong><small>Counsellor Portal</small></span>
+</a>
+<nav aria-label="Main navigation" class="main-nav">
+                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a class="nav-link" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a aria-current="page" class="nav-link active" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+            </nav>
+<div class="sidebar-divider"></div>
+<p class="sidebar-label">ACCOUNT</p>
+<nav aria-label="Account navigation" class="account-nav">
+<a class="nav-link" data-local-action="Profile" href="#profile"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link" data-local-action="Notifications" href="#notifications"><i data-lucide="bell"></i><span>Notifications</span><span class="nav-count">3</span></a>
+<a class="nav-link" data-local-action="Settings" href="#settings"><i data-lucide="settings"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-spacer"></div>
+<section class="support-card">
+<div class="support-icon"><i data-lucide="headphones"></i></div>
+<h2>Need Assistance?</h2>
+<p>Contact CampusWell administration for portal support.</p>
+<button class="support-button" id="supportButton" type="button">Contact Support <i data-lucide="arrow-right"></i></button>
+</section>
+<a class="logout-link" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a>
+</aside>
+<main class="main-area">
+<header class="topbar">
+<label class="global-search"><i data-lucide="search"></i><input aria-label="Search outcomes" id="globalSearch" placeholder="Search students, interventions or records..." type="search"/></label>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button notification-button" id="notificationButton" type="button"><i data-lucide="bell"></i><span class="notification-dot">3</span></button>
+<div class="profile-divider"></div>
+<button aria-label="Counsellor profile" class="profile-button" id="profileButton" type="button">
+<span class="profile-avatar">DS</span>
+<span class="profile-copy"><strong>Dr. Sharma</strong><small>Counsellor</small></span>
+<i data-lucide="chevron-down"></i>
+</button>
+</div>
+</header>
+<div class="page-content">
+<section class="page-heading">
+<div>
+<h1>Outcomes</h1>
+<p>Track student progress, measure impact and build stronger futures.</p>
+</div>
+<button class="primary-button" id="recordOutcomeButton" type="button"><i data-lucide="plus"></i>Record Outcome</button>
+</section>
+<section aria-label="Outcome summary" class="overview-grid">
+<article class="progress-highlight panel">
+<div aria-label="Overall improvement rate" class="ring-wrap" id="improvementRingWrap">
+<div class="progress-ring" id="progressRing"><div class="progress-ring-inner"><strong id="overallImprovement">72%</strong><span>Overall<br/>Improvement Rate</span></div></div>
+</div>
+<div class="progress-copy">
+<h2>Student Progress at a Glance</h2>
+<p class="progress-description" id="progressDescription">Current results are calculated from the outcome records saved in this browser.</p>
+<div class="change-list">
+<div><span class="change-arrow positive" id="scoreGainArrow">↗</span><strong id="scoreGainMetric">+13 pts</strong><span>Average assessment score change</span></div>
+<div><span class="change-arrow positive">↗</span><strong id="goalRateMetric">52%</strong><span>Goals achieved</span></div>
+<div><span class="change-arrow positive" id="supportRateArrow">↘</span><strong id="supportRateMetric">20%</strong><span>Need for further support</span></div>
+</div>
+</div>
+<svg aria-hidden="true" class="leaf-art" viewbox="0 0 110 180">
+<path d="M53 177C56 132 61 90 83 22" fill="none" stroke="#bdd9ec" stroke-width="2"></path>
+<path d="M62 125C27 121 16 100 17 74C45 80 63 94 62 125Z" fill="#d8eaf7"></path>
+<path d="M64 108C85 99 97 79 94 57C72 66 62 82 64 108Z" fill="#cde3f3"></path>
+<path d="M73 74C48 63 43 43 51 24C69 38 77 54 73 74Z" fill="#e3f0fa"></path>
+<path d="M53 151C25 149 12 133 10 112C32 115 49 129 53 151Z" fill="#e6f2fa"></path>
+</svg>
+</article>
+<div class="stat-grid">
+<article class="stat-card panel">
+<div class="stat-icon stat-blue"><i data-lucide="clipboard-list"></i></div>
+<div class="stat-copy"><span>Assessments Completed</span><strong id="assessmentsMetric">5</strong><small class="trend-positive" id="assessmentsCaption">Recorded evaluations</small></div>
+</article>
+<article class="stat-card panel">
+<div class="stat-icon stat-green"><i data-lucide="chart-no-axes-combined"></i></div>
+<div class="stat-copy"><span>Students Improved</span><strong id="improvedMetric">40%</strong><small class="trend-positive" id="improvedCaption">Share of all outcomes</small></div>
+</article>
+<article class="stat-card panel">
+<div class="stat-icon stat-purple"><i data-lucide="target"></i></div>
+<div class="stat-copy"><span>Goals Achieved</span><strong id="goalsMetric">52%</strong><small class="trend-positive" id="goalsCaption">Of all recorded goals</small></div>
+</article>
+<article class="stat-card panel">
+<div class="stat-icon stat-orange"><i data-lucide="heart-handshake"></i></div>
+<div class="stat-copy"><span>Further Support Recommended</span><strong id="supportMetric">1</strong><small class="trend-positive" id="supportCaption">Marked for more support</small></div>
+</article>
+</div>
+</section>
+<section aria-label="Outcome charts and insights" class="analytics-grid">
+<article class="chart-panel panel trend-panel">
+<div class="panel-heading chart-heading">
+<div><h2>Progress Trend</h2><p>Initial versus latest assessment scores by evaluation month</p></div>
+<div class="chart-legend"><span><i class="legend-dot legend-teal"></i>Latest Assessment</span><span><i class="legend-dot legend-purple"></i>Initial Assessment</span></div>
+</div>
+<div class="trend-chart-wrap">
+<svg aria-label="Trend chart comparing initial and latest outcome assessment scores" class="trend-chart" id="trendChart" role="img" viewbox="0 0 500 190"></svg>
+</div>
+</article>
+<article class="chart-panel panel distribution-panel">
+<div class="panel-heading"><div><h2>Outcome Distribution</h2></div></div>
+<div class="distribution-content">
+<div aria-label="Outcome distribution based on recorded evaluations" class="donut-chart" id="outcomeDonutChart" role="img"><div class="donut-center"><strong id="distributionTotal">5</strong><span>Total Evaluations</span></div></div>
+<div class="distribution-legend">
+<div><i class="legend-dot legend-teal"></i><span>Improved</span><strong id="distributionImproved">40%</strong></div>
+<div><i class="legend-dot legend-amber"></i><span>No Significant Change</span><strong id="distributionNoChange">40%</strong></div>
+<div><i class="legend-dot legend-pink"></i><span>Needs Further Support</span><strong id="distributionSupport">20%</strong></div>
+</div>
+</div>
+</article>
+<article class="insights-panel panel">
+<div class="insights-heading"><span class="insights-icon"><i data-lucide="lightbulb"></i></span><h2>Key Insights</h2><button aria-label="About key insights" class="mini-icon-button" id="insightsInfo" type="button"><i data-lucide="info"></i></button></div>
+<ul id="keyInsightsList">
+<li>40% of recorded students show improvement after intervention.</li>
+<li>Average assessment change is calculated from the saved records.</li>
+<li>20% of recorded students are marked as needing further support.</li>
+</ul>
+<button class="insights-link" id="detailedInsightsButton" type="button">View detailed insights <i data-lucide="arrow-right"></i></button>
+</article>
+</section>
+<section class="records-panel panel" id="recordsPanel">
+<div class="records-heading">
+<div class="records-title-wrap"><span class="records-icon"><i data-lucide="clipboard-check"></i></span><div><h2>Student Outcome Records</h2><p>View and manage outcome evaluations for all students.</p></div></div>
+<div class="records-tools">
+<label class="table-search"><i data-lucide="search"></i><input aria-label="Search student records" id="tableSearch" placeholder="Search student name or ID..." type="search"/></label>
+<label class="select-wrap"><select aria-label="Filter by outcome" id="outcomeFilter"><option value="all">All Outcomes</option><option value="Improved">Improved</option><option value="No Significant Change">No Significant Change</option><option value="Needs Further Support">Needs Further Support</option></select></label>
+<label class="select-wrap type-select"><select aria-label="Filter by intervention type" id="interventionFilter"><option value="all">All Intervention Types</option><option value="Stress Management">Stress Management</option><option value="Academic Support">Academic Support</option><option value="Wellbeing &amp; Resilience">Wellbeing &amp; Resilience</option><option value="Group Workshop">Group Workshop</option></select></label>
+<label class="date-filter"><i data-lucide="calendar-days"></i><span>Select Date</span><input aria-label="Filter by evaluation date" id="dateFilter" type="date"/></label>
+</div>
+</div>
+<div class="table-scroll">
+<table class="outcomes-table">
+<thead><tr><th>Student Name</th><th>ID</th><th>Intervention Type</th><th>Initial Assessment</th><th>Latest Assessment</th><th>Outcome Status <i data-lucide="arrow-down-up"></i></th><th>Goals Achieved</th><th>Evaluation Date</th><th>Action</th></tr></thead>
+<tbody id="outcomeTableBody"></tbody>
+</table>
+<div class="empty-state" hidden="" id="emptyState"><i data-lucide="search-x"></i><strong>No outcome records found</strong><span>Try another search or clear the filters.</span><button id="clearFiltersButton" type="button">Clear filters</button></div>
+</div>
+<div class="table-footer"><span id="recordCount">Showing 5 of 5 records.</span><span class="sample-note">Sample project data</span></div>
+</section>
+</div>
+</main>
+</div>
+<div class="modal-backdrop" hidden="" id="outcomeModal">
+<section aria-labelledby="modalTitle" aria-modal="true" class="modal-card" role="dialog">
+<div class="modal-header"><div><span class="modal-eyebrow">STUDENT WELLNESS</span><h2 id="modalTitle">Record Outcome</h2><p>Capture the latest assessment and next steps.</p></div><button aria-label="Close form" class="modal-close" id="modalClose" type="button"><i data-lucide="x"></i></button></div>
+<form id="outcomeForm">
+<input id="recordKey" type="hidden"/>
+<div class="form-grid">
+<label class="form-field"><span>Student name</span><input id="studentName" name="studentName" placeholder="Enter student name" required=""/></label>
+<label class="form-field"><span>Student ID</span><input id="studentId" name="studentId" placeholder="e.g. STU1032" required=""/></label>
+<label class="form-field form-field-wide"><span>Intervention type</span><select id="interventionType" name="interventionType" required=""><option value="Stress Management">Stress Management</option><option value="Academic Support">Academic Support</option><option value="Wellbeing &amp; Resilience">Wellbeing &amp; Resilience</option><option value="Group Workshop">Group Workshop</option></select></label>
+<label class="form-field"><span>Initial assessment</span><input id="initialAssessment" max="100" min="0" name="initialAssessment" required="" type="number"/></label>
+<label class="form-field"><span>Latest assessment</span><input id="latestAssessment" max="100" min="0" name="latestAssessment" required="" type="number"/></label>
+<label class="form-field"><span>Outcome status</span><select id="outcomeStatus" name="outcomeStatus" required=""><option value="Improved">Improved</option><option value="No Significant Change">No Significant Change</option><option value="Needs Further Support">Needs Further Support</option></select></label>
+<div class="form-field"><span>Goals achieved</span><div class="goals-inputs"><input aria-label="Goals achieved" id="goalsDone" max="20" min="0" required="" type="number"/><span>of</span><input aria-label="Total goals" id="goalsTotal" max="20" min="1" required="" type="number"/></div></div>
+<label class="form-field form-field-wide"><span>Evaluation date</span><input id="evaluationDate" name="evaluationDate" required="" type="date"/></label>
+<label class="form-field form-field-wide"><span>Counsellor observations and recommended next steps</span><textarea id="outcomeNotes" name="outcomeNotes" placeholder="Add a concise progress note or recommendation..." rows="3"></textarea></label>
+</div>
+<div class="modal-actions"><button class="secondary-button" id="modalCancel" type="button">Cancel</button><button class="primary-button" id="saveOutcomeButton" type="submit"><i data-lucide="save"></i>Save Outcome</button></div>
+</form>
+</section>
+</div>
+<div aria-live="polite" class="toast" id="toast" role="status"><i data-lucide="check-circle-2"></i><span id="toastText">Saved</span></div>
+<script src="./counsellor-outcomes.js"></script>
+</body>
+</html>

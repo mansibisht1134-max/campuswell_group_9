@@ -1,267 +1,336 @@
 <!DOCTYPE html>
+
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <title>CampusWell - Counsellor Dashboard</title>
-
-    <link rel="stylesheet" href="./counsellor-dashboard.css">
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1.0" name="viewport"/>
+<title>CampusWell | Counsellor Dashboard</title>
+<link href="counsellor-dashboard.css" rel="stylesheet"/>
+<script src="https://unpkg.com/lucide@latest"></script>
 </head>
-
 <body>
-    <div class="dashboard-layout">
-        <aside class="sidebar">
-            <div class="sidebar-brand">
-                <div class="logo-icon">
-                    CW
-                </div>
-                <div class="logo-text">
-                    Campus<span>Well</span>
-                </div>
-            </div>
-            <div class="staff-profile">
-                <div class="profile-avatar">
-                    C
-                </div>
-                <div class="profile-info">
-                    <strong>Counsellor</strong>
-                    <span>Staff Portal</span>
-                </div>
-            </div>
-            <nav class="sidebar-nav">
-                <p class="nav-title">
-                    MAIN MENU
-                </p>
-                <a href="./counsellor-dashboard.html" class="nav-link active">
-                    <span>⌂</span> Dashboard
-                </a>
-                <a href="../appointments/appointments.html" class="nav-link">
-                    <span>▣</span> Appointments
-                </a>
-                <a href="../support/support.html" class="nav-link">
-                    <span>☏</span> Student Requests
-                </a>
-                <a href="../appointments/appointments.html" class="nav-link">
-                    <span>↻</span> Follow-ups
-                </a>
-                <a href="../wellness/wellness.html" class="nav-link">
-                    <span>♥</span> Wellness Check-ins
-                </a>
-                <p class="nav-title account-title">
-                    WELLNESS MANAGEMENT
-                </p>
-                <a href="../interventions/interventions.html" class="nav-link">
-                    <span>◆</span> Interventions
-                </a>
-                <a href="../outcomes/outcomes.html" class="nav-link">
-                    <span>✓</span> Outcomes
-                </a>
+<div class="app">
+<aside class="sidebar">
+<div class="brand">
+<div class="brand-logo">CW</div>
+<div>
+<h2>Campus<span>Well</span></h2>
+<p>Counsellor Portal</p>
+</div>
+</div>
+<nav class="main-nav">
+                <a aria-current="page" class="nav-link active" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span><span class="notification-count" id="requestCount">5</span></a>
+                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+                <a class="nav-link" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
             </nav>
-            <div class="sidebar-bottom">
-                <a href="../index.html" class="logout-link">
-                    <span>↪</span> Logout
-                </a>
-            </div>
-        </aside>
-        <main class="dashboard-main">
-            <header class="dashboard-header">
-                <div>
-                    <p class="page-label">
-                        COUNSELLOR PORTAL
-                    </p>
-                    <h1>
-                        Counsellor Dashboard
-                    </h1>
-                    <p class="header-description">
-                        Manage student wellness and support services.
-                    </p>
-                </div>
-                <div class="header-profile">
-                    <div class="notification">
-                        ♢
-                    </div>
-                    <div class="header-avatar">
-                        C
-                    </div>
-                </div>
-            </header>
-            <section class="overview-grid">
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        ▣
-                    </div>
-                    <div>
-                        <span>
-                            TODAY'S APPOINTMENTS
-                        </span>
-                        <strong>
-                            0
-                        </strong>
-                    </div>
-                </div>
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        ☏
-                    </div>
-                    <div>
-                        <span>
-                            SUPPORT REQUESTS
-                        </span>
-                        <strong>
-                            0
-                        </strong>
-                    </div>
-                </div>
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        ♥
-                    </div>
-                    <div>
-                        <span>
-                            WELLNESS CHECK-INS
-                        </span>
-                        <strong>
-                            0
-                        </strong>
-                    </div>
-                </div>
-                <div class="overview-card">
-                    <div class="overview-icon">
-                        ↻
-                    </div>
-                    <div>
-                        <span>
-                            FOLLOW-UPS
-                        </span>
-                        <strong>
-                            0
-                        </strong>
-                    </div>
-                </div>
-            </section>
-            <section class="welcome-card">
-                <div>
-                    <p class="welcome-label">
-                        STUDENT SUPPORT
-                    </p>
-                    <h2>
-                        Support your students' wellbeing.
-                    </h2>
-                    <p>
-                        Review appointments, respond to student requests and manage wellness follow-ups from one place.
-                    </p>
-                </div>
-                <a href="../appointments/appointments.html" class="primary-button">
-                    View Appointments
-                </a>
-            </section>
-            <section class="dashboard-section">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-label">
-                            QUICK ACCESS
-                        </p>
-                        <h2>
-                            Counsellor Services
-                        </h2>
-                    </div>
-                </div>
-                <div class="service-grid">
-                    <a href="../appointments/appointments.html" class="service-card">
-                        <div class="service-icon">
-                            ▣
-                        </div>
-                        <h3>
-                            Appointments
-                        </h3>
-                        <p>
-                            View and manage upcoming student counselling appointments.
-                        </p>
-                        <span>
-                            Open →
-                        </span>
-                    </a>
-                    <a href="../support/support.html" class="service-card">
-                        <div class="service-icon">
-                            ☏
-                        </div>
-                        <h3>
-                            Student Requests
-                        </h3>
-                        <p>
-                            Review support requests submitted by students.
-                        </p>
-                        <span>
-                            Open →
-                        </span>
-                    </a>
-                    <a href="../wellness/wellness.html" class="service-card">
-                        <div class="service-icon">
-                            ♥
-                        </div>
-                        <h3>
-                            Wellness Check-ins
-                        </h3>
-                        <p>
-                            Review wellness information submitted through student check-ins.
-                        </p>
-                        <span>
-                            Open →
-                        </span>
-                    </a>
-                    <a href="../appointments/appointments.html" class="service-card">
-                        <div class="service-icon">
-                            ↻
-                        </div>
-                        <h3>
-                            Follow-ups
-                        </h3>
-                        <p>
-                            Track students who require continued counselling support.
-                        </p>
-                        <span>
-                            Coming soon →
-                        </span>
-                    </a>
-                    <a href="../interventions/interventions.html" class="service-card">
-                        <div class="service-icon">
-                            ◆
-                        </div>
-                        <h3>
-                            Interventions
-                        </h3>
-                        <p>
-                            Record and manage student wellness interventions.
-                        </p>
-                        <span>
-                            Coming soon →
-                        </span>
-                    </a>
-                    <a href="../outcomes/outcomes.html" class="service-card">
-                        <div class="service-icon">
-                            ✓
-                        </div>
-                        <h3>
-                            Outcomes
-                        </h3>
-                        <p>
-                            Track outcomes and follow-up information for student support.
-                        </p>
-                        <span>
-                            Coming soon →
-                        </span>
-                    </a>
-                </div>
-            </section>
-            <footer class="dashboard-footer">
-                <p>
-                    CampusWell · Student Wellness Management System
-                </p>
-            </footer>
-        </main>
-    </div>
+<div class="nav-divider"></div>
+<div class="nav-heading">ACCOUNT</div>
+<nav class="account-nav">
+<a class="nav-link" data-page="Profile" href="#"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link" data-page="Notifications" href="#"><i data-lucide="bell"></i><span>Notifications</span><span class="notification-count" id="notificationCount">3</span></a>
+<a class="nav-link" data-page="Settings" href="#"><i data-lucide="settings-2"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-support">
+<div class="support-icon"><i data-lucide="headphones"></i></div>
+<h3>Need Assistance?</h3>
+<p>Contact CampusWell administration for portal support.</p>
+<a href="#" id="supportButton">Contact Support <i data-lucide="arrow-right"></i></a>
+</div>
+<a class="logout" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a>
+</aside>
+<main class="main-content">
+<header class="topbar">
+<div class="search-box">
+<i data-lucide="search"></i>
+<input id="dashboardSearch" placeholder="Search students, appointments or requests" type="text"/>
+</div>
+<div class="topbar-right">
+<button aria-label="Notifications" class="icon-button" id="notificationButton">
+<i data-lucide="bell"></i>
+<span class="bell-dot">3</span>
+</button>
+<div class="counsellor-profile">
+<div class="avatar">DS</div>
+<div class="profile-info">
+<h4>Dr. Sharma</h4>
+<p>Counsellor</p>
+</div>
+</div>
+</div>
+</header>
+<section class="dashboard-content">
+<div class="welcome-row">
+<div>
+<span class="welcome-label">COUNSELLOR DASHBOARD</span>
+<h1>Welcome back, Dr. Sharma</h1>
+<p>Here is your student wellness overview for today.</p>
+</div>
+<button class="primary-button" id="newAppointmentButton"><i data-lucide="plus"></i> New Appointment</button>
+</div>
+<div class="insight-banner">
+<div class="insight-icon"><i data-lucide="sparkles"></i></div>
+<div>
+<strong>Today’s focus</strong>
+<p>You have 4 counselling sessions and 2 follow-ups scheduled today.</p>
+</div>
+<span class="banner-date">Monday, 5 October 2026</span>
+</div>
+<div class="stats-grid">
+<div class="stat-card">
+<div class="stat-top">
+<div class="stat-icon blue"><i data-lucide="calendar-check-2"></i></div>
+<span class="stat-trend">Today</span>
+</div>
+<h3 id="todayAppointments">4</h3>
+<p>Today's Appointments</p>
+<span class="stat-detail">2 sessions remaining</span>
+</div>
+<div class="stat-card">
+<div class="stat-top">
+<div class="stat-icon purple"><i data-lucide="message-circle-more"></i></div>
+<span class="stat-trend">New</span>
+</div>
+<h3 id="pendingRequests">5</h3>
+<p>Pending Requests</p>
+<span class="stat-detail">3 require attention</span>
+</div>
+<div class="stat-card">
+<div class="stat-top">
+<div class="stat-icon orange"><i data-lucide="clipboard-clock"></i></div>
+<span class="stat-trend">Due</span>
+</div>
+<h3 id="followUps">2</h3>
+<p>Follow-ups Due</p>
+<span class="stat-detail">Due within 48 hours</span>
+</div>
+<div class="stat-card">
+<div class="stat-top">
+<div class="stat-icon green"><i data-lucide="users-round"></i></div>
+<span class="stat-trend">Active</span>
+</div>
+<h3 id="activeStudents">38</h3>
+<p>Active Students</p>
+<span class="stat-detail">Currently under support</span>
+</div>
+</div>
+<div class="dashboard-grid">
+<section class="panel appointments-panel">
+<div class="panel-header">
+<div>
+<h2>Today's Appointments</h2>
+<p>Your scheduled counselling sessions.</p>
+</div>
+<a class="text-button" href="counsellor-appointments.html">View All <i data-lucide="arrow-up-right"></i></a>
+</div>
+<div class="appointment-list" id="appointmentList">
+<div class="appointment-item" data-search="Aarav Mehta stress management 10:00 am counselling">
+<div class="time-block">
+<strong>10:00</strong>
+<span>AM</span>
+</div>
+<div class="appointment-info">
+<strong>Aarav Mehta</strong>
+<span>Stress Management · Individual Session</span>
+</div>
+<span class="status scheduled">Scheduled</span>
+<button class="small-button session-button">View</button>
+</div>
+<div class="appointment-item" data-search="Simran Kaur anxiety 11:30 am counselling">
+<div class="time-block">
+<strong>11:30</strong>
+<span>AM</span>
+</div>
+<div class="appointment-info">
+<strong>Simran Kaur</strong>
+<span>Academic Anxiety · Follow-up</span>
+</div>
+<span class="status confirmed">Confirmed</span>
+<button class="small-button session-button">View</button>
+</div>
+<div class="appointment-item" data-search="Rohan Singh wellbeing 2:00 pm counselling">
+<div class="time-block">
+<strong>02:00</strong>
+<span>PM</span>
+</div>
+<div class="appointment-info">
+<strong>Rohan Singh</strong>
+<span>General Wellbeing · Individual Session</span>
+</div>
+<span class="status confirmed">Confirmed</span>
+<button class="small-button session-button">View</button>
+</div>
+<div class="appointment-item" data-search="Ananya Sharma adjustment 4:00 pm counselling">
+<div class="time-block">
+<strong>04:00</strong>
+<span>PM</span>
+</div>
+<div class="appointment-info">
+<strong>Ananya Sharma</strong>
+<span>Campus Adjustment · First Session</span>
+</div>
+<span class="status scheduled">Scheduled</span>
+<button class="small-button session-button">View</button>
+</div>
+</div>
+</section>
+<section class="panel support-panel">
+<div class="panel-header">
+<div>
+<h2>Student Support Requests</h2>
+<p>Recent requests awaiting action.</p>
+</div>
+<a class="text-button" href="counsellor-request.html">View All <i data-lucide="arrow-up-right"></i></a>
+</div>
+<div class="request-list">
+<div class="request-item">
+<div class="request-avatar">PK</div>
+<div class="request-info">
+<strong>Priya Kapoor</strong>
+<span>Academic Pressure · 18 min ago</span>
+</div>
+<span class="priority high">High</span>
+</div>
+<div class="request-item">
+<div class="request-avatar">RM</div>
+<div class="request-info">
+<strong>Rahul Malik</strong>
+<span>Personal Support · 42 min ago</span>
+</div>
+<span class="priority medium">Medium</span>
+</div>
+<div class="request-item">
+<div class="request-avatar">NS</div>
+<div class="request-info">
+<strong>Neha Singh</strong>
+<span>Sleep &amp; Wellbeing · 1 hr ago</span>
+</div>
+<span class="priority low">Low</span>
+</div>
+</div>
+</section>
+<section class="panel followup-panel">
+<div class="panel-header">
+<div>
+<h2>Follow-ups Due</h2>
+<p>Students requiring your attention.</p>
+</div>
+<a class="text-button" href="counsellor-followups.html">View All <i data-lucide="arrow-up-right"></i></a>
+</div>
+<div class="followup-list">
+<div class="followup-item">
+<div>
+<strong>Vansh Gupta</strong>
+<span>Stress Management</span>
+</div>
+<div class="followup-date"><strong>Today</strong><span>03:30 PM</span></div>
+<button aria-label="Open follow-up" class="icon-action"><i data-lucide="chevron-right"></i></button>
+</div>
+<div class="followup-item">
+<div>
+<strong>Mehak Jain</strong>
+<span>Academic Concerns</span>
+</div>
+<div class="followup-date"><strong>Tomorrow</strong><span>11:00 AM</span></div>
+<button aria-label="Open follow-up" class="icon-action"><i data-lucide="chevron-right"></i></button>
+</div>
+</div>
+</section>
+<section class="panel wellness-panel">
+<div class="panel-header">
+<div>
+<h2>Wellness Check-ins</h2>
+<p>Recent student wellness activity.</p>
+</div>
+<a class="text-button" href="wellness-checkins.html">View All <i data-lucide="arrow-up-right"></i></a>
+</div>
+<div class="wellness-summary">
+<div class="wellness-score">
+<div class="score-ring"><strong>78%</strong><span>Healthy</span></div>
+<div>
+<strong>Overall Wellness</strong>
+<p>Based on recent student check-ins.</p>
+</div>
+</div>
+<div class="wellness-metrics">
+<div><span>Completed</span><strong>31</strong></div>
+<div><span>Needs Review</span><strong>4</strong></div>
+<div><span>High Concern</span><strong>2</strong></div>
+</div>
+</div>
+</section>
+<section class="panel activity-panel">
+<div class="panel-header">
+<div>
+<h2>Recent Activity</h2>
+<p>Latest actions across your portal.</p>
+</div>
+</div>
+<div class="activity-list">
+<div class="activity-item">
+<div class="activity-icon blue"><i data-lucide="calendar-check-2"></i></div>
+<div><strong>Appointment completed</strong><span>Session with Kavya Verma · 32 min ago</span></div>
+</div>
+<div class="activity-item">
+<div class="activity-icon purple"><i data-lucide="message-square-plus"></i></div>
+<div><strong>New support request</strong><span>Priya Kapoor submitted a request · 1 hr ago</span></div>
+</div>
+<div class="activity-item">
+<div class="activity-icon green"><i data-lucide="clipboard-check"></i></div>
+<div><strong>Follow-up scheduled</strong><span>Follow-up added for Vansh Gupta · 2 hrs ago</span></div>
+</div>
+<div class="activity-item">
+<div class="activity-icon orange"><i data-lucide="heart-pulse"></i></div>
+<div><strong>Wellness check-in reviewed</strong><span>Student check-in marked for follow-up · 3 hrs ago</span></div>
+</div>
+</div>
+</section>
+<section class="panel analytics-panel">
+<div class="panel-header">
+<div>
+<h2>Support Overview</h2>
+<p>Current student support distribution.</p>
+</div>
+<a class="text-button" href="counsellor-outcomes.html">Analytics <i data-lucide="arrow-up-right"></i></a>
+</div>
+<div class="overview-bars">
+<div class="overview-row">
+<div><span>Academic</span><strong>14</strong></div>
+<div class="bar"><i style="width:82%"></i></div>
+</div>
+<div class="overview-row">
+<div><span>Stress &amp; Anxiety</span><strong>11</strong></div>
+<div class="bar"><i style="width:65%"></i></div>
+</div>
+<div class="overview-row">
+<div><span>Personal</span><strong>8</strong></div>
+<div class="bar"><i style="width:47%"></i></div>
+</div>
+<div class="overview-row">
+<div><span>Other</span><strong>5</strong></div>
+<div class="bar"><i style="width:30%"></i></div>
+</div>
+</div>
+</section>
+</div>
+</section>
+</main>
+</div>
+<div class="modal" id="modal">
+<div class="modal-card">
+<button class="modal-close" id="modalClose"><i data-lucide="x"></i></button>
+<div class="modal-icon"><i data-lucide="headphones"></i></div>
+<h2 id="modalTitle">CampusWell Support</h2>
+<p id="modalText">This module will be connected to the FastAPI backend and PostgreSQL database.</p>
+<button class="primary-button modal-button" id="modalButton">Close</button>
+</div>
+</div>
+<script src="counsellor-dashboard.js"></script>
+<script>
+        lucide.createIcons();
+    </script>
 </body>
-
 </html>
