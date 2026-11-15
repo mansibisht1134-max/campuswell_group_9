@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusWell | Notifications</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",Arial,sans-serif;background:#f1f7fd;color:#173b60;min-height:100vh}.wrap{max-width:1000px;margin:auto;padding:30px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;background:#102f52;color:#fff;padding:22px 28px;border-radius:14px;margin-bottom:22px}.top p{color:#c6def3;margin-top:5px}.top a{color:#102f52;background:#d8edff;text-decoration:none;padding:11px 17px;border-radius:8px;font-weight:600}.intro{margin:10px 0 20px}.intro p{color:#6685a2;margin-top:6px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.toolbar button{border:1px solid #b9d4eb;background:white;color:#075b9c;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer}.count{color:#6685a2;font-size:14px}.list{display:grid;gap:12px}.notice{display:flex;gap:15px;align-items:flex-start;background:white;border:1px solid #deebf7;border-radius:13px;padding:19px;box-shadow:0 4px 14px #173b6008}.notice.unread{border-left:4px solid #1684ce;background:#fbfdff}.ico{width:43px;height:43px;min-width:43px;border-radius:12px;background:#e4f2ff;display:grid;place-items:center;font-size:20px}.body{flex:1}.body h3{font-size:16px;margin:2px 0 6px}.body p{color:#5e7d9b;font-size:14px;line-height:1.5}.time{font-size:12px;color:#8aa1b7;margin-top:8px}.tag{font-size:11px;font-weight:700;color:#0874b9;background:#e4f3ff;padding:5px 8px;border-radius:20px;white-space:nowrap}.empty{display:none;text-align:center;padding:40px;background:white;border-radius:12px;color:#6685a2}@media(max-width:600px){.wrap{padding:14px}.top{align-items:flex-start;flex-direction:column}.notice{padding:14px}.toolbar{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div><h1>CampusWell</h1><p>Your notifications</p></div><a href="../dashboard/dashboard.html">← Back to Dashboard</a></header>
+<section class="intro"><h2>Notifications</h2><p>Stay updated on your appointments, wellness activity and support requests.</p></section>
+<div class="toolbar"><span class="count" id="count">3 unread notifications</span><button id="markAll" type="button">Mark all as read</button></div>
+<section class="list" id="list">
+<article class="notice unread" data-id="appointment"><div class="ico">📅</div><div class="body"><h3>Appointment reminder</h3><p>You have an upcoming counselling appointment. Review your appointment details and make sure you're prepared.</p><div class="time">Appointment update · Recent</div></div><span class="tag">NEW</span></article>
+<article class="notice unread" data-id="wellness"><div class="ico">💙</div><div class="body"><h3>Wellness check-in reminder</h3><p>Take a moment to complete your wellness check-in and keep track of how you're feeling.</p><div class="time">Wellness reminder · Recent</div></div><span class="tag">NEW</span></article>
+<article class="notice unread" data-id="support"><div class="ico">💬</div><div class="body"><h3>Support is available</h3><p>If you need assistance, you can reach out to the counselling and support team through CampusWell.</p><div class="time">Support update · Recent</div></div><span class="tag">NEW</span></article>
+</section><div class="empty" id="empty">You're all caught up. No notifications to show.</div>
+</main>
+<script>
+const notices=[...document.querySelectorAll('.notice')];const read=JSON.parse(localStorage.getItem('campuswellReadNotifications')||'[]');
+function render(){notices.forEach(n=>{const isRead=read.includes(n.dataset.id);n.classList.toggle('unread',!isRead);const tag=n.querySelector('.tag');if(tag)tag.style.display=isRead?'none':'inline-block'});const unread=notices.filter(n=>!read.includes(n.dataset.id)).length;document.getElementById('count').textContent=unread+' unread notification'+(unread===1?'':'s');document.getElementById('empty').style.display=notices.length?'none':'block'}
+notices.forEach(n=>n.addEventListener('click',()=>{if(!read.includes(n.dataset.id))read.push(n.dataset.id);localStorage.setItem('campuswellReadNotifications',JSON.stringify(read));render()}));
+document.getElementById('markAll').addEventListener('click',()=>{notices.forEach(n=>{if(!read.includes(n.dataset.id))read.push(n.dataset.id)});localStorage.setItem('campuswellReadNotifications',JSON.stringify(read));render()});render();
+</script></body></html>
