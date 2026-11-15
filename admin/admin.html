@@ -31,7 +31,7 @@
                     Administrator Login
                 </h1>
                 <p class="login-description">
-                    Sign in to manage users, analytics, interventions, outcomes and institutional wellness services.
+                    Sign in to view institutional student wellness analytics.
                 </p>
                 <form id="loginForm">
                     <div class="form-group">
@@ -97,11 +97,11 @@
                 return;
             }
             loginMessage.textContent =
-                "Login successful. Opening administrator dashboard...";
+                "Login successful. Opening Admin Analytics...";
             loginMessage.style.color = "#218c5a";
             setTimeout(function() {
                 window.location.href =
-                    "./admin-dashboard.html";
+                    "../analytics/analytics.html";
             }, 700);
         });
     </script>
