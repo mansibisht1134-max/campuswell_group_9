@@ -106,19 +106,7 @@ a {
 .account-nav {
     display: flex;
     flex-direction: column;
-    gap: 5px;
-}
-
-.account-nav {
-    position: relative;
-    z-index: 30;
-}
-
-.account-nav .nav-link {
-    position: relative;
-    z-index: 31;
-    pointer-events: auto;
-    cursor: pointer;
+    gap: 5px
 }
 
 .nav-link {
