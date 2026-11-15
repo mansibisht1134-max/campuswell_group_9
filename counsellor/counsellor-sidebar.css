@@ -1,0 +1,267 @@
+/* One shared sidebar for every page in the Counsellor Portal */
+.sidebar {
+    position: fixed !important;
+    inset: 0 auto 0 0 !important;
+    z-index: 30 !important;
+    display: flex !important;
+    flex-direction: column !important;
+    width: 267px !important;
+    min-width: 267px !important;
+    height: 100vh !important;
+    min-height: 100vh !important;
+    padding: 17px 10px 20px !important;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+    color: #fff !important;
+    background: linear-gradient(160deg, #052c54, #032749) !important;
+    scrollbar-width: thin;
+    scrollbar-color: #28618d #032749;
+}
+.sidebar .brand {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    min-height: 0 !important;
+    padding: 0 14px !important;
+    margin: 0 0 29px !important;
+    color: #fff !important;
+    text-decoration: none !important;
+}
+.sidebar .brand-logo,
+.sidebar .brand-mark {
+    width: 49px !important;
+    height: 49px !important;
+    min-width: 49px !important;
+    flex: 0 0 49px !important;
+    display: grid !important;
+    place-items: center !important;
+    border: 0 !important;
+    border-radius: 12px !important;
+    color: #fff !important;
+    background: linear-gradient(135deg, #4ab8ff, #1384dc) !important;
+    font-size: 20px !important;
+    font-weight: 800 !important;
+    letter-spacing: -.5px !important;
+}
+.sidebar .brand-logo svg,
+.sidebar .brand-mark svg { width: 23px !important; height: 23px !important; }
+.sidebar .brand h2,
+.sidebar .brand-copy strong,
+.sidebar .brand-name {
+    display: block !important;
+    margin: 0 !important;
+    color: #fff !important;
+    font-size: 21px !important;
+    font-weight: 700 !important;
+    letter-spacing: -.5px !important;
+    line-height: 1.15 !important;
+}
+.sidebar .brand h2 span,
+.sidebar .brand-copy strong span,
+.sidebar .brand-name span { color: #36b4ff !important; }
+.sidebar .brand p,
+.sidebar .brand-copy small,
+.sidebar .brand-caption {
+    display: block !important;
+    margin: 4px 0 0 !important;
+    color: #b4d0e9 !important;
+    font-size: 11px !important;
+    line-height: 1.3 !important;
+}
+.sidebar .main-nav,
+.sidebar .account-nav {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 5px !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: visible !important;
+}
+.sidebar .nav-link {
+    position: relative !important;
+    display: flex !important;
+    align-items: center !important;
+    gap: 16px !important;
+    width: 100% !important;
+    min-height: 48px !important;
+    flex: 0 0 48px !important;
+    padding: 0 17px !important;
+    border: 0 !important;
+    border-radius: 9px !important;
+    color: #f0f6ff !important;
+    background: transparent !important;
+    font-family: inherit !important;
+    font-size: 13px !important;
+    font-weight: 500 !important;
+    line-height: 1.2 !important;
+    text-decoration: none !important;
+    white-space: nowrap !important;
+    transition: background .2s ease, color .2s ease, transform .2s ease !important;
+}
+.sidebar .nav-link > svg,
+.sidebar .nav-link > i {
+    display: block !important;
+    width: 21px !important;
+    height: 21px !important;
+    min-width: 21px !important;
+    flex: 0 0 21px !important;
+    stroke-width: 2 !important;
+}
+.sidebar .nav-link:hover {
+    color: #fff !important;
+    background: #124d7f !important;
+    transform: translateX(2px);
+}
+.sidebar .nav-link.active {
+    color: #fff !important;
+    background: linear-gradient(100deg, #168bce, #15558e) !important;
+    font-weight: 700 !important;
+    box-shadow: 0 5px 14px rgba(0,0,0,.12) !important;
+}
+.sidebar .notification-count,
+.sidebar .nav-count {
+    display: grid !important;
+    place-items: center !important;
+    width: 21px !important;
+    height: 21px !important;
+    min-width: 21px !important;
+    flex: 0 0 21px !important;
+    margin-left: auto !important;
+    border-radius: 50% !important;
+    color: #fff !important;
+    background: #fa5b55 !important;
+    font-size: 11px !important;
+    font-weight: 600 !important;
+}
+.sidebar .nav-divider,
+.sidebar .sidebar-divider {
+    height: 1px !important;
+    min-height: 1px !important;
+    margin: 18px 15px 22px !important;
+    padding: 0 !important;
+    background: #275176 !important;
+}
+.sidebar .nav-heading,
+.sidebar .sidebar-label {
+    display: block !important;
+    margin: 0 0 10px !important;
+    padding: 0 17px !important;
+    color: #29c2f7 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    letter-spacing: 0 !important;
+}
+.sidebar .sidebar-support,
+.sidebar .sidebar-help,
+.sidebar .support-card {
+    display: block !important;
+    margin: auto 13px 32px !important;
+    padding: 21px 16px !important;
+    border: 1px solid #075c91 !important;
+    border-radius: 14px !important;
+    background: linear-gradient(145deg, #07345d, #05294d) !important;
+    color: #fff !important;
+}
+.sidebar .support-icon,
+.sidebar .help-icon {
+    display: grid !important;
+    place-items: center !important;
+    width: 44px !important;
+    height: 44px !important;
+    margin: 0 0 16px !important;
+    border-radius: 50% !important;
+    background: #299de6 !important;
+    color: #fff !important;
+}
+.sidebar .support-icon svg,
+.sidebar .help-icon svg { width: 20px !important; height: 20px !important; }
+.sidebar .sidebar-support h3,
+.sidebar .sidebar-help h3,
+.sidebar .support-card h2 {
+    margin: 0 0 9px !important;
+    color: #fff !important;
+    font-size: 15px !important;
+    font-weight: 700 !important;
+}
+.sidebar .sidebar-support p,
+.sidebar .sidebar-help p,
+.sidebar .support-card p {
+    margin: 0 0 15px !important;
+    color: #c1d8ed !important;
+    font-size: 12px !important;
+    line-height: 1.8 !important;
+}
+.sidebar .sidebar-support a,
+.sidebar .sidebar-help a,
+.sidebar .support-button {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    gap: 8px !important;
+    min-height: 0 !important;
+    padding: 10px 13px !important;
+    border: 0 !important;
+    border-radius: 8px !important;
+    color: #fff !important;
+    background: #087cc4 !important;
+    font-size: 11px !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+    cursor: pointer !important;
+}
+.sidebar .sidebar-support a svg,
+.sidebar .sidebar-help a svg,
+.sidebar .support-button svg { width: 14px !important; height: 14px !important; }
+.sidebar .logout,
+.sidebar .logout-link {
+    display: flex !important;
+    align-items: center !important;
+    gap: 13px !important;
+    min-height: 40px !important;
+    padding: 10px 17px !important;
+    color: #d7e9f9 !important;
+    background: transparent !important;
+    font-size: 13px !important;
+    text-decoration: none !important;
+}
+.sidebar .logout svg,
+.sidebar .logout-link svg { width: 19px !important; height: 19px !important; }
+.sidebar .sidebar-spacer { flex: 1 1 auto !important; min-height: 12px !important; }
+.main-content,
+.main-area {
+    width: calc(100% - 267px) !important;
+    min-width: 0 !important;
+    margin-left: 267px !important;
+}
+@media (max-width: 1250px) and (min-width: 761px) {
+    .sidebar { width: 215px !important; min-width: 215px !important; }
+    .main-content,
+    .main-area { width: calc(100% - 215px) !important; margin-left: 215px !important; }
+}
+@media (max-width: 760px) {
+    .sidebar {
+        position: relative !important;
+        inset: auto !important;
+        width: 100% !important;
+        min-width: 0 !important;
+        height: auto !important;
+        min-height: 0 !important;
+        padding: 14px !important;
+    }
+    .app,
+    .app-shell { display: block !important; }
+    .main-content,
+    .main-area { width: 100% !important; margin-left: 0 !important; }
+    .sidebar .main-nav,
+    .sidebar .account-nav {
+        display: grid !important;
+        grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    }
+    .sidebar .sidebar-support,
+    .sidebar .sidebar-help,
+    .sidebar .support-card { margin: 18px 0 12px !important; }
+}
+@media (max-width: 560px) {
+    .sidebar .main-nav,
+    .sidebar .account-nav { grid-template-columns: 1fr !important; }
+}
