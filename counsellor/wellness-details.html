@@ -6,26 +6,33 @@
 <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
 <title>CampusWell | Check-in Details</title>
 <link href="./wellness-details.css" rel="stylesheet"/>
+<link href="counsellor-sidebar.css" rel="stylesheet"/>
 <script src="https://unpkg.com/lucide@latest"></script>
 </head>
 <body data-page="details">
 <div class="app">
 <aside class="sidebar">
-<a class="brand" href="counsellor-dashboard.html">
-<span class="brand-mark"><i data-lucide="heart-handshake"></i></span>
-<span><span class="brand-name">Campus<span>Well</span></span><span class="brand-caption">Counsellor Portal</span></span>
-</a>
-<nav class="main-nav">
-                <a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
-                <a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
-                <a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span></a>
-                <a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
-                <a aria-current="page" class="nav-link active" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
-                <a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
-                <a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
-            </nav>
-<div class="sidebar-spacer"></div>
-<div class="sidebar-user"><div class="sidebar-avatar">SM</div><div><strong>Counsellor</strong><span>Dr. Sarah Mitchell</span></div></div>
+<div class="brand">
+<div class="brand-logo">CW</div>
+<div><h2>Campus<span>Well</span></h2><p>Counsellor Portal</p></div>
+</div>
+<nav class="main-nav" aria-label="Main navigation">
+<a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+<a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+<a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span><span class="notification-count">5</span></a>
+<a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+<a aria-current="page" class="nav-link active" href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+<a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+<a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+</nav>
+<div class="nav-divider"></div><div class="nav-heading">ACCOUNT</div>
+<nav class="account-nav" aria-label="Account navigation">
+<a class="nav-link" href="/campuswell_group_9/counsellor/counsellor-profile.html"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link" href="/campuswell_group_9/counsellor/counsellor-notifications.html"><i data-lucide="bell"></i><span>Notifications</span><span class="notification-count">3</span></a>
+<a class="nav-link" href="/campuswell_group_9/counsellor/counsellor-settings.html"><i data-lucide="settings-2"></i><span>Settings</span></a>
+</nav>
+<div class="sidebar-support"><div class="support-icon"><i data-lucide="headphones"></i></div><h3>Need Assistance?</h3><p>Contact CampusWell administration for portal support.</p><a href="#" id="supportButton">Contact Support <i data-lucide="arrow-right"></i></a></div>
+<a class="logout" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a>
 </aside>
 <main class="main-content">
 <header class="topbar">
