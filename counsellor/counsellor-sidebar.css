@@ -277,3 +277,42 @@
 @media (max-width: 760px) {
     .wrap { margin-left: 0 !important; }
 }
+
+/* Keep page-specific responsive rules from shrinking or hiding this shared rail */
+.sidebar { align-items: stretch !important; }
+.sidebar .brand { justify-content: flex-start !important; }
+.sidebar .nav-link { justify-content: flex-start !important; }
+.sidebar .nav-link span { display: inline !important; }
+.sidebar .nav-divider,
+.sidebar .sidebar-divider { display: block !important; }
+.sidebar .nav-heading,
+.sidebar .sidebar-label { display: block !important; }
+.sidebar .account-nav { display: flex !important; flex-direction: column !important; }
+.sidebar .sidebar-spacer { display: block !important; }
+@media (max-width: 1120px) and (min-width: 761px) {
+    .sidebar {
+        width: 215px !important;
+        min-width: 215px !important;
+        align-items: stretch !important;
+        padding: 17px 10px 20px !important;
+    }
+    .sidebar .brand { justify-content: flex-start !important; padding: 0 14px !important; }
+    .sidebar .nav-link { justify-content: flex-start !important; }
+    .sidebar .nav-link span { display: inline !important; }
+    .sidebar .nav-divider,
+    .sidebar .sidebar-divider { display: block !important; }
+    .sidebar .nav-heading,
+    .sidebar .sidebar-label { display: block !important; }
+    .sidebar .account-nav { display: flex !important; }
+    .main-content,
+    .main-area { width: calc(100% - 215px) !important; margin-left: 215px !important; }
+}
+@media (max-width: 850px) and (min-width: 761px) {
+    .sidebar .account-nav { display: flex !important; }
+    .sidebar .nav-divider,
+    .sidebar .nav-heading { display: block !important; }
+    .sidebar .main-nav { display: flex !important; flex-direction: column !important; overflow: visible !important; }
+    .sidebar .main-nav .nav-link { min-height: 48px !important; flex: 0 0 48px !important; }
+    .main-content,
+    .main-area { width: calc(100% - 215px) !important; margin-left: 215px !important; }
+}
