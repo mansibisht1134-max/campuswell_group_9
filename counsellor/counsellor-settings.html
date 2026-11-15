@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CampusWell | Counsellor Settings</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#edf5fd;color:#092f5c}.wrap{max-width:850px;margin:auto;padding:28px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;background:#062b52;color:#fff;padding:22px 25px;border-radius:14px;margin-bottom:22px}.top p{color:#c5dcef;margin:6px 0 0}.top a{border-radius:8px;padding:11px 16px;background:#0879c9;color:#fff;text-decoration:none;font-weight:700}.card{background:#fff;border:1px solid #dceaf8;border-radius:14px;padding:22px;margin-top:18px}.setting{display:flex;justify-content:space-between;align-items:center;gap:20px;padding:17px 0;border-bottom:1px solid #edf3f8}.setting:last-child{border-bottom:0}.setting strong{display:block}.setting p{margin:5px 0 0;color:#6685a9;font-size:13px}.setting input{width:20px;height:20px;accent-color:#0879c9;cursor:pointer}.status{color:#15916f;font-size:13px;margin-top:16px;min-height:18px}@media(max-width:600px){.wrap{padding:14px}.top{align-items:flex-start;flex-direction:column}.setting{align-items:flex-start}}
+</style></head><body><main class="wrap">
+<header class="top"><div><h1>CampusWell</h1><p>Counsellor account settings</p></div><a href="counsellor-dashboard.html">← Back to Dashboard</a></header>
+<h2>Settings</h2><p style="color:#6685a9;margin-top:6px">Manage your portal preferences on this device.</p>
+<section class="card">
+<label class="setting"><span><strong>Email notifications</strong><p>Receive updates about activity in your portal.</p></span><input type="checkbox" id="emailNotifications"></label>
+<label class="setting"><span><strong>Appointment reminders</strong><p>Show reminders for upcoming counselling sessions.</p></span><input type="checkbox" id="appointmentReminders"></label>
+<label class="setting"><span><strong>New student requests</strong><p>Notify me when a student submits a support request.</p></span><input type="checkbox" id="newRequests"></label>
+<div class="status" id="status" aria-live="polite"></div>
+</section></main><script>
+const key="campuswellCounsellorSettings";
+const defaults={emailNotifications:true,appointmentReminders:true,newRequests:true};
+const settings={...defaults,...JSON.parse(localStorage.getItem(key)||"{}")};
+Object.keys(defaults).forEach(id=>{const control=document.getElementById(id);control.checked=!!settings[id];control.addEventListener("change",()=>{settings[id]=control.checked;localStorage.setItem(key,JSON.stringify(settings));document.getElementById("status").textContent="Settings saved on this device.";});});
+</script></body></html>
