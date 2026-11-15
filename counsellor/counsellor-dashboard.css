@@ -1107,3 +1107,82 @@ a {
         display: none
     }
 }
+
+/* Dashboard readability and layout correction */
+.dashboard-content {
+    padding: 24px 28px 32px;
+}
+.welcome-label { font-size: 10px; }
+.welcome-row h1 { font-size: clamp(25px, 2.1vw, 32px); }
+.welcome-row p { font-size: 13px; }
+.primary-button { min-height: 42px; padding: 0 18px; font-size: 12px; }
+.insight-banner { min-height: 72px; padding: 14px 18px; }
+.insight-banner strong { font-size: 13px; }
+.insight-banner p { font-size: 11px; }
+.banner-date { font-size: 11px; }
+.stats-grid { gap: 16px; margin-bottom: 18px; }
+.stat-card { padding: 17px 18px; }
+.stat-trend { font-size: 10px; }
+.stat-card h3 { font-size: 27px; }
+.stat-card p { font-size: 12px; }
+.stat-detail { font-size: 10px; }
+.dashboard-grid { gap: 18px; }
+.panel { padding: 19px; border-radius: 14px; }
+.panel-header { margin-bottom: 16px; }
+.panel-header h2 { font-size: 16px; }
+.panel-header p { font-size: 11px; }
+.text-button { font-size: 11px; }
+.appointment-item { gap: 12px; padding: 13px 0; }
+.time-block { width: 56px; }
+.time-block strong { font-size: 14px; }
+.time-block span { font-size: 10px; }
+.appointment-info strong { font-size: 12px; }
+.appointment-info span { font-size: 10px; }
+.status, .priority { font-size: 9px; padding: 6px 9px; }
+.small-button { height: 29px; padding: 0 11px; font-size: 10px; }
+.request-item { gap: 11px; padding: 13px 0; }
+.request-avatar { width: 36px; height: 36px; font-size: 10px; }
+.request-info strong, .followup-item strong, .activity-item strong { font-size: 11px; }
+.request-info span, .followup-item span, .activity-item span { font-size: 10px; }
+.followup-item { padding: 13px 0; }
+.wellness-score>div:last-child strong { font-size: 12px; }
+.wellness-score>div:last-child p { font-size: 10px; }
+.wellness-metrics span { font-size: 9px; }
+.wellness-metrics strong { font-size: 14px; }
+.overview-row span { font-size: 10px; }
+.overview-row strong { font-size: 11px; }
+.topbar { height: 72px; padding: 0 28px; }
+.search-box { height: 43px; }
+.search-box input { font-size: 13px; }
+.profile-info h4 { font-size: 13px; }
+.profile-info p { font-size: 11px; }
+
+@media (max-width: 1100px) and (min-width: 761px) {
+    .sidebar { width: 235px; min-width: 235px; }
+    .main-content { width: calc(100% - 235px); margin-left: 235px; }
+    .dashboard-content { padding: 22px 20px 28px; }
+    .dashboard-grid { grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); }
+    .stats-grid { gap: 12px; }
+    .panel { padding: 15px; }
+}
+@media (max-width: 900px) and (min-width: 761px) {
+    .dashboard-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 760px) {
+    .dashboard-content { padding: 18px 15px 24px; }
+    .topbar { height: 64px; padding: 0 15px; }
+    .insight-banner { align-items: flex-start; }
+    .stats-grid { gap: 11px; }
+}
+@media (max-width: 520px) {
+    .welcome-row h1 { font-size: 24px; }
+    .panel { padding: 14px; }
+    .panel-header h2 { font-size: 14px; }
+    .stat-card { padding: 13px; }
+    .stat-card h3 { font-size: 23px; }
+    .stat-card p { font-size: 10px; }
+    .stat-detail { font-size: 9px; }
+    .appointment-item { gap: 7px; }
+    .appointment-info strong { font-size: 10px; }
+    .appointment-info span { font-size: 9px; }
+}
