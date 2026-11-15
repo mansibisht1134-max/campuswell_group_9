@@ -2248,3 +2248,208 @@ button {
         flex: 1;
     }
 }
+
+
+/* Shared Counsellor Portal sidebar — kept identical to Dashboard */
+.sidebar {
+    width: 267px;
+    min-width: 267px;
+    min-height: 100vh;
+    padding: 17px 10px 20px;
+    display: flex;
+    flex-direction: column;
+    color: #fff;
+    background: linear-gradient(160deg, #052c54, #032749);
+    position: fixed;
+    inset: 0 auto 0 0;
+    z-index: 20;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #28618d #032749;
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 0 14px;
+    margin-bottom: 29px;
+}
+
+.brand-logo {
+    width: 49px;
+    height: 49px;
+    flex: 0 0 49px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    color: #fff;
+    background: linear-gradient(135deg, #4ab8ff, #1384dc);
+    font-size: 20px;
+    font-weight: 800;
+}
+
+.brand h2 {
+    font-size: 21px;
+    font-weight: 700;
+    letter-spacing: -.5px;
+}
+
+.brand h2 span { color: #36b4ff; }
+
+.brand p {
+    margin-top: 4px;
+    font-size: 11px;
+    color: #b4d0e9;
+}
+
+.main-nav,
+.account-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.nav-link {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 0 17px;
+    border-radius: 9px;
+    color: #f0f6ff;
+    font-size: 13px;
+    transition: background .2s ease, color .2s ease, transform .2s ease;
+}
+
+.nav-link svg {
+    width: 21px;
+    height: 21px;
+    flex: 0 0 21px;
+}
+
+.nav-link:hover {
+    background: #124d7f;
+    transform: translateX(2px);
+}
+
+.nav-link.active {
+    background: linear-gradient(100deg, #168bce, #15558e);
+    font-weight: 700;
+    box-shadow: 0 5px 14px rgba(0, 0, 0, .12);
+}
+
+.nav-divider {
+    height: 1px;
+    background: #275176;
+    margin: 18px 15px 22px;
+}
+
+.nav-heading {
+    color: #29c2f7;
+    font-size: 11px;
+    padding: 0 17px;
+    margin-bottom: 10px;
+    font-weight: 700;
+}
+
+.notification-count {
+    margin-left: auto;
+    width: 21px;
+    height: 21px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    background: #fa5b55;
+    font-size: 11px;
+}
+
+.sidebar-support {
+    margin: auto 13px 32px;
+    padding: 21px 16px;
+    border: 1px solid #075c91;
+    border-radius: 14px;
+    background: linear-gradient(145deg, #07345d, #05294d);
+}
+
+.support-icon {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    margin-bottom: 16px;
+    border-radius: 50%;
+    background: #299de6;
+}
+
+.support-icon svg { width: 20px; }
+
+.sidebar-support h3 {
+    font-size: 15px;
+    margin-bottom: 9px;
+}
+
+.sidebar-support p {
+    color: #c1d8ed;
+    font-size: 12px;
+    line-height: 1.8;
+    margin-bottom: 15px;
+}
+
+.sidebar-support a {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 13px;
+    border-radius: 8px;
+    background: #087cc4;
+    font-size: 11px;
+    font-weight: 700;
+}
+
+.sidebar-support a svg { width: 14px; }
+
+.logout {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    padding: 10px 17px;
+    color: #d7e9f9;
+    font-size: 13px;
+}
+
+.logout svg { width: 19px; height: 19px; }
+
+.main-content {
+    width: calc(100% - 267px);
+    min-width: 0;
+    margin-left: 267px;
+}
+
+@media (max-width: 1250px) {
+    .sidebar { width: 215px; min-width: 215px; }
+    .main-content { width: calc(100% - 215px); margin-left: 215px; }
+}
+
+@media (max-width: 760px) {
+    .sidebar {
+        position: relative;
+        width: 100%;
+        min-width: 0;
+        min-height: auto;
+        padding: 14px;
+    }
+    .app { display: block; }
+    .main-content { width: 100%; margin-left: 0; }
+    .main-nav,
+    .account-nav {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .sidebar-support { margin: 18px 0 12px; }
+}
+
+@media (max-width: 560px) {
+    .main-nav,
+    .account-nav { grid-template-columns: 1fr; }
+}
