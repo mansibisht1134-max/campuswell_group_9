@@ -104,6 +104,16 @@ a {
 
 .main-nav,
 .account-nav {
+    position: relative;
+    z-index: 30;
+}
+
+.account-nav .nav-link {
+    position: relative;
+    z-index: 31;
+    pointer-events: auto;
+    cursor: pointer;
+}
     display: flex;
     flex-direction: column;
     gap: 5px
