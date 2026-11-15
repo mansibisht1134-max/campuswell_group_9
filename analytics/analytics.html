@@ -1,104 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CampusWell - Analytics</title>
+    <title>CampusWell - Admin Analytics</title>
+    <link rel="stylesheet" href="../admin/admin-dashboard.css">
     <link rel="stylesheet" href="./analytics.css">
 </head>
-
 <body>
-    <div class="analytics-container">
-        <header>
-            <div>
-                <h1>CampusWell</h1>
-                <p>Wellness Analytics</p>
-            </div>
-            <a href="../admin/admin.html">Back to Admin</a>
-        </header>
-        <main>
-            <section class="welcome-section">
-                <h2>Analytics Dashboard</h2>
-                <p>
-                    Monitor student wellness activity and counselling service information.
-                </p>
-            </section>
-            <section class="stats-grid">
-                <div class="stat-card">
-                    <h3>Total Check-ins</h3>
-                    <p class="stat-number">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Appointments</h3>
-                    <p class="stat-number">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Support Requests</h3>
-                    <p class="stat-number">0</p>
-                </div>
-                <div class="stat-card">
-                    <h3>Campus Feedback</h3>
-                    <p class="stat-number">0</p>
-                </div>
-            </section>
-            <section class="analytics-section">
-                <h2>Wellness Overview</h2>
-                <div class="chart-placeholder">
-                    <p>
-                        Wellness data visualization will appear here.
-                    </p>
-                    <div class="chart-bars">
-                        <div class="bar">
-                            <span>Very Good</span>
-                            <div class="bar-fill" style="height: 80%;"></div>
-                        </div>
-                        <div class="bar">
-                            <span>Good</span>
-                            <div class="bar-fill" style="height: 65%;"></div>
-                        </div>
-                        <div class="bar">
-                            <span>Okay</span>
-                            <div class="bar-fill" style="height: 50%;"></div>
-                        </div>
-                        <div class="bar">
-                            <span>Low</span>
-                            <div class="bar-fill" style="height: 30%;"></div>
-                        </div>
-                        <div class="bar">
-                            <span>Very Low</span>
-                            <div class="bar-fill" style="height: 15%;"></div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <section class="analytics-section">
-                <h2>Stress Level Overview</h2>
-                <div class="stress-list">
-                    <div class="stress-item">
-                        <span>Very Low</span>
-                        <strong>0</strong>
-                    </div>
-                    <div class="stress-item">
-                        <span>Low</span>
-                        <strong>0</strong>
-                    </div>
-                    <div class="stress-item">
-                        <span>Moderate</span>
-                        <strong>0</strong>
-                    </div>
-                    <div class="stress-item">
-                        <span>High</span>
-                        <strong>0</strong>
-                    </div>
-                    <div class="stress-item">
-                        <span>Very High</span>
-                        <strong>0</strong>
-                    </div>
-                </div>
-            </section>
-        </main>
-    </div>
-</body>
+    <aside class="sidebar">
+        <div class="sidebar-brand">
+            <div class="brand-icon">CW</div>
+            <strong class="brand-text">Campus<span>Well</span></strong>
+        </div>
+        <p class="portal-title">Administrator Portal</p>
+        <div class="admin-profile">
+            <div class="profile-avatar">A</div>
+            <div><strong>Administrator</strong><span>System Overview</span></div>
+        </div>
+        <nav class="sidebar-nav" aria-label="Admin navigation">
+            <a class="nav-item active" href="./analytics.html" aria-current="page">
+                <span class="nav-icon">▥</span><span>Analytics</span>
+            </a>
+        </nav>
+        <a class="logout-link" href="../admin/admin.html"><span class="nav-icon">↪</span><span>Logout</span></a>
+    </aside>
 
+    <main class="main-content analytics-main">
+        <header class="dashboard-header">
+            <div>
+                <p class="page-label">Administrator / Analytics</p>
+                <h1>Wellness Analytics</h1>
+                <p class="page-description">A consolidated overview of student wellness activity and counselling services across CampusWell.</p>
+            </div>
+            <div class="header-date"><span>Portal</span><strong>Admin Overview</strong></div>
+        </header>
+
+        <section class="admin-welcome analytics-welcome">
+            <div class="welcome-content">
+                <p class="small-label">Institutional overview</p>
+                <h2>Student Wellness at a Glance</h2>
+                <p>Review check-ins, appointments, support requests and reported stress levels from one place.</p>
+            </div>
+            <div class="welcome-icon" aria-hidden="true">▥</div>
+        </section>
+
+        <section class="overview-section">
+            <div class="section-heading">
+                <h2>Activity Summary</h2>
+                <p>Current totals available in the system</p>
+            </div>
+            <div class="overview-grid analytics-stats">
+                <article class="overview-card"><div class="overview-icon">♡</div><div><span>Total Check-ins</span><strong>0</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">▣</div><div><span>Appointments</span><strong>0</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">✉</div><div><span>Support Requests</span><strong>0</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">☆</div><div><span>Campus Feedback</span><strong>0</strong></div></article>
+            </div>
+        </section>
+
+        <section class="analytics-panels">
+            <article class="analytics-panel">
+                <div class="section-heading"><h2>Wellness Overview</h2><p>Distribution of student wellness check-ins</p></div>
+                <div class="analytics-empty">
+                    <div class="empty-chart-icon">▥</div>
+                    <strong>No wellness data available yet</strong>
+                    <p>Wellness trends will appear here once check-in records are submitted.</p>
+                </div>
+            </article>
+            <article class="analytics-panel">
+                <div class="section-heading"><h2>Stress Level Overview</h2><p>Reported stress levels across submitted check-ins</p></div>
+                <div class="stress-list">
+                    <div class="stress-item"><span>Very Low</span><strong>0</strong></div>
+                    <div class="stress-item"><span>Low</span><strong>0</strong></div>
+                    <div class="stress-item"><span>Moderate</span><strong>0</strong></div>
+                    <div class="stress-item"><span>High</span><strong>0</strong></div>
+                    <div class="stress-item"><span>Very High</span><strong>0</strong></div>
+                </div>
+            </article>
+        </section>
+    </main>
+</body>
 </html>
