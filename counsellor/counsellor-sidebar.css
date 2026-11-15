@@ -265,3 +265,15 @@
     .sidebar .main-nav,
     .sidebar .account-nav { grid-template-columns: 1fr !important; }
 }
+
+/* Account pages share the same fixed navigation rail */
+.wrap {
+    margin-left: 267px !important;
+    margin-right: auto !important;
+}
+@media (max-width: 1250px) and (min-width: 761px) {
+    .wrap { margin-left: 215px !important; }
+}
+@media (max-width: 760px) {
+    .wrap { margin-left: 0 !important; }
+}
