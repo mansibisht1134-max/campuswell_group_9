@@ -509,6 +509,20 @@
     </div>
 
     <script>
+        // Support older dashboard hash links and route them to the real pages.
+        (function () {
+            const routes = {
+                "#profile": "../profile/profile.html",
+                "#notifications": "../notifications/notifications.html"
+            };
+            function routeAccountHash() {
+                const destination = routes[window.location.hash.toLowerCase()];
+                if (destination) window.location.replace(destination);
+            }
+            routeAccountHash();
+            window.addEventListener("hashchange", routeAccountHash);
+        })();
+
         lucide.createIcons();
 
 
