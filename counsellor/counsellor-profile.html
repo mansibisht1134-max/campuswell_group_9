@@ -6,8 +6,26 @@
 <style>
 *{box-sizing:border-box}body{margin:0;font-family:Inter,Arial,sans-serif;background:#edf5fd;color:#092f5c}.wrap{max-width:900px;margin:auto;padding:28px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;background:#062b52;color:#fff;padding:22px 25px;border-radius:14px;margin-bottom:20px}.top p{color:#c5dcef;margin:6px 0 0}.top a,.btn{border:0;border-radius:8px;padding:11px 16px;background:#0879c9;color:#fff;text-decoration:none;font-weight:700;cursor:pointer}.card{background:#fff;border:1px solid #dceaf8;border-radius:14px;padding:24px;margin-bottom:18px}.hero{display:flex;align-items:center;gap:16px;margin-bottom:20px}.avatar{width:62px;height:62px;border-radius:50%;display:grid;place-items:center;background:#dceeff;color:#0879c9;font-size:24px;font-weight:800}.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}.field label{display:block;font-size:13px;font-weight:700;margin-bottom:7px;color:#6685a9}.field input{width:100%;padding:12px;border:1px solid #cbddec;border-radius:8px;font:inherit;color:#092f5c}.actions{display:flex;align-items:center;gap:12px;margin-top:18px}.hint{font-size:13px;color:#6685a9}@media(max-width:600px){.wrap{padding:14px}.top{align-items:flex-start;flex-direction:column}.grid{grid-template-columns:1fr}}
 </style>
+<link href="counsellor-sidebar.css" rel="stylesheet"/>
 </head>
-<body><main class="wrap">
+<body>
+<aside class="sidebar">
+<div class="brand"><div class="brand-logo">CW</div><div><h2>Campus<span>Well</span></h2><p>Counsellor Portal</p></div></div>
+<nav class="main-nav" aria-label="Main navigation">
+<a class="nav-link" href="counsellor-dashboard.html"><i data-lucide="layout-dashboard"></i><span>Dashboard</span></a>
+<a class="nav-link" href="counsellor-appointments.html"><i data-lucide="calendar-days"></i><span>Appointments</span></a>
+<a class="nav-link" href="counsellor-request.html"><i data-lucide="messages-square"></i><span>Student Requests</span><span class="notification-count">5</span></a>
+<a class="nav-link" href="counsellor-followups.html"><i data-lucide="clipboard-check"></i><span>Follow-ups</span></a>
+<a class="nav-link"  href="wellness-checkins.html"><i data-lucide="heart-pulse"></i><span>Wellness Check-ins</span></a>
+<a class="nav-link" href="counsellor-interventions.html"><i data-lucide="hand-heart"></i><span>Interventions</span></a>
+<a class="nav-link" href="counsellor-outcomes.html"><i data-lucide="chart-no-axes-combined"></i><span>Outcomes</span></a>
+</nav><div class="nav-divider"></div><div class="nav-heading">ACCOUNT</div>
+<nav class="account-nav" aria-label="Account navigation">
+<a class="nav-link active" aria-current="page" href="/campuswell_group_9/counsellor/counsellor-profile.html"><i data-lucide="user-round"></i><span>Profile</span></a>
+<a class="nav-link"  href="/campuswell_group_9/counsellor/counsellor-notifications.html"><i data-lucide="bell"></i><span>Notifications</span><span class="notification-count">3</span></a>
+<a class="nav-link"  href="/campuswell_group_9/counsellor/counsellor-settings.html"><i data-lucide="settings-2"></i><span>Settings</span></a>
+</nav><div class="sidebar-support"><div class="support-icon"><i data-lucide="headphones"></i></div><h3>Need Assistance?</h3><p>Contact CampusWell administration for portal support.</p><a href="#" id="supportButton">Contact Support <i data-lucide="arrow-right"></i></a></div>
+<a class="logout" href="../index.html"><i data-lucide="log-out"></i><span>Logout</span></a></aside><main class="wrap">
 <header class="top"><div><h1>CampusWell</h1><p>Counsellor account</p></div><a href="counsellor-dashboard.html">← Back to Dashboard</a></header>
 <section class="card"><div class="hero"><div class="avatar" id="avatar">DS</div><div><h2 id="heroName">Dr. Sharma</h2><p>Counsellor Profile</p></div></div>
 <form id="profileForm"><div class="grid">
