@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CampusWell | My Profile</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",Arial,sans-serif;background:#f1f7fd;color:#173b60;min-height:100vh}
+.wrap{max-width:1050px;margin:auto;padding:30px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;background:#102f52;color:white;padding:22px 28px;border-radius:14px;margin-bottom:22px}.top p{color:#c6def3;margin-top:5px}.top a{color:#102f52;background:#d8edff;text-decoration:none;padding:11px 17px;border-radius:8px;font-weight:600}
+.hero{display:flex;align-items:center;gap:20px;background:#dceeff;padding:25px;border-radius:14px;margin-bottom:20px}.avatar{width:78px;height:78px;border-radius:50%;background:#176ca8;color:white;display:grid;place-items:center;font-size:30px;font-weight:700}.hero p{color:#54799b;margin-top:5px}
+.card{background:white;border:1px solid #deebf7;border-radius:14px;padding:25px;margin-bottom:20px;box-shadow:0 4px 14px #173b6010}.card h2{font-size:19px;margin-bottom:20px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.field label{display:block;font-size:13px;font-weight:600;margin-bottom:7px;color:#527392}.field input,.field select{width:100%;padding:12px;border:1px solid #cbddec;border-radius:8px;font:inherit;color:#173b60;background:#fff}.actions{display:flex;align-items:center;gap:14px;margin-top:20px}.btn{border:0;background:#075b9c;color:#fff;padding:12px 20px;border-radius:8px;font-weight:700;cursor:pointer}.hint{color:#6b89a5;font-size:13px} @media(max-width:650px){.wrap{padding:14px}.grid{grid-template-columns:1fr}.top{align-items:flex-start;flex-direction:column}.hero{align-items:flex-start}}
+</style>
+</head>
+<body><main class="wrap">
+<header class="top"><div><h1>CampusWell</h1><p>Student account</p></div><a href="../dashboard/dashboard.html">← Back to Dashboard</a></header>
+<section class="hero"><div class="avatar" id="avatar">M</div><div><h2 id="heroName">Mansi Sharma</h2><p>Student Profile · Manage your personal and academic details</p></div></section>
+<form id="profileForm">
+<section class="card"><h2>Personal Information</h2><div class="grid">
+<div class="field"><label for="name">Full name</label><input id="name" name="name" value="Mansi Sharma" required></div>
+<div class="field"><label for="email">Email address</label><input id="email" name="email" type="email" placeholder="Enter your college email"></div>
+<div class="field"><label for="phone">Phone number</label><input id="phone" name="phone" type="tel" placeholder="Enter phone number"></div>
+<div class="field"><label for="dob">Date of birth</label><input id="dob" name="dob" type="date"></div>
+</div></section>
+<section class="card"><h2>Academic Information</h2><div class="grid">
+<div class="field"><label for="course">Course</label><input id="course" name="course" value="B.Tech Computer Science and Engineering"></div>
+<div class="field"><label for="year">Academic year</label><input id="year" name="year" placeholder="e.g. 4th Year"></div>
+<div class="field"><label for="roll">Roll number</label><input id="roll" name="roll" placeholder="Enter roll number"></div>
+<div class="field"><label for="department">Department</label><input id="department" name="department" value="Computer Science and Engineering"></div>
+</div><div class="actions"><button class="btn" type="submit">Save Profile</button><span class="hint" id="status" aria-live="polite">Your changes are saved in this browser.</span></div></section>
+</form></main>
+<script>
+const form=document.getElementById('profileForm');const fields=['name','email','phone','dob','course','year','roll','department'];
+function load(){const data=JSON.parse(localStorage.getItem('campuswellStudentProfile')||'{}');fields.forEach(k=>{if(data[k])form.elements[k].value=data[k]});updateName()}
+function updateName(){const n=form.elements.name.value.trim()||'Student';document.getElementById('heroName').textContent=n;document.getElementById('avatar').textContent=n.charAt(0).toUpperCase()}
+form.addEventListener('submit',e=>{e.preventDefault();const data={};fields.forEach(k=>data[k]=form.elements[k].value.trim());localStorage.setItem('campuswellStudentProfile',JSON.stringify(data));updateName();document.getElementById('status').textContent='Profile saved successfully on this device.'});
+form.elements.name.addEventListener('input',updateName);load();
+</script></body></html>
