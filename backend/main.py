@@ -15,14 +15,15 @@ from sqlalchemy.orm import Session
 
 from auth import JWT_SECRET, create_access_token, get_current_user, get_optional_current_user, hash_password, verify_password
 from database import get_db
-from models import Appointment, CampusVoiceSubmission, CounsellorProfile, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
+from models import Appointment, CampusVoiceSubmission, CounsellorProfile, FollowUp, Intervention, OutcomeRecord, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
     AuthResponse, LoginRequest, StudentRegister, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
-    ResourceCreate, ResourceUpdate, ResourceResponse,\n    AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
+    ResourceCreate, ResourceUpdate, ResourceResponse,
+    AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,\n    CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,\n    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -853,3 +854,284 @@ def update_my_counsellor_profile(
         "phone": profile.phone,
         "is_available": profile.is_available,
     }
+
+
+
+def get_counsellor_profile(current_user: User, db: Session) -> CounsellorProfile:
+    if current_user.role != "counsellor":
+        raise HTTPException(status_code=403, detail="Counsellor account required.")
+    profile = db.query(CounsellorProfile).filter(
+        CounsellorProfile.user_id == current_user.id
+    ).first()
+    if profile is None:
+        raise HTTPException(status_code=400, detail="Counsellor profile is missing.")
+    return profile
+
+
+def ensure_counsellor_student_access(counsellor_id: int, student_id: int, db: Session):
+    appointment_link = db.query(Appointment.id).filter(
+        Appointment.counsellor_id == counsellor_id,
+        Appointment.student_id == student_id,
+    ).first()
+    support_link = db.query(SupportRequest.id).filter(
+        SupportRequest.assigned_counsellor_id == counsellor_id,
+        SupportRequest.student_id == student_id,
+    ).first()
+    if appointment_link is None and support_link is None:
+        raise HTTPException(status_code=403, detail="This student is not assigned to you.")
+    student = db.query(StudentProfile).filter(StudentProfile.id == student_id).first()
+    if student is None:
+        raise HTTPException(status_code=404, detail="Student not found.")
+    return student
+
+
+@app.get(
+    "/api/v1/counsellor/students",
+    response_model=list[CounsellorStudentResponse],
+    tags=["Counsellors"],
+)
+def list_counsellor_students(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """List distinct students connected through appointments or assigned support requests."""
+    counsellor = get_counsellor_profile(current_user, db)
+    appointment_ids = db.query(Appointment.student_id).filter(
+        Appointment.counsellor_id == counsellor.id
+    )
+    support_student_ids = db.query(SupportRequest.student_id).filter(
+        SupportRequest.assigned_counsellor_id == counsellor.id
+    )
+    student_ids = {row[0] for row in appointment_ids.all()}
+    student_ids.update(row[0] for row in support_student_ids.all())
+    if not student_ids:
+        return []
+    students = db.query(StudentProfile).filter(
+        StudentProfile.id.in_(student_ids)
+    ).order_by(StudentProfile.full_name).all()
+    return students
+
+
+@app.post(
+    "/api/v1/counsellor/follow-ups",
+    response_model=FollowUpResponse,
+    status_code=201,
+    tags=["Counsellors"],
+)
+def create_follow_up(
+    payload: FollowUpCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    ensure_counsellor_student_access(counsellor.id, payload.student_id, db)
+    if payload.appointment_id is not None:
+        appointment = db.query(Appointment).filter(
+            Appointment.id == payload.appointment_id,
+            Appointment.counsellor_id == counsellor.id,
+            Appointment.student_id == payload.student_id,
+        ).first()
+        if appointment is None:
+            raise HTTPException(status_code=404, detail="Linked appointment not found.")
+    follow_up = FollowUp(
+        student_id=payload.student_id,
+        counsellor_id=counsellor.id,
+        appointment_id=payload.appointment_id,
+        due_at=payload.due_at,
+        mode=payload.mode,
+        status="Scheduled",
+        notes=payload.notes,
+    )
+    db.add(follow_up)
+    db.commit()
+    db.refresh(follow_up)
+    return follow_up
+
+
+@app.get(
+    "/api/v1/counsellor/follow-ups",
+    response_model=list[FollowUpResponse],
+    tags=["Counsellors"],
+)
+def list_follow_ups(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    return db.query(FollowUp).filter(
+        FollowUp.counsellor_id == counsellor.id
+    ).order_by(FollowUp.due_at.asc()).all()
+
+
+@app.patch(
+    "/api/v1/counsellor/follow-ups/{follow_up_id}",
+    response_model=FollowUpResponse,
+    tags=["Counsellors"],
+)
+def update_follow_up(
+    follow_up_id: int,
+    payload: FollowUpUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    follow_up = db.query(FollowUp).filter(
+        FollowUp.id == follow_up_id,
+        FollowUp.counsellor_id == counsellor.id,
+    ).first()
+    if follow_up is None:
+        raise HTTPException(status_code=404, detail="Follow-up not found.")
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(follow_up, field, value)
+    db.commit()
+    db.refresh(follow_up)
+    return follow_up
+
+
+@app.post(
+    "/api/v1/counsellor/interventions",
+    response_model=InterventionResponse,
+    status_code=201,
+    tags=["Counsellors"],
+)
+def create_intervention(
+    payload: InterventionCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    ensure_counsellor_student_access(counsellor.id, payload.student_id, db)
+    intervention = Intervention(
+        student_id=payload.student_id,
+        counsellor_id=counsellor.id,
+        title=payload.title,
+        intervention_type=payload.intervention_type,
+        description=payload.description,
+        status=payload.status,
+        start_date=payload.start_date,
+        end_date=payload.end_date,
+    )
+    db.add(intervention)
+    db.commit()
+    db.refresh(intervention)
+    return intervention
+
+
+@app.get(
+    "/api/v1/counsellor/interventions",
+    response_model=list[InterventionResponse],
+    tags=["Counsellors"],
+)
+def list_interventions(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    return db.query(Intervention).filter(
+        Intervention.counsellor_id == counsellor.id
+    ).order_by(Intervention.created_at.desc()).all()
+
+
+@app.patch(
+    "/api/v1/counsellor/interventions/{intervention_id}",
+    response_model=InterventionResponse,
+    tags=["Counsellors"],
+)
+def update_intervention(
+    intervention_id: int,
+    payload: InterventionUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    intervention = db.query(Intervention).filter(
+        Intervention.id == intervention_id,
+        Intervention.counsellor_id == counsellor.id,
+    ).first()
+    if intervention is None:
+        raise HTTPException(status_code=404, detail="Intervention not found.")
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(intervention, field, value)
+    db.commit()
+    db.refresh(intervention)
+    return intervention
+
+
+@app.post(
+    "/api/v1/counsellor/outcomes",
+    response_model=OutcomeResponse,
+    status_code=201,
+    tags=["Counsellors"],
+)
+def create_outcome_record(
+    payload: OutcomeCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    ensure_counsellor_student_access(counsellor.id, payload.student_id, db)
+    if payload.intervention_id is not None:
+        intervention = db.query(Intervention).filter(
+            Intervention.id == payload.intervention_id,
+            Intervention.counsellor_id == counsellor.id,
+            Intervention.student_id == payload.student_id,
+        ).first()
+        if intervention is None:
+            raise HTTPException(status_code=404, detail="Linked intervention not found.")
+    outcome = OutcomeRecord(
+        student_id=payload.student_id,
+        counsellor_id=counsellor.id,
+        intervention_id=payload.intervention_id,
+        initial_assessment=payload.initial_assessment,
+        latest_assessment=payload.latest_assessment,
+        goals_done=payload.goals_done,
+        goals_total=payload.goals_total,
+        intervention_type=payload.intervention_type,
+        outcome_status=payload.outcome_status,
+        evaluation_date=payload.evaluation_date,
+        notes=payload.notes,
+    )
+    db.add(outcome)
+    db.commit()
+    db.refresh(outcome)
+    return outcome
+
+
+@app.get(
+    "/api/v1/counsellor/outcomes",
+    response_model=list[OutcomeResponse],
+    tags=["Counsellors"],
+)
+def list_outcome_records(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    return db.query(OutcomeRecord).filter(
+        OutcomeRecord.counsellor_id == counsellor.id
+    ).order_by(OutcomeRecord.created_at.desc()).all()
+
+
+@app.patch(
+    "/api/v1/counsellor/outcomes/{outcome_id}",
+    response_model=OutcomeResponse,
+    tags=["Counsellors"],
+)
+def update_outcome_record(
+    outcome_id: int,
+    payload: OutcomeUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    counsellor = get_counsellor_profile(current_user, db)
+    outcome = db.query(OutcomeRecord).filter(
+        OutcomeRecord.id == outcome_id,
+        OutcomeRecord.counsellor_id == counsellor.id,
+    ).first()
+    if outcome is None:
+        raise HTTPException(status_code=404, detail="Outcome record not found.")
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(outcome, field, value)
+    db.commit()
+    db.refresh(outcome)
+    return outcome
