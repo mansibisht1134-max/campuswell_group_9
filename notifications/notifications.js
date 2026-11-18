@@ -110,7 +110,7 @@ async function loadNotifications() {
         const response = await fetch(`${API}/notifications?limit=100`, { headers:{ Authorization:`Bearer ${token}` } });
         if (response.status === 401) {
             localStorage.removeItem("campuswell_access_token");
-            window.location.href = "../login/login.html";
+            window.location.href = "../student-login/student-login.html";
             return;
         }
         if (!response.ok) throw new Error();
