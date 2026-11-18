@@ -118,6 +118,36 @@
 </div>
 <span id="caseCount">6 follow-ups</span>
 </div>
+<section class="card" style="margin:20px 0;padding:20px;background:#fff;border:1px solid #e5eaf1;border-radius:14px;">
+<h2>Live Follow-ups</h2><p>Follow-up records saved in CampusWell.</p><div id="liveFollowups">Loading follow-ups...</div></section>
+<script>
+(function(){
+ const API="https://campuswell-api-dah4.onrender.com/api/v1";
+ const host=document.getElementById("liveFollowups");
+ const token=localStorage.getItem("campuswell_access_token");
+ const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ async function load(){
+  if(!token){host.textContent="Please sign in with a counsellor account.";return;}
+  try{
+   const r=await fetch(API+"/counsellor/follow-ups",{headers:{Authorization:"Bearer "+token}});
+   if(!r.ok)throw new Error("Unable to load follow-ups.");
+   const items=await r.json();host.innerHTML="";
+   if(!items.length){host.textContent="No follow-ups have been scheduled yet.";return;}
+   items.forEach(item=>{
+    const row=document.createElement("div");row.style.cssText="padding:14px;border:1px solid #e5eaf1;border-radius:10px;margin:10px 0;display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;";
+    row.innerHTML='<div><strong>Student #'+safe(item.student_id)+'</strong><p style="margin:4px 0;color:#64748b">'+new Date(item.due_at).toLocaleString()+' · '+safe(item.mode||"Not specified")+' · '+safe(item.status)+'</p><small>'+safe(item.notes||"No notes")+'</small></div>';
+    const select=document.createElement("select");["Scheduled","Completed","Missed","Cancelled"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;o.selected=item.status===v;select.appendChild(o);});
+    select.addEventListener("change",async()=>{
+     const resp=await fetch(API+"/counsellor/follow-ups/"+item.id,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({status:select.value})});
+     if(!resp.ok){select.value=item.status;alert("Could not update follow-up.");return;}item.status=select.value;
+    });
+    row.appendChild(select);host.appendChild(row);
+   });
+  }catch(e){host.textContent=e.message;}
+ }
+ load();
+})();
+</script>
 <div class="case-list" id="caseList">
 <article class="case-card selected" data-concern="Stress Management" data-counsellor="Dr. Sharma" data-goal1="Reduce academic stress and improve time management." data-goal2="Build healthy coping strategies for exam pressure." data-id="STU1032" data-initials="AM" data-mode="Online" data-name="Aarav Mehta" data-next="Today · 4:00 PM" data-nextmode="Online" data-notes="Shows motivation and is open to suggestions. Monitor for any signs of increased stress before exams." data-program="B.Tech CSE · Year 2" data-progress="Student reports feeling slightly better. Using breathing exercises and attending classes regularly." data-search="Aarav Mehta STU1032 stress management academic stress" data-session="28 Sep 2026 · 11:30 AM" data-status="due" data-statuslabel="Due Today" tabindex="0">
 <div class="case-main">
