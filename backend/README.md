@@ -51,7 +51,11 @@ The backend currently includes SQLAlchemy data models, student registration/logi
 
 - `POST /api/v1/admin/bootstrap` — create the first admin using the deployment-only `ADMIN_BOOTSTRAP_TOKEN` secret; disabled after an admin exists
 - `POST /api/v1/admin/counsellors` and `GET /api/v1/admin/counsellors` — admins provision and list counsellor accounts
-- `GET /api/v1/counsellors/me` and `PATCH /api/v1/counsellors/me` — counsellors view and update their own profile and availability\n- `GET /api/v1/counsellor/students` — list students connected through appointments or assigned support requests\n- `GET/POST /api/v1/counsellor/follow-ups` and `PATCH /api/v1/counsellor/follow-ups/{id}` — manage follow-up schedules\n- `GET/POST /api/v1/counsellor/interventions` and `PATCH /api/v1/counsellor/interventions/{id}` — manage student interventions\n- `GET/POST /api/v1/counsellor/outcomes` and `PATCH /api/v1/counsellor/outcomes/{id}` — record and update intervention outcomes
+- `GET /api/v1/counsellors/me` and `PATCH /api/v1/counsellors/me` — counsellors view and update their own profile and availability
+- `GET /api/v1/counsellor/students` — list students connected through appointments or assigned support requests
+- `GET/POST /api/v1/counsellor/follow-ups` and `PATCH /api/v1/counsellor/follow-ups/{id}` — manage follow-up schedules
+- `GET/POST /api/v1/counsellor/interventions` and `PATCH /api/v1/counsellor/interventions/{id}` — manage student interventions
+- `GET/POST /api/v1/counsellor/outcomes` and `PATCH /api/v1/counsellor/outcomes/{id}` — record and update intervention outcomes
 - `POST /api/v1/auth/register/student` — create a student account
 - `POST /api/v1/auth/login` — obtain a bearer token
 - `GET /api/v1/auth/me` — read the signed-in account
