@@ -10,6 +10,9 @@ from sqlalchemy.orm import declarative_base, sessionmaker
 # SQLite is used only as a convenient local-development default.
 # Set DATABASE_URL to the managed PostgreSQL connection string in deployment.
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./campuswell.db")
+# Some hosting dashboards provide the legacy postgres:// scheme.
+if DATABASE_URL.startswith("postgres://"):
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
 
 engine_options = {"pool_pre_ping": True}
 if DATABASE_URL.startswith("sqlite"):
