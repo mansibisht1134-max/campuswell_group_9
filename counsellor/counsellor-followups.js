@@ -362,3 +362,55 @@ document.addEventListener('keydown', event => {
 selectCase(selectedCard, false);
 filterCases();
 lucide.createIcons();
+
+
+/* Live follow-up scheduling and status management */
+(function(){
+ const API="https://campuswell-api-dah4.onrender.com/api/v1";
+ const token=localStorage.getItem("campuswell_access_token");
+ const form=document.getElementById("liveFollowupForm");
+ if(!form)return;
+ const student=document.getElementById("liveFollowupStudent");
+ const list=document.getElementById("liveFollowupList");
+ const message=document.getElementById("liveFollowupMessage");
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ async function request(path,options={}){
+  const r=await fetch(API+path,{...options,headers:{...(options.headers||{}),Authorization:"Bearer "+token}});
+  const d=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(d.detail||"Request failed.");
+  return d;
+ }
+ async function load(){
+  if(!token){list.textContent="Please sign in with your counsellor account.";return;}
+  try{
+   const [students,items]=await Promise.all([request("/counsellor/students"),request("/counsellor/follow-ups")]);
+   student.innerHTML='<option value="">Choose linked student</option>'+students.map(s=>'<option value="'+s.id+'">'+esc(s.full_name)+' · #'+s.id+'</option>').join("");
+   list.innerHTML="";
+   if(!items.length){list.textContent="No follow-ups scheduled yet.";return;}
+   items.sort((a,b)=>new Date(a.due_at)-new Date(b.due_at)).forEach(item=>{
+    const row=document.createElement("div");row.style.cssText="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:13px;border:1px solid #dceaf8;border-radius:10px;margin:8px 0;";
+    row.innerHTML='<div><strong>Student #'+item.student_id+' · '+esc(new Date(item.due_at).toLocaleString())+'</strong><p style="margin:4px 0;color:#6685a9;">'+esc(item.mode||"Not specified")+' · '+esc(item.status)+'</p><small>'+esc(item.notes||"No notes")+'</small></div>';
+    const actions=document.createElement("div");actions.style.cssText="display:flex;gap:7px;flex-wrap:wrap;";
+    if(item.status==="Scheduled")["Completed","Missed","Cancelled"].forEach(status=>{
+     const b=document.createElement("button");b.type="button";b.textContent=status;b.className="primary-button";b.addEventListener("click",async()=>{
+      b.disabled=true;try{await request("/counsellor/follow-ups/"+item.id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});await load();}catch(e){b.disabled=false;message.textContent=e.message;}
+     });actions.appendChild(b);
+    });
+    row.appendChild(actions);list.appendChild(row);
+   });
+  }catch(e){list.textContent=e.message;}
+ }
+ form.addEventListener("submit",async e=>{
+  e.preventDefault();message.textContent="Scheduling...";
+  try{
+   const due=new Date(document.getElementById("liveFollowupDate").value);
+   if(!Number.isFinite(due.getTime())||due<=new Date())throw new Error("Choose a future date and time.");
+   await request("/counsellor/follow-ups",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+    student_id:Number(student.value),due_at:due.toISOString(),mode:document.getElementById("liveFollowupMode").value,
+    notes:document.getElementById("liveFollowupNotes").value.trim()||null
+   })});
+   message.textContent="Follow-up scheduled successfully.";form.reset();await load();
+  }catch(e){message.textContent=e.message;}
+ });
+ load();
+})();
