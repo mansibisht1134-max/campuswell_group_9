@@ -36,4 +36,54 @@
 const form=document.getElementById("profileForm"),keys=["name","email","phone","department","specialization","employeeId","bio"],storageKey="campuswellCounsellorProfile";
 function refresh(){const name=form.elements.name.value.trim()||"Counsellor";document.getElementById("heroName").textContent=name;document.getElementById("avatar").textContent=name.split(/\s+/).map(x=>x[0]).slice(0,2).join("").toUpperCase();document.getElementById("heroSpecialization").textContent=form.elements.specialization.value.trim()||form.elements.department.value.trim()||"Counsellor";}
 const saved=JSON.parse(localStorage.getItem(storageKey)||"{}");keys.forEach(k=>{if(saved[k])form.elements[k].value=saved[k]});refresh();form.elements.name.addEventListener("input",refresh);form.elements.specialization.addEventListener("input",refresh);form.addEventListener("submit",e=>{e.preventDefault();const data={};keys.forEach(k=>data[k]=form.elements[k].value.trim());localStorage.setItem(storageKey,JSON.stringify(data));refresh();document.getElementById("status").textContent="Your profile has been saved on this device.";});form.addEventListener("reset",()=>setTimeout(refresh,0));lucide.createIcons();
-</script></body></html>
+</script>
+<script>
+(function () {
+ const API="https://campuswell-api-dah4.onrender.com/api/v1";
+ const form=document.getElementById("profileForm");
+ const status=document.getElementById("status");
+ const token=localStorage.getItem("campuswell_access_token");
+ const $=id=>document.getElementById(id);
+ if(!token){status.textContent="Please sign in with your counsellor account to edit this profile.";return;}
+ async function load(){
+  try{
+   const r=await fetch(API+"/counsellors/me",{headers:{Authorization:"Bearer "+token}});
+   if(!r.ok)throw new Error("Could not load counsellor profile.");
+   const p=await r.json();
+   $("name").value=p.full_name||"";
+   $("email").value=p.email||"";
+   $("email").readOnly=true;
+   $("phone").value=p.phone||"";
+   $("department").value=p.qualification||"";
+   $("specialization").value=p.specialization||"";
+   $("employeeId").value=p.employee_id||"";
+   $("employeeId").readOnly=true;
+   $("heroName").textContent=p.full_name||"Counsellor";
+   $("heroSpecialization").textContent=p.specialization||p.qualification||"Counsellor";
+   $("avatar").textContent=(p.full_name||"CW").split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase();
+   status.textContent="Profile loaded from CampusWell.";
+  }catch(e){status.textContent=e.message;}
+ }
+ form.addEventListener("submit",async e=>{
+  e.preventDefault();
+  status.textContent="Saving...";
+  try{
+   const r=await fetch(API+"/counsellors/me",{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({
+    full_name:$("name").value.trim(),
+    phone:$("phone").value.trim()||null,
+    qualification:$("department").value.trim()||null,
+    specialization:$("specialization").value.trim()||null
+   })});
+   const data=await r.json().catch(()=>({}));
+   if(!r.ok)throw new Error(data.detail||"Could not save profile.");
+   $("heroName").textContent=data.full_name;
+   $("heroSpecialization").textContent=data.specialization||data.qualification||"Counsellor";
+   $("avatar").textContent=data.full_name.split(/\s+/).map(x=>x[0]).join("").slice(0,2).toUpperCase();
+   status.textContent="Profile saved successfully.";
+  }catch(e){status.textContent=e.message;}
+ });
+ load();
+})();
+</script>
+
+</body></html>
