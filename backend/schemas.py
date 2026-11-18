@@ -1,3 +1,5 @@
+from datetime import date, datetime
+
 from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 
@@ -30,8 +32,6 @@ class AuthResponse(BaseModel):
     token_type: str = "bearer"
     user: UserResponse
 
-
-from datetime import datetime
 
 
 class AppointmentCreate(BaseModel):
@@ -194,3 +194,121 @@ class CounsellorProfileResponse(BaseModel):
     qualification: str | None
     phone: str | None
     is_available: bool
+
+
+class CounsellorStudentResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    full_name: str
+    student_number: str | None
+    department: str | None
+    course: str | None
+    year_of_study: int | None
+
+
+class FollowUpCreate(BaseModel):
+    student_id: int = Field(gt=0)
+    appointment_id: int | None = Field(default=None, gt=0)
+    due_at: datetime
+    mode: str | None = Field(default=None, max_length=30)
+    notes: str | None = Field(default=None, max_length=3000)
+
+
+class FollowUpUpdate(BaseModel):
+    due_at: datetime | None = None
+    mode: str | None = Field(default=None, max_length=30)
+    status: str | None = Field(default=None, pattern="^(Scheduled|Completed|Missed|Cancelled)$")
+    notes: str | None = Field(default=None, max_length=3000)
+    outcome: str | None = Field(default=None, max_length=3000)
+
+
+class FollowUpResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    student_id: int
+    counsellor_id: int
+    appointment_id: int | None
+    due_at: datetime
+    mode: str | None
+    status: str
+    notes: str | None
+    outcome: str | None
+    created_at: datetime
+
+
+class InterventionCreate(BaseModel):
+    student_id: int = Field(gt=0)
+    title: str = Field(min_length=2, max_length=180)
+    intervention_type: str | None = Field(default=None, max_length=100)
+    description: str | None = Field(default=None, max_length=5000)
+    status: str = Field(default="Active", pattern="^(Active|Completed|Paused|Cancelled)$")
+    start_date: date | None = None
+    end_date: date | None = None
+
+
+class InterventionUpdate(BaseModel):
+    title: str | None = Field(default=None, min_length=2, max_length=180)
+    intervention_type: str | None = Field(default=None, max_length=100)
+    description: str | None = Field(default=None, max_length=5000)
+    status: str | None = Field(default=None, pattern="^(Active|Completed|Paused|Cancelled)$")
+    start_date: date | None = None
+    end_date: date | None = None
+
+
+class InterventionResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    student_id: int
+    counsellor_id: int
+    title: str
+    intervention_type: str | None
+    description: str | None
+    status: str
+    start_date: date | None
+    end_date: date | None
+    created_at: datetime
+
+
+class OutcomeCreate(BaseModel):
+    student_id: int = Field(gt=0)
+    intervention_id: int | None = Field(default=None, gt=0)
+    initial_assessment: int | None = Field(default=None, ge=0, le=100)
+    latest_assessment: int | None = Field(default=None, ge=0, le=100)
+    goals_done: int = Field(default=0, ge=0)
+    goals_total: int = Field(default=0, ge=0)
+    intervention_type: str | None = Field(default=None, max_length=100)
+    outcome_status: str = Field(default="In Progress", pattern="^(In Progress|Improving|Stable|Completed|Needs Review)$")
+    evaluation_date: date | None = None
+    notes: str | None = Field(default=None, max_length=5000)
+
+
+class OutcomeUpdate(BaseModel):
+    initial_assessment: int | None = Field(default=None, ge=0, le=100)
+    latest_assessment: int | None = Field(default=None, ge=0, le=100)
+    goals_done: int | None = Field(default=None, ge=0)
+    goals_total: int | None = Field(default=None, ge=0)
+    intervention_type: str | None = Field(default=None, max_length=100)
+    outcome_status: str | None = Field(default=None, pattern="^(In Progress|Improving|Stable|Completed|Needs Review)$")
+    evaluation_date: date | None = None
+    notes: str | None = Field(default=None, max_length=5000)
+
+
+class OutcomeResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    student_id: int
+    counsellor_id: int
+    intervention_id: int | None
+    initial_assessment: int | None
+    latest_assessment: int | None
+    goals_done: int
+    goals_total: int
+    intervention_type: str | None
+    outcome_status: str
+    evaluation_date: date | None
+    notes: str | None
+    created_at: datetime
