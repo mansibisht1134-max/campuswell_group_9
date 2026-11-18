@@ -163,6 +163,29 @@ def read_current_user(current_user: User = Depends(get_current_user)):
 
 
 
+@app.get("/api/v1/student/profile", tags=["Students"])
+def read_student_profile(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Return the authenticated student's own profile details."""
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can access this profile.")
+    profile = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Student profile not found.")
+    return {
+        "id": profile.id,
+        "email": current_user.email,
+        "full_name": profile.full_name,
+        "student_number": profile.student_number,
+        "department": profile.department,
+        "course": profile.course,
+        "year_of_study": profile.year_of_study,
+        "is_active": current_user.is_active,
+    }
+
+
 @app.get("/api/v1/counsellors", tags=["Appointments"])
 def list_counsellors(db: Session = Depends(get_db)):
     """List active counsellor profiles for the student booking screen."""
