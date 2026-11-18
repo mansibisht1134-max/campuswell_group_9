@@ -38,10 +38,14 @@
 </header>
 <section class="page-content">
 <div class="page-heading">
-<div class="heading-title"><div class="heading-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><p class="eyebrow">WELLNESS CHECK-INS</p><h1>Wellness Trends</h1><p class="page-subtitle">Track changes in mood, stress and wellbeing over time.</p></div></div>
+<div class="heading-title"><div class="heading-icon"><i data-lucide="chart-no-axes-combined"></i></div><div><p class="eyebrow">WELLNESS CHECK-INS</p><h1>Wellness Trends</h1><p class="page-subtitle">Track changes in mood, stress and wellbeing over time. The live summary reflects your linked students; the example charts below are illustrative.</p></div></div>
 <select aria-label="Select date range" class="period-select" id="trendPeriod"><option value="7">Apr 22 – Apr 28, 2026</option><option value="30">Last 30 days</option><option value="90">Last 90 days</option></select>
 </div>
-<div class="trends-grid">
+<section class="card" style="margin:0 0 22px;padding:20px;">
+<div style="display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;align-items:center;"><div><h2 style="margin:0 0 5px;">Live Student Wellness Summary</h2><p style="margin:0;color:#6685a9;">Calculated from check-ins belonging to students linked to your account.</p></div><span id="liveTrendWindow" style="font-size:12px;color:#6685a9;">Last 30 days</span></div>
+<div id="liveTrendMetrics" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:12px;margin-top:16px;"><p>Loading live check-in data...</p></div>
+<p id="liveTrendNote" style="font-size:12px;color:#6685a9;margin:14px 0 0;"></p>
+</section><div class="trends-grid">
 <article class="card mini-chart-card"><h3>Mood Trend</h3><p>Average mood score</p><svg aria-label="Mood trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><path d="M20 96 L20 78 L48 58 L76 66 L104 39 L132 48 L160 32 L188 44 L210 24 L210 96Z" fill="#2db88c" opacity=".1"></path><polyline class="chart-line green" points="20,78 48,58 76,66 104,39 132,48 160,32 188,44 210,24"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
 <article class="card mini-chart-card"><h3>Stress Trend</h3><p>Average stress score</p><svg aria-label="Stress trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><polyline class="chart-line purple" points="20,33 48,58 76,48 104,66 132,55 160,68 188,58 210,65"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
 <article class="card mini-chart-card"><h3>Sleep Quality</h3><p>Average sleep rating</p><svg aria-label="Sleep quality trend" class="chart-svg" role="img" viewbox="0 0 220 130"><g class="grid-line"><path d="M20 15H210 M20 42H210 M20 69H210 M20 96H210"></path></g><polyline class="chart-line" points="20,65 48,44 76,52 104,38 132,42 160,36 188,40 210,20"></polyline><g><text x="17" y="116">Apr 22</text><text x="90" y="116">Apr 25</text><text x="178" y="116">Apr 28</text></g></svg></article>
@@ -64,6 +68,46 @@
 </div>
 </div>
 <script src="./wellness-trends.js"></script>
+<script>
+(function(){
+ const API="https://campuswell-api-dah4.onrender.com/api/v1";
+ const token=localStorage.getItem("campuswell_access_token");
+ const period=document.getElementById("trendPeriod");
+ const metrics=document.getElementById("liveTrendMetrics");
+ const windowLabel=document.getElementById("liveTrendWindow");
+ const note=document.getElementById("liveTrendNote");
+ let records=[];
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function render(){
+  const days=Number(period?.value||30);
+  const since=new Date(Date.now()-days*86400000);
+  const items=records.filter(x=>x.submitted_at&&new Date(x.submitted_at)>=since);
+  windowLabel.textContent="Last "+days+" days";
+  if(!items.length){metrics.innerHTML='<p>No linked student check-ins in this period.</p>';note.textContent="Only records the signed-in counsellor is authorised to view are included.";return;}
+  const avg=(key)=>{const values=items.map(x=>Number(x[key])).filter(Number.isFinite);return values.length?(values.reduce((a,b)=>a+b,0)/values.length).toFixed(1):"—";};
+  const highStress=items.filter(x=>["high","very high"].includes(String(x.stress_level||"").toLowerCase())).length;
+  const scored=items.filter(x=>Number.isFinite(Number(x.score)));
+  const avgScore=scored.length?(scored.reduce((sum,x)=>sum+Number(x.score),0)/scored.length).toFixed(0):"—";
+  const moods={};items.forEach(x=>{const m=String(x.mood||"Not reported");moods[m]=(moods[m]||0)+1;});
+  const commonMood=Object.entries(moods).sort((a,b)=>b[1]-a[1])[0]?.[0]||"—";
+  const cards=[["Check-ins",items.length],["Average wellness score",avgScore==="—"?"—":avgScore+"/100"],["Average sleep",avg("sleep_hours")==="—"?"—":avg("sleep_hours")+" hrs"],["High-stress reports",highStress],["Most reported mood",commonMood]];
+  metrics.innerHTML=cards.map(([label,value])=>'<div style="padding:14px;border:1px solid #dceaf8;border-radius:12px;"><strong style="display:block;font-size:22px;color:#092f5c;">'+esc(value)+'</strong><span style="font-size:12px;color:#6685a9;">'+esc(label)+'</span></div>').join("");
+  note.textContent="Descriptive summary of "+scored.length+" scored check-in(s). Self-reported data only; this is not a clinical assessment.";
+ }
+ async function load(){
+  if(!token){metrics.textContent="Please sign in with your counsellor account.";return;}
+  try{
+   const r=await fetch(API+"/counsellor/wellness-checkins",{headers:{Authorization:"Bearer "+token}});
+   const data=await r.json().catch(()=>[]);
+   if(!r.ok)throw new Error(data.detail||"Unable to load live wellness data.");
+   records=Array.isArray(data)?data:[];
+   render();
+  }catch(e){metrics.textContent=e.message;}
+ }
+ period?.addEventListener("change",render);
+ load();
+})();
+</script>
 <script>if (window.lucide) { lucide.createIcons(); }</script>
 </body>
 </html>
