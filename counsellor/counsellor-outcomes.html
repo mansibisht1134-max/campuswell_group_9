@@ -128,7 +128,57 @@
 <button class="insights-link" id="detailedInsightsButton" type="button">View detailed insights <i data-lucide="arrow-right"></i></button>
 </article>
 </section>
-<section class="records-panel panel" id="recordsPanel">
+<section style="background:#fff;border:1px solid #e5eaf1;border-radius:16px;padding:20px;margin:20px 0;">
+<h2>Live Outcome Records</h2><p>Save and review outcome evaluations in the CampusWell database.</p>
+<form id="liveOutcomeForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:10px;margin:14px 0;">
+<select id="outcomeStudent" required><option value="">Select assigned student</option></select>
+<select id="outcomeInterventionType"><option>Stress Management</option><option>Academic Support</option><option>Wellbeing &amp; Resilience</option><option>Group Workshop</option></select>
+<input id="outcomeInitial" type="number" min="0" max="100" placeholder="Initial score (0–100)" required>
+<input id="outcomeLatest" type="number" min="0" max="100" placeholder="Latest score (0–100)" required>
+<input id="outcomeGoalsDone" type="number" min="0" placeholder="Goals achieved" value="0" required>
+<input id="outcomeGoalsTotal" type="number" min="0" placeholder="Total goals" value="0" required>
+<select id="outcomeStatus"><option>In Progress</option><option>Improving</option><option>Stable</option><option>Completed</option><option>Needs Review</option></select>
+<input id="outcomeDate" type="date" required>
+<textarea id="outcomeNotes" placeholder="Evaluation notes" rows="2" style="grid-column:1/-1;"></textarea>
+<button type="submit" class="primary-button">Save Outcome</button>
+</form><p id="liveOutcomeMessage" role="status"></p><div id="liveOutcomeList">Loading outcome records...</div></section>
+<script>
+(function(){
+ const API="https://campuswell-api-dah4.onrender.com/api/v1",token=localStorage.getItem("campuswell_access_token");
+ const host=document.getElementById("liveOutcomeList"),msg=document.getElementById("liveOutcomeMessage"),student=document.getElementById("outcomeStudent");
+ const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ async function req(path,opts={}){const r=await fetch(API+path,{...opts,headers:{...(opts.headers||{}),Authorization:"Bearer "+token}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||"Request failed");return d;}
+ async function load(){
+  if(!token){host.textContent="Please sign in with your counsellor account.";return;}
+  try{
+   const [students,records]=await Promise.all([req("/counsellor/students"),req("/counsellor/outcomes")]);
+   student.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
+   host.innerHTML="";
+   if(!records.length){host.textContent="No outcome records have been saved yet.";return;}
+   records.forEach(o=>{
+    const row=document.createElement("div");row.style.cssText="padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:8px 0;";
+    row.innerHTML='<strong>Student #'+o.student_id+' · '+safe(o.intervention_type||"Outcome evaluation")+'</strong><p style="margin:4px 0;color:#64748b">Score: '+(o.initial_assessment??"—")+' → '+(o.latest_assessment??"—")+' · '+safe(o.outcome_status)+'</p><small>'+safe(o.notes||"No notes")+'</small>';
+    host.appendChild(row);
+   });
+  }catch(e){host.textContent=e.message;}
+ }
+ document.getElementById("liveOutcomeForm").addEventListener("submit",async e=>{
+  e.preventDefault();msg.textContent="Saving outcome...";
+  try{
+   await req("/counsellor/outcomes",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+    student_id:Number(student.value),intervention_type:document.getElementById("outcomeInterventionType").value,
+    initial_assessment:Number(document.getElementById("outcomeInitial").value),latest_assessment:Number(document.getElementById("outcomeLatest").value),
+    goals_done:Number(document.getElementById("outcomeGoalsDone").value),goals_total:Number(document.getElementById("outcomeGoalsTotal").value),
+    outcome_status:document.getElementById("outcomeStatus").value,evaluation_date:document.getElementById("outcomeDate").value,
+    notes:document.getElementById("outcomeNotes").value.trim()||null
+   })});
+   msg.textContent="Outcome saved successfully.";e.target.reset();await load();
+  }catch(err){msg.textContent=err.message;}
+ });
+ document.getElementById("outcomeDate").value=new Date().toISOString().slice(0,10);
+ load();
+})();
+</script><section class="records-panel panel" id="recordsPanel">
 <div class="records-heading">
 <div class="records-title-wrap"><span class="records-icon"><i data-lucide="clipboard-check"></i></span><div><h2>Student Outcome Records</h2><p>View and manage outcome evaluations for all students.</p></div></div>
 <div class="records-tools">
