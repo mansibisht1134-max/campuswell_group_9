@@ -43,4 +43,22 @@ Never commit a real `.env` file, database password, JWT secret, or other deploym
 
 ## Current scope
 
-This commit establishes configuration, database engine/session management, CORS, and API/database health checks. Authentication, data models, migrations, business endpoints, and frontend integration are subsequent implementation steps.
+The backend currently includes SQLAlchemy data models, student registration/login with JWT authentication, appointment booking and status management, and private wellness check-ins.
+
+## Authentication and API routes
+
+- `POST /api/v1/auth/register/student` — create a student account
+- `POST /api/v1/auth/login` — obtain a bearer token
+- `GET /api/v1/auth/me` — read the signed-in account
+- `GET /api/v1/counsellors` — list available counsellors
+- `POST /api/v1/appointments` and `GET /api/v1/appointments` — book and list appointments
+- `PATCH /api/v1/appointments/{id}/status` — update an appointment status with role/ownership checks
+- `POST /api/v1/wellness/checkins` — submit a student wellness check-in
+- `GET /api/v1/wellness/checkins` — retrieve the signed-in student's check-in history
+- `GET /api/v1/wellness/students/{student_id}/checkins` — counsellor access for students linked through their appointments
+
+Set `JWT_SECRET` to a unique, randomly generated secret of at least 32 characters in your local `.env` and hosting environment. Do not use the example placeholder in a deployed environment. `ACCESS_TOKEN_MINUTES` defaults to 60.
+
+Wellness records are private: students can access their own history, and counsellors can access only students linked to their appointments. Admin-wide wellness access is intentionally not provided by these routes.
+
+This is still an implementation in progress. Add and run automated tests, introduce Alembic migrations, configure production PostgreSQL and secrets, and complete frontend integration before production deployment.
