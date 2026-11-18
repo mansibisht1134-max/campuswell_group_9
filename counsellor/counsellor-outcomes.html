@@ -170,7 +170,8 @@
   if(!token){host.textContent="Please sign in with your counsellor account.";return;}
   try{
    const [students,records]=await Promise.all([req("/counsellor/students"),req("/counsellor/outcomes")]);
-   updateOutcomeMetrics(records);\n   student.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
+   updateOutcomeMetrics(records);
+   student.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
    host.innerHTML="";
    if(!records.length){host.textContent="No outcome records have been saved yet.";return;}
    records.forEach(o=>{
