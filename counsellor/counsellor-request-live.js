@@ -100,6 +100,26 @@
     localStorage.setItem("campuswell_support_draft_" + selected.id, $("responseBox").value);
     alert("Draft saved in this browser. It has not been sent to the student.");
   });
-  $("sendResponse")?.addEventListener("click", () => alert("Student reply delivery is not available in the current API yet. Your draft can be saved locally."));
+  $("sendResponse")?.addEventListener("click", async () => {
+    if (!selected) return;
+    const message = $("responseBox").value.trim();
+    if (message.length < 2) { alert("Write a reply before sending."); return; }
+    const button = $("sendResponse");
+    button.disabled = true;
+    try {
+      await api("/support/requests/" + selected.id + "/reply", {
+        method: "POST",
+        headers: {"Content-Type":"application/json"},
+        body: JSON.stringify({message})
+      });
+      localStorage.removeItem("campuswell_support_draft_" + selected.id);
+      $("responseBox").value = "";
+      alert("Reply sent. The student will receive it in CampusWell notifications.");
+    } catch (error) {
+      alert(error.message || "Could not send reply.");
+    } finally {
+      button.disabled = false;
+    }
+  });
   load();
 })();
