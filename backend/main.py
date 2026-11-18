@@ -23,7 +23,7 @@ from schemas import (
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
     ResourceCreate, ResourceUpdate, ResourceResponse,
-    AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
+    AdminBootstrap, AdminPasswordReset, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
     CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,
     InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
     NotificationResponse, NotificationReadUpdate, AdminAnalyticsOverview,
