@@ -737,6 +737,30 @@ def bootstrap_first_admin(
     return {"access_token": create_access_token(admin), "user": admin}
 
 
+@app.post("/api/v1/admin/reset-password", tags=["Administration"])
+def reset_first_admin_password(
+    payload: AdminPasswordReset,
+    x_bootstrap_token: str | None = Header(default=None, alias="X-Bootstrap-Token"),
+    db: Session = Depends(get_db),
+):
+    """Temporarily reset the first admin password using the deployment bootstrap secret."""
+    expected_token = os.getenv("ADMIN_BOOTSTRAP_TOKEN")
+    if not expected_token or not x_bootstrap_token or not secrets.compare_digest(
+        x_bootstrap_token, expected_token
+    ):
+        raise HTTPException(status_code=403, detail="Invalid or missing reset credential.")
+    admin = db.query(User).filter(User.role == "admin").order_by(User.id.asc()).first()
+    if admin is None:
+        raise HTTPException(status_code=404, detail="Administrator account not found.")
+    if payload.email.lower() != admin.email.lower():
+        raise HTTPException(status_code=403, detail="Email does not match the first administrator.")
+    if verify_password(payload.new_password, admin.password_hash):
+        raise HTTPException(status_code=400, detail="Choose a new password different from the current password.")
+    admin.password_hash = hash_password(payload.new_password)
+    db.commit()
+    return {"message": "Administrator password reset successfully. Remove ADMIN_BOOTSTRAP_TOKEN from the Render environment now."}
+
+
 @app.post(
     "/api/v1/admin/counsellors",
     response_model=CounsellorProfileResponse,
