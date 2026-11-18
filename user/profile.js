@@ -170,4 +170,35 @@ if (savedPhone) {
     document.getElementById("editPhone").value = savedPhone;
 }
 
+
+async function loadStudentProfile() {
+    const token = localStorage.getItem("campuswell_access_token");
+    if (!token) return;
+    try {
+        const response = await fetch("https://campuswell-api-dah4.onrender.com/api/v1/student/profile", {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!response.ok) return;
+        const profile = await response.json();
+        const name = profile.full_name || "Student";
+        displayName.textContent = name;
+        fullName.textContent = name;
+        profileInitial.textContent = getInitial(name);
+        emailAddress.textContent = profile.email || "—";
+        document.getElementById("displayStudentId").textContent = profile.student_number || "Student account";
+        document.querySelector(".student-profile .profile-info h4").textContent = name;
+        document.querySelector(".student-profile .profile-info p").textContent = profile.course || profile.department || "Student";
+        document.getElementById("editName").value = name;
+        document.getElementById("editEmail").value = profile.email || "";
+        const academic = document.querySelectorAll(".academic-grid .info-item strong");
+        if (academic[0]) academic[0].textContent = profile.student_number || "Not provided";
+        if (academic[1]) academic[1].textContent = profile.course || "Not provided";
+        if (academic[2]) academic[2].textContent = profile.department || "Not provided";
+        if (academic[3]) academic[3].textContent = profile.year_of_study ? `Year ${profile.year_of_study}` : "Not provided";
+    } catch (_) {
+        // Keep the page usable if the profile service is temporarily unavailable.
+    }
+}
+loadStudentProfile();
+
 lucide.createIcons();
