@@ -31,7 +31,7 @@
    const old=[...requestPanel.querySelectorAll(".request-card")];old.forEach(n=>n.remove());
    pending.slice(0,5).forEach(a=>{
     const card=document.createElement("div");card.className="request-card";
-    card.innerHTML='<div class="person"><div class="person-avatar">ST</div><div><strong>Student #'+a.student_id+'</strong><span>'+esc(a.reason)+'</span></div></div><div class="request-info"><span>Scheduled</span><strong>'+dateFmt(new Date(a.scheduled_at))+' · '+timeFmt(new Date(a.scheduled_at))+' · '+esc(a.mode)+'</strong></div><div class="request-actions"><button class="accept" data-status="Confirmed" data-id="'+a.id+'">Accept</button><button class="decline" data-status="Declined" data-id="'+a.id+'">Decline</button></div>';
+    card.innerHTML='<div class="person"><div class="person-avatar">ST</div><div><strong>Student #'+a.student_id+'</strong><span>'+esc(a.reason)+'</span></div></div><div class="request-info"><span>Scheduled</span><strong>'+dateFmt(new Date(a.scheduled_at))+' · '+timeFmt(new Date(a.scheduled_at))+' · '+esc(a.mode)+'</strong></div><div class="request-actions"><button class="accept" data-status="Confirmed" data-id="'+a.id+'">Accept</button><button class="decline" data-status="Declined" data-id="'+a.id+'">Decline</button><button class="reschedule" data-reschedule="'+a.id+'">Reschedule</button></div>';
     requestPanel.insertBefore(card,$("allRequests"));
    });
    if(!pending.length){const p=document.createElement("p");p.textContent="No pending appointment requests.";requestPanel.insertBefore(p,$("allRequests"));}
@@ -48,6 +48,20 @@
  async function update(id,status){try{await api("/appointments/"+id+"/status",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});await load();}catch(e){alert(e.message);}}
  async function load(){if(!token)return;try{const me=await api("/auth/me");if(me.role!=="counsellor")throw new Error("Counsellor access required.");const profile=await api("/counsellors/me");const availabilityButton=$("manageAvailability");if(availabilityButton)availabilityButton.textContent=profile.is_available?"Set Unavailable":"Set Available";appointments=await api("/appointments");render();}catch(e){const host=document.querySelector(".calendar-panel");if(host)host.insertAdjacentHTML("afterbegin",'<p role="alert">'+esc(e.message)+'</p>');}}
  document.addEventListener("click",e=>{
+  const reschedule=e.target.closest("[data-reschedule]");
+  if(reschedule){
+   const appointment=appointments.find(a=>a.id===Number(reschedule.dataset.reschedule));
+   if(!appointment)return;
+   const current=new Date(appointment.scheduled_at);
+   const localValue=new Date(current.getTime()-current.getTimezoneOffset()*60000).toISOString().slice(0,16);
+   const value=prompt("Enter the new appointment date and time (YYYY-MM-DDTHH:MM):",localValue);
+   if(!value)return;
+   const chosen=new Date(value);
+   if(Number.isNaN(chosen.getTime())||chosen<=new Date()){alert("Choose a valid future date and time.");return;}
+   try{await api("/appointments/"+appointment.id+"/reschedule",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({scheduled_at:chosen.toISOString()})});alert("Appointment rescheduled and student notified.");await load();}
+   catch(error){alert(error.message||"Could not reschedule appointment.");}
+   return;
+  }
   const action=e.target.closest("[data-status][data-id]");if(action){update(action.dataset.id,action.dataset.status);return;}
   const appt=e.target.closest(".appointment[data-id]");if(appt){const a=appointments.find(x=>x.id===Number(appt.dataset.id));if(a)alert("Student #"+a.student_id+"\n"+a.reason+"\n"+new Date(a.scheduled_at).toLocaleString()+"\n"+a.mode+"\nStatus: "+a.status);}
  });
