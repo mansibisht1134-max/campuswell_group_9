@@ -55,7 +55,11 @@ The backend currently includes SQLAlchemy data models, student registration/logi
 - `PATCH /api/v1/appointments/{id}/status` — update an appointment status with role/ownership checks
 - `POST /api/v1/wellness/checkins` — submit a student wellness check-in
 - `GET /api/v1/wellness/checkins` — retrieve the signed-in student's check-in history
-- `GET /api/v1/wellness/students/{student_id}/checkins` — counsellor access for students linked through their appointments\n- `POST /api/v1/support/requests` and `GET /api/v1/support/requests` — submit and retrieve role-scoped support requests\n- `PATCH /api/v1/support/requests/{id}` — admins assign requests; assigned counsellors update workflow status
+- `GET /api/v1/wellness/students/{student_id}/checkins` — counsellor access for students linked through their appointments
+- `POST /api/v1/support/requests` and `GET /api/v1/support/requests` — submit and retrieve role-scoped support requests
+- `PATCH /api/v1/support/requests/{id}` — admins assign requests; assigned counsellors update workflow status
+- `POST /api/v1/campus-voice` — submit anonymous feedback, complaints, or suggestions; authenticated students may also submit non-anonymously
+- `GET /api/v1/campus-voice` and `PATCH /api/v1/campus-voice/{id}/status` — counsellor/admin review and status management
 
 Set `JWT_SECRET` to a unique, randomly generated secret of at least 32 characters in your local `.env` and hosting environment. Do not use the example placeholder in a deployed environment. `ACCESS_TOKEN_MINUTES` defaults to 60.
 
