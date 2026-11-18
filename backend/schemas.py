@@ -329,3 +329,28 @@ class NotificationResponse(BaseModel):
 
 class NotificationReadUpdate(BaseModel):
     is_read: bool = True
+
+
+
+class AdminAnalyticsOverview(BaseModel):
+    total_students: int
+    active_students: int
+    total_counsellors: int
+    available_counsellors: int
+    total_appointments: int
+    pending_appointments: int
+    completed_appointments: int
+    total_support_requests: int
+    open_support_requests: int
+    total_wellness_checkins: int
+    total_interventions: int
+    active_interventions: int
+    total_follow_ups: int
+    upcoming_follow_ups: int
+    total_resources: int
+    total_campus_voice_submissions: int
+    appointment_statuses: dict[str, int]
+    support_request_statuses: dict[str, int]
+    intervention_statuses: dict[str, int]
+    monthly_appointments: list[dict[str, int | str]]
+    monthly_wellness_checkins: list[dict[str, int | str]]
