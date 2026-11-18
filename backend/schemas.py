@@ -159,3 +159,38 @@ class ResourceResponse(BaseModel):
     url: str | None
     is_published: bool
     created_at: datetime
+
+
+class AdminBootstrap(BaseModel):
+    email: EmailStr
+    password: str = Field(min_length=12, max_length=128)
+
+
+class CounsellorCreate(BaseModel):
+    full_name: str = Field(min_length=2, max_length=150)
+    email: EmailStr
+    password: str = Field(min_length=12, max_length=128)
+    employee_id: str | None = Field(default=None, max_length=50)
+    specialization: str | None = Field(default=None, max_length=200)
+    qualification: str | None = Field(default=None, max_length=200)
+    phone: str | None = Field(default=None, max_length=30)
+    is_available: bool = True
+
+
+class CounsellorProfileUpdate(BaseModel):
+    full_name: str | None = Field(default=None, min_length=2, max_length=150)
+    specialization: str | None = Field(default=None, max_length=200)
+    qualification: str | None = Field(default=None, max_length=200)
+    phone: str | None = Field(default=None, max_length=30)
+    is_available: bool | None = None
+
+
+class CounsellorProfileResponse(BaseModel):
+    id: int
+    full_name: str
+    email: EmailStr
+    employee_id: str | None
+    specialization: str | None
+    qualification: str | None
+    phone: str | None
+    is_available: bool
