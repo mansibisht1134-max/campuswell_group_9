@@ -25,7 +25,8 @@ from schemas import (
     ResourceCreate, ResourceUpdate, ResourceResponse,
     AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
     CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,
-    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,\n    NotificationResponse, NotificationReadUpdate,
+    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
+    NotificationResponse, NotificationReadUpdate,
 )
 
 logging.basicConfig(level=logging.INFO)
