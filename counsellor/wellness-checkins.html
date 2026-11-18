@@ -53,7 +53,33 @@
 <article class="frame-card"><div class="frame-icon orange"><i data-lucide="user-round-search"></i></div><h2>Check-in Details</h2><p>View individual student responses and take action.</p><a class="primary-button" href="wellness-details.html">View Details <i data-lucide="arrow-right"></i></a></article>
 </div>
 <div class="hub-bottom-grid">
-<section class="card" style="margin:18px 0;padding:20px;">
+<section class="card" style="margin:18px 0;padding:20px;border:1px solid #e5eaf1;border-radius:14px;">
+<h2>Early-Warning Wellness Indicators</h2>
+<p style="color:#64748b;">An explainable review aid based on recent self-reported check-ins. This is not a diagnosis, clinical assessment, or validated ML prediction.</p>
+<div id="wellnessInsightSummary" style="display:flex;gap:12px;flex-wrap:wrap;margin:12px 0;"></div>
+<div id="wellnessInsightList">Loading wellness indicators...</div>
+</section>
+<script>
+(async function(){
+ const host=document.getElementById("wellnessInsightList"),summary=document.getElementById("wellnessInsightSummary");
+ const token=localStorage.getItem("campuswell_access_token");
+ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ if(!token){host.textContent="Please sign in with your counsellor account.";return;}
+ try{
+  const r=await fetch("https://campuswell-api-dah4.onrender.com/api/v1/counsellor/wellness-insights",{headers:{Authorization:"Bearer "+token}});
+  const data=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(data.detail||"Unable to load wellness indicators.");
+  summary.innerHTML=[
+   ["Elevated",data.elevated_count||0],["Watch",data.watch_count||0],["Routine",data.routine_count||0]
+  ].map(([label,count])=>'<div style="padding:10px 14px;border:1px solid #e5eaf1;border-radius:10px;min-width:100px;"><strong style="display:block;font-size:22px;">'+count+'</strong><span style="color:#64748b;">'+label+'</span></div>').join("");
+  if(!data.items?.length){host.textContent="No linked students have submitted check-ins yet.";return;}
+  host.innerHTML=data.items.map(item=>{
+   const color=item.indicator_level==="Elevated"?"#b45309":item.indicator_level==="Watch"?"#64748b":"#15803d";
+   return '<article style="padding:14px;border:1px solid #e5eaf1;border-radius:12px;margin:10px 0;"><div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;"><strong>'+esc(item.student_name)+' · Student #'+item.student_id+'</strong><strong style="color:'+color+'">'+esc(item.indicator_level)+' · '+item.indicator_score+'/100</strong></div><p style="margin:6px 0;color:#64748b;">'+item.checkins_reviewed+' recent check-in(s) reviewed · Latest: '+new Date(item.latest_checkin).toLocaleString()+'</p><ul style="margin:8px 0;padding-left:20px;">'+item.reasons.map(reason=>'<li>'+esc(reason)+'</li>').join("")+'</ul></article>';
+  }).join("");
+ }catch(e){host.textContent=e.message;}
+})();
+</script><section class="card" style="margin:18px 0;padding:20px;">
 <h2>Recent Student Check-ins</h2><p>Private records for students linked to your appointments or assigned support requests.</p>
 <div id="counsellorCheckins">Loading check-ins...</div>
 </section>
