@@ -18,6 +18,7 @@ from database import get_db
 from models import Appointment, CampusVoiceSubmission, CounsellorProfile, FollowUp, Intervention, Notification, OutcomeRecord, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
+    AppointmentReschedule,
     AuthResponse, LoginRequest, PasswordChange, StudentRegister, StudentProfileUpdate, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
     SupportRequestCreate, SupportRequestUpdate,
@@ -342,6 +343,34 @@ def update_appointment_status(
     db.refresh(appointment)
     return appointment
 
+
+
+@app.patch("/api/v1/appointments/{appointment_id}/reschedule", response_model=AppointmentResponse, tags=["Appointments"])
+def reschedule_appointment(
+    appointment_id: int,
+    payload: AppointmentReschedule,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Allow the assigned counsellor or an admin to reschedule an appointment."""
+    appointment = db.query(Appointment).filter(Appointment.id == appointment_id).first()
+    if appointment is None:
+        raise HTTPException(status_code=404, detail="Appointment not found.")
+    if current_user.role == "counsellor":
+        profile = db.query(CounsellorProfile).filter(CounsellorProfile.user_id == current_user.id).first()
+        if profile is None or appointment.counsellor_id != profile.id:
+            raise HTTPException(status_code=403, detail="You cannot reschedule this appointment.")
+    elif current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only the assigned counsellor or an administrator can reschedule.")
+    if payload.scheduled_at <= datetime.now(payload.scheduled_at.tzinfo) if payload.scheduled_at.tzinfo else payload.scheduled_at <= datetime.utcnow():
+        raise HTTPException(status_code=422, detail="Choose a future appointment time.")
+    appointment.scheduled_at = payload.scheduled_at
+    student = db.query(StudentProfile).filter(StudentProfile.id == appointment.student_id).first()
+    if student:
+        add_notification(db, student.user_id, "Appointment rescheduled", f"Your CampusWell appointment has been moved to {payload.scheduled_at.isoformat()}.", "appointment", "../appointments/appointments.html")
+    db.commit()
+    db.refresh(appointment)
+    return appointment
 
 
 @app.post(
