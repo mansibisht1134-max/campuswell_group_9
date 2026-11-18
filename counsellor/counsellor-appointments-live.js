@@ -47,7 +47,7 @@
  }
  async function update(id,status){try{await api("/appointments/"+id+"/status",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});await load();}catch(e){alert(e.message);}}
  async function load(){if(!token)return;try{const me=await api("/auth/me");if(me.role!=="counsellor")throw new Error("Counsellor access required.");const profile=await api("/counsellors/me");const availabilityButton=$("manageAvailability");if(availabilityButton)availabilityButton.textContent=profile.is_available?"Set Unavailable":"Set Available";appointments=await api("/appointments");render();}catch(e){const host=document.querySelector(".calendar-panel");if(host)host.insertAdjacentHTML("afterbegin",'<p role="alert">'+esc(e.message)+'</p>');}}
- document.addEventListener("click",e=>{
+ document.addEventListener("click",async e=>{
   const reschedule=e.target.closest("[data-reschedule]");
   if(reschedule){
    const appointment=appointments.find(a=>a.id===Number(reschedule.dataset.reschedule));
