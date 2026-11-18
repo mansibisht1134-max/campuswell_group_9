@@ -41,4 +41,48 @@ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click"
 notices.forEach(n=>n.addEventListener("click",()=>{if(!read.includes(n.dataset.id)){read.push(n.dataset.id);localStorage.setItem(key,JSON.stringify(read));}const page=n.dataset.page;update();if(page)location.href=page;}));
 document.getElementById("markAll").addEventListener("click",()=>{read=notices.map(n=>n.dataset.id);localStorage.setItem(key,JSON.stringify(read));update();});
 update();lucide.createIcons();
+</script><script>
+(async function loadCounsellorNotifications(){
+ const API="https://campuswell-api-dah4.onrender.com/api/v1",token=localStorage.getItem("campuswell_access_token");
+ const host=document.getElementById("noticeList"),search=document.getElementById("search");
+ const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ let items=[],filter="all";
+ const iconFor=t=>String(t||"").toLowerCase().includes("appointment")?"calendar-check":String(t||"").toLowerCase().includes("support")?"messages-square":String(t||"").toLowerCase().includes("wellness")?"heart-pulse":"bell";
+ function render(){
+  const q=search.value.trim().toLowerCase();
+  const visible=items.filter(n=>{
+   const type=String(n.notification_type||"").toLowerCase();
+   const match=filter==="all"||(filter==="unread"&&!n.is_read)||(filter==="appointments"&&type.includes("appointment"))||(filter==="requests"&&(type.includes("support")||type.includes("request")));
+   return match&&(!q||(n.title+" "+n.message).toLowerCase().includes(q));
+  });
+  host.innerHTML=visible.length?visible.map(n=>'<article class="notice '+(n.is_read?"":"unread")+'" data-id="'+n.id+'"><div class="notice-icon"><i data-lucide="'+iconFor(n.notification_type)+'"></i></div><div class="notice-content"><h3 class="notice-title">'+safe(n.title)+'</h3><p>'+safe(n.message)+'</p><div class="meta"><span>'+safe(n.notification_type||"CampusWell")+'</span><time>'+new Date(n.created_at).toLocaleString()+'</time></div></div><span class="unread-dot"></span></article>').join(""):'<p class="muted">No notifications match your search or filter.</p>';
+  host.querySelectorAll(".notice").forEach(el=>el.addEventListener("click",async()=>{
+   const item=items.find(x=>String(x.id)===el.dataset.id);
+   if(item&&!item.is_read){try{await api("/notifications/"+item.id+"/read",{method:"PATCH"});item.is_read=true;render();}catch(e){}}
+   if(item?.target_url){const url=item.target_url;if(url.startsWith("../")||url.startsWith("/"))location.href=url;}
+  }));
+  const unread=items.filter(n=>!n.is_read).length;
+  document.getElementById("totalCount").textContent=items.length;
+  document.getElementById("unreadCount").textContent=unread;
+  document.getElementById("overviewUnread").textContent=unread;
+  document.getElementById("sidebarUnread").textContent=unread;
+  document.getElementById("appointmentCount").textContent=items.filter(n=>String(n.notification_type||"").toLowerCase().includes("appointment")).length;
+  document.getElementById("readStatus").textContent=unread?"Not yet":"All caught up";
+  document.getElementById("empty").classList.toggle("show",visible.length===0);
+  if(window.lucide)lucide.createIcons();
+ }
+ async function api(path,options={}){
+  const r=await fetch(API+path,{...options,headers:{...(options.headers||{}),Authorization:"Bearer "+token}});
+  const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||"Request failed.");return d;
+ }
+ document.querySelectorAll("[data-filter]").forEach(b=>b.addEventListener("click",()=>{filter=b.dataset.filter;document.querySelectorAll("[data-filter]").forEach(x=>x.classList.toggle("active",x===b));render();}));
+ search.addEventListener("input",render);
+ document.getElementById("markAll").addEventListener("click",async()=>{
+  try{await api("/notifications/read-all",{method:"POST"});items.forEach(n=>n.is_read=true);render();}
+  catch(e){document.getElementById("readStatus").textContent=e.message;}
+ });
+ if(!token){host.textContent="Please sign in with your counsellor account.";return;}
+ try{items=await api("/notifications?limit=100");render();}
+ catch(e){host.textContent=e.message;}
+})();
 </script></body></html>
