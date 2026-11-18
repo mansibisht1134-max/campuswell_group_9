@@ -1,14 +1,29 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
-DATABASE_URL = "postgresql://postgres:YOUR_PASSWORD@localhost:5432/campuswell"
-engine = create_engine(DATABASE_URL)
+
+# SQLite is used only as a convenient local-development default.
+# Set DATABASE_URL to the managed PostgreSQL connection string in deployment.
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./campuswell.db")
+
+engine_options = {"pool_pre_ping": True}
+if DATABASE_URL.startswith("sqlite"):
+    engine_options["connect_args"] = {"check_same_thread": False}
+
+engine = create_engine(DATABASE_URL, **engine_options)
+
 SessionLocal = sessionmaker(
     autocommit=False,
     autoflush=False,
-    bind=engine
+    bind=engine,
 )
+
 Base = declarative_base()
+
+
 def get_db():
+    """Provide one SQLAlchemy session per API request."""
     db = SessionLocal()
     try:
         yield db
