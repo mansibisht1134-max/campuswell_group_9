@@ -362,7 +362,8 @@ def reschedule_appointment(
             raise HTTPException(status_code=403, detail="You cannot reschedule this appointment.")
     elif current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Only the assigned counsellor or an administrator can reschedule.")
-    if payload.scheduled_at <= datetime.now(payload.scheduled_at.tzinfo) if payload.scheduled_at.tzinfo else payload.scheduled_at <= datetime.utcnow():
+    now = datetime.now(payload.scheduled_at.tzinfo) if payload.scheduled_at.tzinfo else datetime.utcnow()
+    if payload.scheduled_at <= now:
         raise HTTPException(status_code=422, detail="Choose a future appointment time.")
     appointment.scheduled_at = payload.scheduled_at
     student = db.query(StudentProfile).filter(StudentProfile.id == appointment.student_id).first()
