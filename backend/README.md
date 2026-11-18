@@ -47,7 +47,17 @@ Never commit a real `.env` file, database password, JWT secret, or other deploym
 
 The backend currently includes SQLAlchemy data models, student registration/login with JWT authentication, one-time first-admin bootstrap, admin-managed counsellor accounts and profiles, appointment booking, private wellness check-ins, support requests, Campus Voice submissions, wellness resource management, and role-private in-app notifications.
 
-## Authentication and API routes\n\n### Notifications\n\n- `GET /api/v1/notifications` — list the signed-in user's notifications; supports `unread_only`, `limit`, and `offset`\n- `GET /api/v1/notifications/unread-count` — return the signed-in user's unread count\n- `PATCH /api/v1/notifications/{id}/read` — mark one of the user's notifications as read\n- `POST /api/v1/notifications/read-all` — mark all of the user's notifications as read\n- `DELETE /api/v1/notifications/{id}` — delete one of the user's notifications\n\nAppointment requests, appointment status changes, support-request assignments, follow-up scheduling, and new interventions create in-app notifications for the relevant account.
+## Authentication and API routes
+
+### Notifications
+
+- `GET /api/v1/notifications` — list the signed-in user's notifications; supports `unread_only`, `limit`, and `offset`
+- `GET /api/v1/notifications/unread-count` — return the signed-in user's unread count
+- `PATCH /api/v1/notifications/{id}/read` — mark one of the user's notifications as read
+- `POST /api/v1/notifications/read-all` — mark all of the user's notifications as read
+- `DELETE /api/v1/notifications/{id}` — delete one of the user's notifications
+
+Appointment requests, appointment status changes, support-request assignments, follow-up scheduling, and new interventions create in-app notifications for the relevant account.
 
 - `POST /api/v1/admin/bootstrap` — create the first admin using the deployment-only `ADMIN_BOOTSTRAP_TOKEN` secret; disabled after an admin exists
 - `POST /api/v1/admin/counsellors` and `GET /api/v1/admin/counsellors` — admins provision and list counsellor accounts
