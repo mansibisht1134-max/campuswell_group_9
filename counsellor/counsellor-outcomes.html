@@ -233,5 +233,5 @@
   .then(async r=>{const u=await r.json().catch(()=>({}));if(!r.ok||u.role!=="counsellor")throw new Error("Invalid counsellor session");})
   .catch(()=>{clear();location.replace(login);});
 })();
-</script></body>
+</script><script>document.getElementById("recordOutcomeButton")?.addEventListener("click",()=>document.getElementById("liveOutcomeForm")?.scrollIntoView({behavior:"smooth",block:"center"}));</script></body>
 </html>
