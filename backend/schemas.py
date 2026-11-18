@@ -73,6 +73,7 @@ class WellnessCheckinResponse(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     id: int
+    student_id: int
     mood: str | None
     sleep_hours: float | None
     energy_level: str | None
