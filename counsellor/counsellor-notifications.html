@@ -59,7 +59,7 @@ update();lucide.createIcons();
   host.querySelectorAll(".notice").forEach(el=>el.addEventListener("click",async()=>{
    const item=items.find(x=>String(x.id)===el.dataset.id);
    if(item&&!item.is_read){try{await api("/notifications/"+item.id+"/read",{method:"PATCH"});item.is_read=true;render();}catch(e){}}
-   if(item?.target_url){const url=item.target_url;if(url.startsWith("../")||url.startsWith("/"))location.href=url;}
+   if(item?.target_url){const url=item.target_url;if(!/^(?:[a-z]+:|\\/\\/|javascript:)/i.test(url)){const dest=url.startsWith("/counsellor/appointments/")?"counsellor-appointments.html":url.startsWith("/counsellor/requests/")?"counsellor-request.html":url.startsWith("/")?".."+url:url;location.href=dest;}}
   }));
   const unread=items.filter(n=>!n.is_read).length;
   document.getElementById("totalCount").textContent=items.length;
