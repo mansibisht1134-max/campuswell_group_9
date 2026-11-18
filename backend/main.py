@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
 
-from database import Base, engine
+from database import engine
 import models  # noqa: F401 - registers SQLAlchemy models with Base.metadata
 
 from fastapi import Depends
@@ -59,12 +59,6 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-
-@app.on_event("startup")
-def create_database_tables():
-    # Initial development convenience. Use Alembic migrations before production.
-    Base.metadata.create_all(bind=engine)
 
 
 @app.get("/", tags=["System"])
