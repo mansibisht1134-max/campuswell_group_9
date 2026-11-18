@@ -310,17 +310,40 @@
                             </section>
                             <section class="requests-card card">
                                 <div class="section-header compact">
+                                    <div><span class="eyebrow">GET HELP</span><h2>Submit a Support Request</h2></div>
+                                </div>
+                                <form id="supportRequestForm" style="display:grid;gap:12px;">
+                                    <label>Category
+                                        <select id="requestCategory" required style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;">
+                                            <option>Academic</option><option>Stress & Anxiety</option><option>Personal</option><option>Career</option><option>Relationships</option><option>Other</option>
+                                        </select>
+                                    </label>
+                                    <label>Priority
+                                        <select id="requestPriority" style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;">
+                                            <option>Normal</option><option>Low</option><option>High</option><option>Urgent</option>
+                                        </select>
+                                    </label>
+                                    <label>Request title
+                                        <input id="requestTitle" required minlength="2" maxlength="180" placeholder="What do you need help with?" style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;box-sizing:border-box;">
+                                    </label>
+                                    <label>Tell us a little more
+                                        <textarea id="requestMessage" required minlength="5" rows="4" placeholder="Describe what support would help..." style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;box-sizing:border-box;resize:vertical;"></textarea>
+                                    </label>
+                                    <button type="submit" class="primary-button" id="submitSupportRequest">Send Support Request</button>
+                                    <p id="supportFormMessage" role="status" aria-live="polite"></p>
+                                </form>
+                            </section>
+                            <section class="requests-card card">
+                                <div class="section-header compact">
                                     <div>
                                         <span class="eyebrow">SUPPORT REQUESTS</span>
                                         <h2>My Support Requests</h2>
                                     </div>
                                     <button type="button" class="text-button" id="viewRequests">View all <i data-lucide="arrow-right"></i></button>
                                 </div>
-                                <div class="request-table">
-                                    <div class="request-row request-head"><span>Request</span><span>Counsellor</span><span>Date</span><span>Status</span></div>
-                                    <div class="request-row"><strong>Academic Stress</strong><span>Dr. Priya Sharma</span><span>12 Oct</span><b class="status scheduled">Scheduled</b></div>
-                                    <div class="request-row"><strong>Personal Concern</strong><span>Dr. Rahul Mehta</span><span>5 Oct</span><b class="status completed">Completed</b></div>
-                                    <div class="request-row"><strong>Career Guidance</strong><span>Dr. Vivek Nair</span><span>28 Sep</span><b class="status completed">Completed</b></div>
+                                <div class="request-table" id="mySupportRequests">
+                                    <div class="request-row request-head"><span>Request</span><span>Priority</span><span>Date</span><span>Status</span></div>
+                                    <p>Loading your requests...</p>
                                 </div>
                             </section>
                             <section class="resources-card card">
