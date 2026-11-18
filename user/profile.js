@@ -53,30 +53,40 @@ document.querySelectorAll(".mini-edit").forEach(button => {
     });
 });
 
-profileForm.addEventListener("submit", event => {
+profileForm.addEventListener("submit", async event => {
     event.preventDefault();
-
     const name = document.getElementById("editName").value.trim();
     const email = document.getElementById("editEmail").value.trim();
     const phone = document.getElementById("editPhone").value.trim();
-
-    if (!name || !email || !phone) {
-        showToast("Please complete all required fields.");
-        return;
+    if (!name || !email) { showToast("Please enter your name."); return; }
+    const token = localStorage.getItem("campuswell_access_token");
+    if (!token) { showToast("Please sign in again to update your profile."); return; }
+    const submit = profileForm.querySelector('button[type="submit"]');
+    if (submit) submit.disabled = true;
+    try {
+        const response = await fetch("https://campuswell-api-dah4.onrender.com/api/v1/student/profile", {
+            method: "PATCH",
+            headers: { "Content-Type": "application/json", Authorization: "Bearer " + token },
+            body: JSON.stringify({ full_name: name, phone: phone || null })
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.detail || "Could not save profile changes.");
+        displayName.textContent = data.full_name;
+        fullName.textContent = data.full_name;
+        emailAddress.textContent = data.email;
+        phoneNumber.textContent = data.phone || "Not provided";
+        profileInitial.textContent = getInitial(data.full_name);
+        document.querySelector(".student-profile .profile-info h4")?.replaceChildren(document.createTextNode(data.full_name));
+        localStorage.setItem("campuswell_profile_name", data.full_name);
+        localStorage.setItem("campuswell_profile_email", data.email);
+        localStorage.setItem("campuswell_profile_phone", data.phone || "");
+        closeModal(editModal);
+        showToast("Profile updated successfully.");
+    } catch (error) {
+        showToast(error.message);
+    } finally {
+        if (submit) submit.disabled = false;
     }
-
-    displayName.textContent = name;
-    fullName.textContent = name;
-    emailAddress.textContent = email;
-    phoneNumber.textContent = phone;
-    profileInitial.textContent = getInitial(name);
-
-    localStorage.setItem("campuswell_profile_name", name);
-    localStorage.setItem("campuswell_profile_email", email);
-    localStorage.setItem("campuswell_profile_phone", phone);
-
-    closeModal(editModal);
-    showToast("Profile updated successfully.");
 });
 
 document.querySelectorAll("[data-close]").forEach(button => {
@@ -185,6 +195,9 @@ async function loadStudentProfile() {
         fullName.textContent = name;
         profileInitial.textContent = getInitial(name);
         emailAddress.textContent = profile.email || "—";
+        phoneNumber.textContent = profile.phone || "Not provided";
+        document.getElementById("editPhone").value = profile.phone || "";
+        document.getElementById("editEmail").readOnly = true;
         document.getElementById("displayStudentId").textContent = profile.student_number || "Student account";
         document.querySelector(".student-profile .profile-info h4").textContent = name;
         document.querySelector(".student-profile .profile-info p").textContent = profile.course || profile.department || "Student";
