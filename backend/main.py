@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import datetime, timedelta
 import os
 import secrets
 from fastapi import FastAPI, HTTPException, Header
@@ -26,7 +26,7 @@ from schemas import (
     AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
     CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,
     InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
-    NotificationResponse, NotificationReadUpdate,
+    NotificationResponse, NotificationReadUpdate, AdminAnalyticsOverview,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -1251,4 +1251,97 @@ def delete_notification(
         raise HTTPException(status_code=404, detail="Notification not found.")
     db.delete(notification)
     db.commit()
+
+
+
+@app.get(
+    "/api/v1/admin/analytics/overview",
+    response_model=AdminAnalyticsOverview,
+    tags=["Administration", "Analytics"],
+)
+def admin_analytics_overview(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Return aggregate operational metrics; no private check-in notes or identities."""
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can view institution-wide analytics.")
+
+    now = datetime.utcnow()
+    first_month = (now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+                   - timedelta(days=150)).replace(day=1)
+
+    def status_counts(query, column):
+        counts = {}
+        for value, in query.with_entities(column).all():
+            key = value or "Unspecified"
+            counts[key] = counts.get(key, 0) + 1
+        return counts
+
+    def monthly_counts(query, column):
+        rows = query.with_entities(column).all()
+        counts = {}
+        for value, in rows:
+            if value is None:
+                continue
+            month_key = value.strftime("%Y-%m")
+            if month_key >= first_month.strftime("%Y-%m"):
+                counts[month_key] = counts.get(month_key, 0) + 1
+        result = []
+        cursor = first_month
+        for _ in range(6):
+            key = cursor.strftime("%Y-%m")
+            result.append({"month": key, "count": counts.get(key, 0)})
+            cursor = (cursor.replace(day=28) + timedelta(days=4)).replace(day=1)
+        return result
+
+    appointment_query = db.query(Appointment)
+    support_query = db.query(SupportRequest)
+    intervention_query = db.query(Intervention)
+    appointment_statuses = status_counts(appointment_query, Appointment.status)
+    support_statuses = status_counts(support_query, SupportRequest.status)
+    intervention_statuses = status_counts(intervention_query, Intervention.status)
+
+    return {
+        "total_students": db.query(StudentProfile).join(User).filter(User.role == "student").count(),
+        "active_students": db.query(StudentProfile).join(User).filter(User.role == "student", User.is_active.is_(True)).count(),
+        "total_counsellors": db.query(CounsellorProfile).join(User).filter(User.role == "counsellor").count(),
+        "available_counsellors": db.query(CounsellorProfile).join(User).filter(User.role == "counsellor", User.is_active.is_(True), CounsellorProfile.is_available.is_(True)).count(),
+        "total_appointments": appointment_query.count(),
+        "pending_appointments": appointment_query.filter(Appointment.status == "Pending").count(),
+        "completed_appointments": appointment_query.filter(Appointment.status == "Completed").count(),
+        "total_support_requests": support_query.count(),
+        "open_support_requests": support_query.filter(SupportRequest.status == "Open").count(),
+        "total_wellness_checkins": db.query(WellnessCheckin).count(),
+        "total_interventions": intervention_query.count(),
+        "active_interventions": intervention_query.filter(Intervention.status == "Active").count(),
+        "total_follow_ups": db.query(FollowUp).count(),
+        "upcoming_follow_ups": db.query(FollowUp).filter(FollowUp.due_at >= now, FollowUp.status == "Scheduled").count(),
+        "total_resources": db.query(Resource).count(),
+        "total_campus_voice_submissions": db.query(CampusVoiceSubmission).count(),
+        "appointment_statuses": appointment_statuses,
+        "support_request_statuses": support_statuses,
+        "intervention_statuses": intervention_statuses,
+        "monthly_appointments": monthly_counts(appointment_query, Appointment.created_at),
+        "monthly_wellness_checkins": monthly_counts(db.query(WellnessCheckin), WellnessCheckin.submitted_at),
+    }
+
+
+@app.get("/api/v1/admin/dashboard/summary", tags=["Administration"])
+def admin_dashboard_summary(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Compact dashboard counters for the admin home screen."""
+    overview = admin_analytics_overview(current_user, db)
+    return {
+        "total_students": overview["total_students"],
+        "total_counsellors": overview["total_counsellors"],
+        "total_appointments": overview["total_appointments"],
+        "pending_appointments": overview["pending_appointments"],
+        "open_support_requests": overview["open_support_requests"],
+        "total_wellness_checkins": overview["total_wellness_checkins"],
+        "active_interventions": overview["active_interventions"],
+        "upcoming_follow_ups": overview["upcoming_follow_ups"],
+    }
 
