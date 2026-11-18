@@ -106,3 +106,28 @@ class SupportRequestResponse(BaseModel):
     message: str
     status: str
     created_at: datetime
+
+
+class CampusVoiceCreate(BaseModel):
+    submission_type: str = Field(default="Feedback", pattern="^(Feedback|Complaint|Suggestion)$")
+    category: str | None = Field(default=None, max_length=100)
+    title: str = Field(min_length=2, max_length=180)
+    message: str = Field(min_length=5, max_length=5000)
+    is_anonymous: bool = True
+
+
+class CampusVoiceStatusUpdate(BaseModel):
+    status: str = Field(pattern="^(Pending|Under Review|Resolved|Closed)$")
+
+
+class CampusVoiceResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    is_anonymous: bool
+    submission_type: str
+    category: str | None
+    title: str
+    message: str
+    status: str
+    created_at: datetime
