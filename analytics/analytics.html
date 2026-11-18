@@ -51,10 +51,10 @@
                 <p>Current totals available in the system</p>
             </div>
             <div class="overview-grid analytics-stats">
-                <article class="overview-card"><div class="overview-icon">♡</div><div><span>Total Check-ins</span><strong>0</strong></div></article>
-                <article class="overview-card"><div class="overview-icon">▣</div><div><span>Appointments</span><strong>0</strong></div></article>
-                <article class="overview-card"><div class="overview-icon">✉</div><div><span>Support Requests</span><strong>0</strong></div></article>
-                <article class="overview-card"><div class="overview-icon">☆</div><div><span>Campus Feedback</span><strong>0</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">♡</div><div><span>Total Check-ins</span><strong id="metricCheckins">—</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">▣</div><div><span>Appointments</span><strong id="metricAppointments">—</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">✉</div><div><span>Support Requests</span><strong id="metricSupport">—</strong></div></article>
+                <article class="overview-card"><div class="overview-icon">☆</div><div><span>Campus Feedback</span><strong id="metricVoice">—</strong></div></article>
             </div>
         </section>
 
@@ -78,6 +78,50 @@
                 </div>
             </article>
         </section>
+
+        <div id="analyticsStatus" role="status" style="margin-top:16px;color:#64748b;">Loading live analytics...</div>
+        <section class="analytics-panels" style="margin-top:20px;">
+            <article class="analytics-panel">
+                <div class="section-heading"><h2>Operational Status</h2><p>Live records from the CampusWell database</p></div>
+                <div class="stress-list" id="operationalStatus"></div>
+            </article>
+            <article class="analytics-panel">
+                <div class="section-heading"><h2>Monthly Activity</h2><p>Recent appointment and wellness check-in totals</p></div>
+                <div id="monthlyActivity" class="stress-list"></div>
+            </article>
+        </section>
+        <script>
+        (async function loadCampusWellAnalytics() {
+            const status = document.getElementById("analyticsStatus");
+            const token = localStorage.getItem("campuswell_access_token");
+            if (!token) { status.textContent = "Admin sign-in required to view live analytics."; return; }
+            try {
+                const response = await fetch("https://campuswell-api-dah4.onrender.com/api/v1/admin/analytics/overview", {
+                    headers: { Authorization: "Bearer " + token }
+                });
+                if (response.status === 401 || response.status === 403) { status.textContent = "This page requires an administrator account. Please sign in as admin."; return; }
+                if (!response.ok) throw new Error("Analytics service unavailable.");
+                const data = await response.json();
+                document.getElementById("metricCheckins").textContent = data.total_wellness_checkins;
+                document.getElementById("metricAppointments").textContent = data.total_appointments;
+                document.getElementById("metricSupport").textContent = data.total_support_requests;
+                document.getElementById("metricVoice").textContent = data.total_campus_voice_submissions;
+                const stats = [
+                    ["Students", data.total_students], ["Active students", data.active_students],
+                    ["Counsellors", data.total_counsellors], ["Available counsellors", data.available_counsellors],
+                    ["Pending appointments", data.pending_appointments], ["Completed appointments", data.completed_appointments],
+                    ["Open support requests", data.open_support_requests], ["Published resources", data.total_resources]
+                ];
+                document.getElementById("operationalStatus").innerHTML = stats.map(([label, value]) => '<div class="stress-item"><span>' + label + '</span><strong>' + value + '</strong></div>').join("");
+                const months = (data.monthly_wellness_checkins || []).map((item, index) => {
+                    const appt = (data.monthly_appointments || [])[index] || {};
+                    return '<div class="stress-item"><span>' + (item.month || item.label || "Month") + '</span><strong>' + (item.count ?? item.total ?? 0) + ' check-ins · ' + (appt.count ?? appt.total ?? 0) + ' appointments</strong></div>';
+                });
+                document.getElementById("monthlyActivity").innerHTML = months.length ? months.join("") : "<p>No monthly activity data yet.</p>";
+                status.textContent = "Live analytics loaded successfully.";
+            } catch (error) { status.textContent = "Could not load analytics. Please refresh later."; }
+        })();
+        </script>
     </main>
 </body>
 </html>
