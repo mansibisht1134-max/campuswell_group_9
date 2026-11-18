@@ -323,6 +323,7 @@ async function loadSavedResources() {
         });
         if (!response.ok) return;
         const resources = await response.json();
+        const localItems = JSON.parse(localStorage.getItem("campuswell_saved_resources")) || [];
         const saved = resources.map(resource => ({
             id: resource.id,
             title: resource.title,
@@ -330,6 +331,7 @@ async function loadSavedResources() {
             time: "Saved to account",
             text: resource.description || "Explore this wellness resource."
         }));
+        saved.push(...localItems.filter(item => !item.id));
         localStorage.setItem("campuswell_saved_resources", JSON.stringify(saved));
         if (currentTab === "saved") renderPersonalResources();
     } catch (_) {
