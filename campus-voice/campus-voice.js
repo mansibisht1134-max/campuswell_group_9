@@ -83,65 +83,84 @@ voiceMessage.addEventListener("input", () => {
     messageCount.textContent = `${voiceMessage.value.length}/500`;
 });
 
-voiceForm.addEventListener("submit", event => {
-    event.preventDefault();
+const VOICE_API = "https://campuswell-api-dah4.onrender.com/api/v1";
+const voiceHistoryKey = "campuswell_voice_submissions";
 
-    const submission = {
-        id: Date.now(),
-        type: selectedType === "Poll" ? "Feedback" : selectedType,
+function escapeVoiceText(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[char]));
+}
+
+function renderSubmissions() {
+    const stored = JSON.parse(localStorage.getItem(voiceHistoryKey) || "[]");
+    totalSubmissions.textContent = stored.length;
+    submissionList.innerHTML = "";
+    if (!stored.length) {
+        submissionList.innerHTML = '<tr><td colspan="4">No submissions from this browser yet. Share your feedback above.</td></tr>';
+        return;
+    }
+    stored.slice(0, 20).forEach(item => {
+        const typeClass = item.type.toLowerCase();
+        const icon = item.type === "Complaint" ? "triangle-alert" : item.type === "Suggestion" ? "lightbulb" : "message-square";
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td><span class="submission-type ${typeClass}"><i data-lucide="${icon}"></i>${escapeVoiceText(item.type)}</span></td>
+            <td>${escapeVoiceText(item.title)}</td>
+            <td>${escapeVoiceText(item.date)}</td>
+            <td><span class="status">${escapeVoiceText(item.status)}</span></td>`;
+        submissionList.appendChild(row);
+    });
+    lucide.createIcons();
+}
+
+voiceForm.addEventListener("submit", async event => {
+    event.preventDefault();
+    const submitButton = voiceForm.querySelector('button[type="submit"]');
+    submitButton.disabled = true;
+    submitButton.textContent = "Submitting...";
+    const apiType = selectedType === "Issue" ? "Complaint" : selectedType === "Poll" ? "Feedback" : selectedType;
+    const anonymous = modalAnonymous.checked;
+    const token = localStorage.getItem("campuswell_access_token");
+    const payload = {
+        submission_type: apiType,
         category: voiceCategory.value,
         title: voiceTitle.value.trim(),
         message: voiceMessage.value.trim(),
-        date: new Date().toLocaleDateString("en-IN", {
-            day: "2-digit",
-            month: "short",
-            year: "numeric"
-        }),
-        status: "Pending",
-        anonymous: modalAnonymous.checked
+        is_anonymous: anonymous
     };
-
-    submissions.unshift(submission);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(submissions));
-
-    renderSubmissions();
-    closeModal();
-    showToast("Your submission has been sent successfully.");
-});
-
-function renderSubmissions() {
-    const stored = submissions.length;
-
-    totalSubmissions.textContent = 5 + stored;
-
-    if (!stored) {
-        return;
+    try {
+        const headers = { "Content-Type": "application/json" };
+        if (token) headers.Authorization = `Bearer ${token}`;
+        const response = await fetch(`${VOICE_API}/campus-voice`, {
+            method: "POST",
+            headers,
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.detail || "Unable to submit. Please try again.");
+        const stored = JSON.parse(localStorage.getItem(voiceHistoryKey) || "[]");
+        stored.unshift({
+            id: data.id,
+            type: apiType,
+            title: payload.title,
+            date: new Date(data.created_at || Date.now()).toLocaleDateString("en-IN"),
+            status: data.status || "Pending"
+        });
+        localStorage.setItem(voiceHistoryKey, JSON.stringify(stored));
+        renderSubmissions();
+        closeModal();
+        showToast("Your submission has been saved successfully.");
+        voiceForm.reset();
+        messageCount.textContent = "0/500";
+    } catch (error) {
+        showToast(error.message);
+    } finally {
+        submitButton.disabled = false;
+        submitButton.innerHTML = 'Submit <i data-lucide="send"></i>';
+        lucide.createIcons();
     }
-
-    const rows = submissions
-        .slice(0, 6)
-        .map(item => {
-            const typeClass = item.type.toLowerCase();
-
-            return `
-                <tr>
-                    <td>
-                        <span class="submission-type ${typeClass}">
-                            <i data-lucide="${item.type === "Issue" ? "triangle-alert" : item.type === "Suggestion" ? "lightbulb" : "message-square"}"></i>
-                            ${item.type}
-                        </span>
-                    </td>
-                    <td>${item.title}</td>
-                    <td>${item.date}</td>
-                    <td><span class="status ${item.status.toLowerCase()}">${item.status}</span></td>
-                </tr>
-            `;
-        })
-        .join("");
-
-    submissionList.insertAdjacentHTML("afterbegin", rows);
-    lucide.createIcons();
-}
+});
 
 search.addEventListener("input", () => {
     const query = search.value.trim().toLowerCase();
