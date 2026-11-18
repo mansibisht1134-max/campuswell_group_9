@@ -20,7 +20,8 @@ from schemas import (
     AuthResponse, LoginRequest, StudentRegister, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
-    CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,\n    ResourceCreate, ResourceUpdate, ResourceResponse,
+    CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
+    ResourceCreate, ResourceUpdate, ResourceResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
