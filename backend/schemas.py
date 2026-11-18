@@ -166,6 +166,11 @@ class AdminBootstrap(BaseModel):
     password: str = Field(min_length=12, max_length=128)
 
 
+class AdminPasswordReset(BaseModel):
+    email: EmailStr
+    new_password: str = Field(min_length=12, max_length=128)
+
+
 class CounsellorCreate(BaseModel):
     full_name: str = Field(min_length=2, max_length=150)
     email: EmailStr
