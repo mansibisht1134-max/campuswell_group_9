@@ -294,3 +294,61 @@ modalButton.addEventListener("click", () => {
 searchInput.addEventListener("input", filterPage);
 updateMonthTitle();
 if (window.lucide) lucide.createIcons();
+
+
+const LIVE_API = "https://campuswell-api-dah4.onrender.com/api/v1";
+function liveEscape(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" })[c]);
+}
+async function loadLiveAppointments() {
+    const token = localStorage.getItem("campuswell_access_token");
+    const host = document.getElementById("liveAppointmentList");
+    if (!token) { host.textContent = "Sign in with a counsellor account to view appointments."; return; }
+    try {
+        const response = await fetch(`${LIVE_API}/appointments`, { headers:{Authorization:`Bearer ${token}`} });
+        if (response.status === 401) { host.textContent = "Session expired. Please sign in again."; return; }
+        if (!response.ok) throw new Error("Could not load appointments.");
+        const appointments = await response.json();
+        host.innerHTML = "";
+        if (!appointments.length) { host.textContent = "No appointments assigned to your account yet."; return; }
+        appointments.forEach(item => {
+            const row = document.createElement("div");
+            row.style.cssText = "display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;padding:14px;border:1px solid #e5eaf1;border-radius:12px;margin:10px 0;background:#fff;";
+            const date = new Date(item.scheduled_at);
+            const details = document.createElement("div");
+            details.innerHTML = `<strong>${liveEscape("Student #"+item.student_id)} · ${liveEscape(item.reason)}</strong><div style="color:#64748b;font-size:13px;margin-top:4px;">${date.toLocaleString()} · ${liveEscape(item.mode)} · ${liveEscape(item.status)}</div>`;
+            row.appendChild(details);
+            const actions = document.createElement("div");
+            actions.style.cssText = "display:flex;gap:8px;flex-wrap:wrap;";
+            const allowed = item.status === "Pending" ? ["Confirmed","Declined"] : item.status === "Confirmed" ? ["Completed"] : [];
+            allowed.forEach(status => {
+                const button = document.createElement("button");
+                button.type = "button"; button.textContent = status;
+                button.style.cssText = "padding:8px 12px;border:0;border-radius:8px;cursor:pointer;background:#eef2ff;color:#334155;";
+                button.addEventListener("click", () => updateLiveAppointment(item.id,status));
+                actions.appendChild(button);
+            });
+            row.appendChild(actions);
+            host.appendChild(row);
+        });
+    } catch(error) { host.textContent = error.message; }
+}
+async function updateLiveAppointment(id,status) {
+    const token = localStorage.getItem("campuswell_access_token");
+    try {
+        const response = await fetch(`${LIVE_API}/appointments/${id}/status`, {
+            method:"PATCH",
+            headers:{"Content-Type":"application/json",Authorization:`Bearer ${token}`},
+            body:JSON.stringify({status})
+        });
+        const data = await response.json().catch(()=>({}));
+        if (!response.ok) throw new Error(data.detail || "Could not update appointment.");
+        await loadLiveAppointments();
+        openModal("Appointment updated", `Appointment #${id} is now ${status}.`);
+    } catch(error) { openModal("Update failed",error.message); }
+}
+const livePanel = document.createElement("section");
+livePanel.style.cssText = "background:#fff;border:1px solid #e5eaf1;border-radius:16px;padding:20px;margin:0 0 22px;";
+livePanel.innerHTML = '<h2 style="margin:0 0 8px;">Live Appointments</h2><p style="color:#64748b;margin:0 0 12px;">Appointments assigned to your counsellor account.</p><div id="liveAppointmentList">Loading appointments...</div>';
+document.querySelector(".main-content").insertBefore(livePanel, document.querySelector(".appointment-tools"));
+loadLiveAppointments();
