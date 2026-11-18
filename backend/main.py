@@ -607,6 +607,21 @@ def list_published_resources(
     return query.order_by(Resource.created_at.desc()).all()
 
 
+@app.get(
+    "/api/v1/admin/resources",
+    response_model=list[ResourceResponse],
+    tags=["Administration", "Resources"],
+)
+def admin_list_all_resources(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Allow administrators to review published and draft resource records."""
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can manage resources.")
+    return db.query(Resource).order_by(Resource.created_at.desc()).all()
+
+
 @app.post(
     "/api/v1/resources",
     response_model=ResourceResponse,
