@@ -273,7 +273,7 @@ def create_appointment(
         status="Pending",
     )
     db.add(appointment)
-    add_notification(db, counsellor.user_id, "New appointment request", "A student has requested an appointment. Please review your appointments.", "appointment", "/counsellor/appointments/appointments.html")
+    add_notification(db, counsellor.user_id, "New appointment request", "A student has requested an appointment. Please review your appointments.", "appointment", "counsellor-appointments.html")
     db.commit()
     db.refresh(appointment)
     return appointment
@@ -336,7 +336,7 @@ def update_appointment_status(
     appointment.status = payload.status
     student_profile = db.query(StudentProfile).filter(StudentProfile.id == appointment.student_id).first()
     if student_profile:
-        add_notification(db, student_profile.user_id, "Appointment updated", f"Your appointment status is now {payload.status}.", "appointment", "/appointments/appointments.html")
+        add_notification(db, student_profile.user_id, "Appointment updated", f"Your appointment status is now {payload.status}.", "appointment", "../appointments/appointments.html")
     db.commit()
     db.refresh(appointment)
     return appointment
@@ -520,7 +520,7 @@ def update_support_request(
             if counsellor is None:
                 raise HTTPException(status_code=404, detail="Counsellor not found.")
             request.assigned_counsellor_id = counsellor.id
-            add_notification(db, counsellor.user_id, "Support request assigned", "A new student support request has been assigned to you.", "support", "/counsellor/requests/requests.html")
+            add_notification(db, counsellor.user_id, "Support request assigned", "A new student support request has been assigned to you.", "support", "counsellor-request.html")
         if payload.status is not None:
             request.status = payload.status
     elif current_user.role == "counsellor":
@@ -1174,7 +1174,7 @@ def create_follow_up(
     db.add(follow_up)
     student_profile = db.query(StudentProfile).filter(StudentProfile.id == payload.student_id).first()
     if student_profile:
-        add_notification(db, student_profile.user_id, "Follow-up scheduled", "Your counsellor has scheduled a follow-up with you.", "follow_up", "/appointments/appointments.html")
+        add_notification(db, student_profile.user_id, "Follow-up scheduled", "Your counsellor has scheduled a follow-up with you.", "follow_up", "../appointments/appointments.html")
     db.commit()
     db.refresh(follow_up)
     return follow_up
@@ -1246,7 +1246,7 @@ def create_intervention(
     db.add(intervention)
     student_profile = db.query(StudentProfile).filter(StudentProfile.id == payload.student_id).first()
     if student_profile:
-        add_notification(db, student_profile.user_id, "Wellness plan updated", "Your counsellor has added a wellness intervention to your support plan.", "intervention", "/wellness/wellness.html")
+        add_notification(db, student_profile.user_id, "Wellness plan updated", "Your counsellor has added a wellness intervention to your support plan.", "intervention", "../wellness/wellness.html")
     db.commit()
     db.refresh(intervention)
     return intervention
