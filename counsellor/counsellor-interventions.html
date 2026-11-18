@@ -70,11 +70,11 @@
 </article>
 <article class="metric-card">
 <span class="metric-icon icon-purple"><i data-lucide="target"></i></span>
-<div class="metric-copy"><span>Goals Achieved</span><strong id="goalsAchieved">76%</strong></div>
+<div class="metric-copy"><span>Goal Completion</span><strong id="goalsAchieved">Not tracked</strong></div>
 </article>
 <article class="metric-card">
 <span class="metric-icon icon-orange"><i data-lucide="refresh-cw"></i></span>
-<div class="metric-copy"><span>Plans Requiring Review</span><strong id="plansReview">6</strong></div>
+<div class="metric-copy"><span>Paused Plans</span><strong id="plansReview">6</strong></div>
 </article>
 </section>
 <section class="plans-panel">
@@ -116,6 +116,13 @@
   try{
    const [students,plans]=await Promise.all([request("/counsellor/students"),request("/counsellor/interventions")]);
    studentSelect.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
+   const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+   set("totalPlans",plans.length);
+   set("studentsSupported",new Set(plans.map(p=>p.student_id)).size);
+   set("goalsAchieved","Not tracked");
+   set("plansReview",plans.filter(p=>p.status==="Paused").length);
+   set("planCount",plans.length+" live database plans");
+   set("visibleCount","Showing "+plans.length+" live plans");
    host.innerHTML="";
    if(!plans.length){host.textContent="No intervention plans yet.";return;}
    plans.forEach(p=>{
