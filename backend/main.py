@@ -20,7 +20,8 @@ from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
     AuthResponse, LoginRequest, PasswordChange, StudentRegister, StudentProfileUpdate, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
-    SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
+    SupportRequestCreate, SupportRequestUpdate,
+    SupportReplyCreate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
     ResourceCreate, ResourceUpdate, ResourceResponse,
     AdminBootstrap, AdminPasswordReset, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
@@ -540,6 +541,39 @@ def update_support_request(
     db.refresh(request)
     return request
 
+
+
+@app.post("/api/v1/support/requests/{request_id}/reply", tags=["Support"])
+def reply_to_support_request(
+    request_id: int,
+    payload: SupportReplyCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Send an in-app reply from the assigned counsellor to the student."""
+    if current_user.role != "counsellor":
+        raise HTTPException(status_code=403, detail="Only counsellors can reply to support requests.")
+    counsellor = db.query(CounsellorProfile).filter(
+        CounsellorProfile.user_id == current_user.id
+    ).first()
+    request = db.query(SupportRequest).filter(SupportRequest.id == request_id).first()
+    if counsellor is None or request is None:
+        raise HTTPException(status_code=404, detail="Support request not found.")
+    if request.assigned_counsellor_id != counsellor.id:
+        raise HTTPException(status_code=403, detail="This request is not assigned to you.")
+    student = db.query(StudentProfile).filter(StudentProfile.id == request.student_id).first()
+    if student is None:
+        raise HTTPException(status_code=404, detail="Student profile not found.")
+    add_notification(
+        db,
+        student.user_id,
+        "Reply from your CampusWell counsellor",
+        f"Regarding support request #{request.id} ({request.title}): {payload.message}",
+        "support_reply",
+        "../support/support.html",
+    )
+    db.commit()
+    return {"message": "Reply sent to the student's CampusWell notifications."}
 
 
 @app.post(
