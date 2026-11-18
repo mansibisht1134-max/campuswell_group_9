@@ -15,7 +15,7 @@ from sqlalchemy.orm import Session
 
 from auth import JWT_SECRET, create_access_token, get_current_user, get_optional_current_user, hash_password, verify_password
 from database import get_db
-from models import Appointment, CampusVoiceSubmission, CounsellorProfile, FollowUp, Intervention, OutcomeRecord, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
+from models import Appointment, CampusVoiceSubmission, CounsellorProfile, FollowUp, Intervention, Notification, OutcomeRecord, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
     AuthResponse, LoginRequest, StudentRegister, UserResponse,
@@ -25,7 +25,7 @@ from schemas import (
     ResourceCreate, ResourceUpdate, ResourceResponse,
     AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
     CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,
-    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
+    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,\n    NotificationResponse, NotificationReadUpdate,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -208,6 +208,7 @@ def create_appointment(
         status="Pending",
     )
     db.add(appointment)
+    add_notification(db, counsellor.user_id, "New appointment request", "A student has requested an appointment. Please review your appointments.", "appointment", "/counsellor/appointments/appointments.html")
     db.commit()
     db.refresh(appointment)
     return appointment
@@ -268,6 +269,9 @@ def update_appointment_status(
     elif current_user.role != "admin":
         raise HTTPException(status_code=403, detail="Not authorized.")
     appointment.status = payload.status
+    student_profile = db.query(StudentProfile).filter(StudentProfile.id == appointment.student_id).first()
+    if student_profile:
+        add_notification(db, student_profile.user_id, "Appointment updated", f"Your appointment status is now {payload.status}.", "appointment", "/appointments/appointments.html")
     db.commit()
     db.refresh(appointment)
     return appointment
@@ -451,6 +455,7 @@ def update_support_request(
             if counsellor is None:
                 raise HTTPException(status_code=404, detail="Counsellor not found.")
             request.assigned_counsellor_id = counsellor.id
+            add_notification(db, counsellor.user_id, "Support request assigned", "A new student support request has been assigned to you.", "support", "/counsellor/requests/requests.html")
         if payload.status is not None:
             request.status = payload.status
     elif current_user.role == "counsellor":
@@ -945,6 +950,9 @@ def create_follow_up(
         notes=payload.notes,
     )
     db.add(follow_up)
+    student_profile = db.query(StudentProfile).filter(StudentProfile.id == payload.student_id).first()
+    if student_profile:
+        add_notification(db, student_profile.user_id, "Follow-up scheduled", "Your counsellor has scheduled a follow-up with you.", "follow_up", "/appointments/appointments.html")
     db.commit()
     db.refresh(follow_up)
     return follow_up
@@ -1014,6 +1022,9 @@ def create_intervention(
         end_date=payload.end_date,
     )
     db.add(intervention)
+    student_profile = db.query(StudentProfile).filter(StudentProfile.id == payload.student_id).first()
+    if student_profile:
+        add_notification(db, student_profile.user_id, "Wellness plan updated", "Your counsellor has added a wellness intervention to your support plan.", "intervention", "/wellness/wellness.html")
     db.commit()
     db.refresh(intervention)
     return intervention
@@ -1137,3 +1148,106 @@ def update_outcome_record(
     db.commit()
     db.refresh(outcome)
     return outcome
+
+
+def add_notification(
+    db: Session,
+    user_id: int,
+    title: str,
+    message: str,
+    notification_type: str,
+    target_url: str | None = None,
+):
+    """Queue an in-app notification in the current database transaction."""
+    db.add(Notification(
+        user_id=user_id,
+        title=title,
+        message=message,
+        notification_type=notification_type,
+        target_url=target_url,
+        is_read=False,
+    ))
+
+
+@app.get(
+    "/api/v1/notifications",
+    response_model=list[NotificationResponse],
+    tags=["Notifications"],
+)
+def list_notifications(
+    unread_only: bool = False,
+    limit: int = 50,
+    offset: int = 0,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Return only the signed-in user's notifications, newest first."""
+    limit = max(1, min(limit, 100))
+    query = db.query(Notification).filter(Notification.user_id == current_user.id)
+    if unread_only:
+        query = query.filter(Notification.is_read.is_(False))
+    return query.order_by(Notification.created_at.desc()).offset(offset).limit(limit).all()
+
+
+@app.get("/api/v1/notifications/unread-count", tags=["Notifications"])
+def unread_notification_count(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    count = db.query(Notification).filter(
+        Notification.user_id == current_user.id,
+        Notification.is_read.is_(False),
+    ).count()
+    return {"unread_count": count}
+
+
+@app.patch(
+    "/api/v1/notifications/{notification_id}/read",
+    response_model=NotificationResponse,
+    tags=["Notifications"],
+)
+def mark_notification_read(
+    notification_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    notification = db.query(Notification).filter(
+        Notification.id == notification_id,
+        Notification.user_id == current_user.id,
+    ).first()
+    if notification is None:
+        raise HTTPException(status_code=404, detail="Notification not found.")
+    notification.is_read = True
+    db.commit()
+    db.refresh(notification)
+    return notification
+
+
+@app.post("/api/v1/notifications/read-all", tags=["Notifications"])
+def mark_all_notifications_read(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    updated = db.query(Notification).filter(
+        Notification.user_id == current_user.id,
+        Notification.is_read.is_(False),
+    ).update({Notification.is_read: True}, synchronize_session=False)
+    db.commit()
+    return {"message": "All notifications marked as read.", "updated_count": updated}
+
+
+@app.delete("/api/v1/notifications/{notification_id}", status_code=204, tags=["Notifications"])
+def delete_notification(
+    notification_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    notification = db.query(Notification).filter(
+        Notification.id == notification_id,
+        Notification.user_id == current_user.id,
+    ).first()
+    if notification is None:
+        raise HTTPException(status_code=404, detail="Notification not found.")
+    db.delete(notification)
+    db.commit()
+
