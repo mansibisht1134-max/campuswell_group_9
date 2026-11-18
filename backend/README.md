@@ -37,7 +37,9 @@ The API will be available at:
 ## Environment variables
 
 - `DATABASE_URL`: SQLAlchemy database URL. Defaults to a local SQLite database for development. Use the PostgreSQL connection URL supplied by your hosting provider in deployment.
-- `CORS_ORIGINS`: comma-separated list of allowed browser origins. The current GitHub Pages origin and common local development origins are allowed by default.\n- `JWT_SECRET`: required random signing secret for access tokens.\n- `ADMIN_BOOTSTRAP_TOKEN`: one-time high-entropy secret required to create the first administrator. Remove it from the hosting environment after successful bootstrap.
+- `CORS_ORIGINS`: comma-separated list of allowed browser origins. The current GitHub Pages origin and common local development origins are allowed by default.
+- `JWT_SECRET`: required random signing secret for access tokens.
+- `ADMIN_BOOTSTRAP_TOKEN`: one-time high-entropy secret required to create the first administrator. Remove it from the hosting environment after successful bootstrap.
 
 Never commit a real `.env` file, database password, JWT secret, or other deployment secret.
 
@@ -47,7 +49,10 @@ The backend currently includes SQLAlchemy data models, student registration/logi
 
 ## Authentication and API routes
 
-- `POST /api/v1/admin/bootstrap` — create the first admin using the deployment-only `ADMIN_BOOTSTRAP_TOKEN` secret; disabled after an admin exists\n- `POST /api/v1/admin/counsellors` and `GET /api/v1/admin/counsellors` — admins provision and list counsellor accounts\n- `GET /api/v1/counsellors/me` and `PATCH /api/v1/counsellors/me` — counsellors view and update their own profile and availability\n- `POST /api/v1/auth/register/student` — create a student account
+- `POST /api/v1/admin/bootstrap` — create the first admin using the deployment-only `ADMIN_BOOTSTRAP_TOKEN` secret; disabled after an admin exists
+- `POST /api/v1/admin/counsellors` and `GET /api/v1/admin/counsellors` — admins provision and list counsellor accounts
+- `GET /api/v1/counsellors/me` and `PATCH /api/v1/counsellors/me` — counsellors view and update their own profile and availability\n- `GET /api/v1/counsellor/students` — list students connected through appointments or assigned support requests\n- `GET/POST /api/v1/counsellor/follow-ups` and `PATCH /api/v1/counsellor/follow-ups/{id}` — manage follow-up schedules\n- `GET/POST /api/v1/counsellor/interventions` and `PATCH /api/v1/counsellor/interventions/{id}` — manage student interventions\n- `GET/POST /api/v1/counsellor/outcomes` and `PATCH /api/v1/counsellor/outcomes/{id}` — record and update intervention outcomes
+- `POST /api/v1/auth/register/student` — create a student account
 - `POST /api/v1/auth/login` — obtain a bearer token
 - `GET /api/v1/auth/me` — read the signed-in account
 - `GET /api/v1/counsellors` — list available counsellors
