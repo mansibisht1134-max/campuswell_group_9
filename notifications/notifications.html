@@ -1,25 +1,289 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CampusWell | Notifications</title>
-<style>
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:"Segoe UI",Arial,sans-serif;background:#f1f7fd;color:#173b60;min-height:100vh}.wrap{max-width:1000px;margin:auto;padding:30px}.top{display:flex;justify-content:space-between;align-items:center;gap:15px;background:#102f52;color:#fff;padding:22px 28px;border-radius:14px;margin-bottom:22px}.top p{color:#c6def3;margin-top:5px}.top a{color:#102f52;background:#d8edff;text-decoration:none;padding:11px 17px;border-radius:8px;font-weight:600}.intro{margin:10px 0 20px}.intro p{color:#6685a2;margin-top:6px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.toolbar button{border:1px solid #b9d4eb;background:white;color:#075b9c;padding:10px 14px;border-radius:8px;font-weight:700;cursor:pointer}.count{color:#6685a2;font-size:14px}.list{display:grid;gap:12px}.notice{display:flex;gap:15px;align-items:flex-start;background:white;border:1px solid #deebf7;border-radius:13px;padding:19px;box-shadow:0 4px 14px #173b6008}.notice.unread{border-left:4px solid #1684ce;background:#fbfdff}.ico{width:43px;height:43px;min-width:43px;border-radius:12px;background:#e4f2ff;display:grid;place-items:center;font-size:20px}.body{flex:1}.body h3{font-size:16px;margin:2px 0 6px}.body p{color:#5e7d9b;font-size:14px;line-height:1.5}.time{font-size:12px;color:#8aa1b7;margin-top:8px}.tag{font-size:11px;font-weight:700;color:#0874b9;background:#e4f3ff;padding:5px 8px;border-radius:20px;white-space:nowrap}.empty{display:none;text-align:center;padding:40px;background:white;border-radius:12px;color:#6685a2}@media(max-width:600px){.wrap{padding:14px}.top{align-items:flex-start;flex-direction:column}.notice{padding:14px}.toolbar{align-items:flex-start;flex-direction:column}}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | Notifications</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="notifications.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
 </head>
-<body><main class="wrap">
-<header class="top"><div><h1>CampusWell</h1><p>Your notifications</p></div><a href="../dashboard/dashboard.html">← Back to Dashboard</a></header>
-<section class="intro"><h2>Notifications</h2><p>Stay updated on your appointments, wellness activity and support requests.</p></section>
-<div class="toolbar"><span class="count" id="count">3 unread notifications</span><button id="markAll" type="button">Mark all as read</button></div>
-<section class="list" id="list">
-<article class="notice unread" data-id="appointment"><div class="ico">📅</div><div class="body"><h3>Appointment reminder</h3><p>You have an upcoming counselling appointment. Review your appointment details and make sure you're prepared.</p><div class="time">Appointment update · Recent</div></div><span class="tag">NEW</span></article>
-<article class="notice unread" data-id="wellness"><div class="ico">💙</div><div class="body"><h3>Wellness check-in reminder</h3><p>Take a moment to complete your wellness check-in and keep track of how you're feeling.</p><div class="time">Wellness reminder · Recent</div></div><span class="tag">NEW</span></article>
-<article class="notice unread" data-id="support"><div class="ico">💬</div><div class="body"><h3>Support is available</h3><p>If you need assistance, you can reach out to the counselling and support team through CampusWell.</p><div class="time">Support update · Recent</div></div><span class="tag">NEW</span></article>
-</section><div class="empty" id="empty">You're all caught up. No notifications to show.</div>
-</main>
-<script>
-const notices=[...document.querySelectorAll('.notice')];const read=JSON.parse(localStorage.getItem('campuswellReadNotifications')||'[]');
-function render(){notices.forEach(n=>{const isRead=read.includes(n.dataset.id);n.classList.toggle('unread',!isRead);const tag=n.querySelector('.tag');if(tag)tag.style.display=isRead?'none':'inline-block'});const unread=notices.filter(n=>!read.includes(n.dataset.id)).length;document.getElementById('count').textContent=unread+' unread notification'+(unread===1?'':'s');document.getElementById('empty').style.display=notices.length?'none':'block'}
-notices.forEach(n=>n.addEventListener('click',()=>{if(!read.includes(n.dataset.id))read.push(n.dataset.id);localStorage.setItem('campuswellReadNotifications',JSON.stringify(read));render()}));
-document.getElementById('markAll').addEventListener('click',()=>{notices.forEach(n=>{if(!read.includes(n.dataset.id))read.push(n.dataset.id)});localStorage.setItem('campuswellReadNotifications',JSON.stringify(read));render()});render();
-</script></body></html>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="../wellness/wellness.html" class="nav-link"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="../appointments/appointments.html" class="nav-link"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="../support/support.html" class="nav-link"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="../campus-voice/campus-voice.html" class="nav-link"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="../resources/resources.html" class="nav-link"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="../user/profile.html" class="nav-link"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="./notifications.html" class="nav-link active"><i data-lucide="bell"></i>Notifications<span class="notification-count" id="sidebarCount">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input id="notificationSearch" type="text" placeholder="Search notifications...">
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+<i data-lucide="bell"></i>
+<span class="bell-dot" id="topBellCount">3</span>
+</button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading">
+                        <span class="eyebrow">YOUR ACCOUNT</span>
+                        <h1>Notifications</h1>
+                        <p>Stay updated with your appointments, wellness activity and campus updates.</p>
+                    </div>
+
+                    <div class="notification-stats">
+                        <button type="button" class="notification-stat active" data-filter="all">
+<div class="notification-stat-icon blue"><i data-lucide="bell"></i></div>
+<div><span>All Notifications</span><strong id="allCount">8</strong></div>
+</button>
+                        <button type="button" class="notification-stat" data-filter="unread">
+<div class="notification-stat-icon purple"><i data-lucide="mail"></i></div>
+<div><span>Unread</span><strong id="unreadCount">3</strong></div>
+</button>
+                        <button type="button" class="notification-stat" data-filter="important">
+<div class="notification-stat-icon red"><i data-lucide="circle-alert"></i></div>
+<div><span>Important</span><strong id="importantCount">2</strong></div>
+</button>
+                    </div>
+
+                    <div class="notification-layout">
+                        <section class="notification-list-card card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">YOUR ACTIVITY</span>
+                                    <h2>Recent Notifications</h2>
+                                    <p>Important updates and reminders from CampusWell.</p>
+                                </div>
+                                <button type="button" class="mark-all" id="markAll">Mark all as read</button>
+                            </div>
+
+                            <div class="notification-tabs">
+                                <button type="button" class="notification-tab active" data-filter="all">All</button>
+                                <button type="button" class="notification-tab" data-filter="unread">Unread</button>
+                                <button type="button" class="notification-tab" data-filter="appointments">Appointments</button>
+                                <button type="button" class="notification-tab" data-filter="wellness">Wellness</button>
+                                <button type="button" class="notification-tab" data-filter="campus">Campus</button>
+                            </div>
+
+                            <div class="notifications-container" id="notificationsContainer">
+
+                                <button type="button" class="notification-item unread important" data-type="appointments" data-page="../appointments/appointments.html">
+<div class="notification-icon blue"><i data-lucide="calendar-check-2"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>Appointment confirmed</strong>
+<span class="notification-dot"></span>
+</div>
+<p>Your counselling appointment with Dr. Priya Sharma is confirmed for 14 Oct at 3:00 PM.</p>
+<div class="notification-meta"><span>Appointments</span><time>10 min ago</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item unread" data-type="wellness" data-page="../wellness/wellness.html">
+<div class="notification-icon purple"><i data-lucide="heart-pulse"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>Wellness check-in reminder</strong>
+<span class="notification-dot"></span>
+</div>
+<p>Take a moment to complete today's wellness check-in and keep your wellbeing journey on track.</p>
+<div class="notification-meta"><span>Wellness</span><time>1 hour ago</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item unread" data-type="campus" data-page="../campus-voice/campus-voice.html">
+<div class="notification-icon green"><i data-lucide="megaphone"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>New campus update</strong>
+<span class="notification-dot"></span>
+</div>
+<p>Library timings have been extended until 10 PM from Monday to Friday.</p>
+<div class="notification-meta"><span>Campus Voice</span><time>Yesterday</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item important" data-type="appointments" data-page="../appointments/appointments.html">
+<div class="notification-icon orange"><i data-lucide="clock-3"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>Upcoming appointment reminder</strong>
+</div>
+<p>Your counselling session is scheduled for tomorrow. Please be available a few minutes before the session.</p>
+<div class="notification-meta"><span>Appointments</span><time>Yesterday</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item" data-type="support" data-page="../support/support.html">
+<div class="notification-icon pink"><i data-lucide="messages-square"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>Support request updated</strong>
+</div>
+<p>Your support request has been reviewed and is now being processed by the counselling team.</p>
+<div class="notification-meta"><span>Counselling & Support</span><time>2 days ago</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item" data-type="wellness" data-page="../resources/resources.html">
+<div class="notification-icon green"><i data-lucide="book-open"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>New wellness resource available</strong>
+</div>
+<p>A new guide on managing academic pressure is now available in Wellness Resources.</p>
+<div class="notification-meta"><span>Wellness Resources</span><time>3 days ago</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item" data-type="campus" data-page="../campus-voice/campus-voice.html">
+<div class="notification-icon blue"><i data-lucide="check-circle-2"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>Your campus suggestion was resolved</strong>
+</div>
+<p>The sports facility suggestion you submitted has been reviewed and marked as resolved.</p>
+<div class="notification-meta"><span>Campus Voice</span><time>4 days ago</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                                <button type="button" class="notification-item" data-type="support" data-page="../support/support.html">
+<div class="notification-icon purple"><i data-lucide="heart-handshake"></i></div>
+<div class="notification-content">
+<div class="notification-title-row">
+<strong>Counselling resources updated</strong>
+</div>
+<p>New self-care and stress-management resources are now available for students.</p>
+<div class="notification-meta"><span>Counselling & Support</span><time>5 days ago</time></div>
+</div>
+<i class="notification-arrow" data-lucide="chevron-right"></i>
+</button>
+
+                            </div>
+
+                            <div class="empty-state" id="emptyState">
+                                <div><i data-lucide="bell-off"></i></div>
+                                <strong>No notifications found</strong>
+                                <p>Try another search or notification filter.</p>
+                            </div>
+                        </section>
+
+                        <aside class="notification-side">
+                            <section class="overview-card card">
+                                <div class="card-heading">
+                                    <div>
+                                        <span class="eyebrow">NOTIFICATION OVERVIEW</span>
+                                        <h2>Your Activity</h2>
+                                    </div>
+                                    <i data-lucide="chart-no-axes-column"></i>
+                                </div>
+                                <div class="overview-number">
+                                    <strong id="overviewUnread">3</strong>
+                                    <span>Unread notifications</span>
+                                </div>
+                                <div class="overview-list">
+                                    <div><span>Today</span><strong>4</strong></div>
+                                    <div><span>This week</span><strong>8</strong></div>
+                                    <div><span>Important</span><strong>2</strong></div>
+                                </div>
+                            </section>
+
+                            <section class="types-card card">
+                                <div class="card-heading">
+                                    <div>
+                                        <span class="eyebrow">NOTIFICATION TYPES</span>
+                                        <h2>Updates you receive</h2>
+                                    </div>
+                                    <i data-lucide="layers-3"></i>
+                                </div>
+                                <div class="type-row">
+                                    <div class="type-icon blue"><i data-lucide="calendar-days"></i></div><span>Appointments</span><strong>3</strong></div>
+                                <div class="type-row">
+                                    <div class="type-icon purple"><i data-lucide="heart-pulse"></i></div><span>Wellness</span><strong>2</strong></div>
+                                <div class="type-row">
+                                    <div class="type-icon pink"><i data-lucide="messages-square"></i></div><span>Support</span><strong>2</strong></div>
+                                <div class="type-row">
+                                    <div class="type-icon green"><i data-lucide="megaphone"></i></div><span>Campus Voice</span><strong>2</strong></div>
+                            </section>
+
+                            <section class="activity-card card">
+                                <div class="card-heading">
+                                    <div>
+                                        <span class="eyebrow">RECENT ACTIVITY</span>
+                                        <h2>Account Activity</h2>
+                                    </div>
+                                    <i data-lucide="activity"></i>
+                                </div>
+                                <div class="activity-row"><i data-lucide="log-in"></i>
+                                    <div><strong>Last login</strong><span>Today at 9:14 AM</span></div>
+                                </div>
+                                <div class="activity-row"><i data-lucide="heart"></i>
+                                    <div><strong>Wellness check-in</strong><span>Yesterday at 6:42 PM</span></div>
+                                </div>
+                                <div class="activity-row"><i data-lucide="calendar-check-2"></i>
+                                    <div><strong>Appointment booked</strong><span>2 days ago</span></div>
+                                </div>
+                            </section>
+                        </aside>
+                    </div>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="notifications.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
