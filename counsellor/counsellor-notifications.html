@@ -85,4 +85,8 @@ update();lucide.createIcons();
  try{items=await api("/notifications?limit=100");render();}
  catch(e){host.textContent=e.message;}
 })();
+</script><script>
+document.querySelectorAll(".logout").forEach(link=>link.addEventListener("click",()=>{
+ ["campuswell_access_token","campuswell_user","campuswell_student_email","campuswell_counsellor_email"].forEach(key=>localStorage.removeItem(key));
+}));
 </script></body></html>
