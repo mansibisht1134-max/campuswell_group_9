@@ -53,7 +53,23 @@
 <article class="frame-card"><div class="frame-icon orange"><i data-lucide="user-round-search"></i></div><h2>Check-in Details</h2><p>View individual student responses and take action.</p><a class="primary-button" href="wellness-details.html">View Details <i data-lucide="arrow-right"></i></a></article>
 </div>
 <div class="hub-bottom-grid">
-<section class="card hub-info-card"><div class="card-header"><div><h2>Wellness check-in workflow</h2><p>A clear route from student response to counsellor action.</p></div><span class="badge blue">4 steps</span></div><div class="workflow-steps"><div><span>01</span><strong>Review responses</strong><small>Understand how students report feeling.</small></div><div><span>02</span><strong>Identify support needs</strong><small>Use context and trends, not scores alone.</small></div><div><span>03</span><strong>Offer support</strong><small>Arrange an appointment when appropriate.</small></div><div><span>04</span><strong>Plan follow-up</strong><small>Track agreed next steps and progress.</small></div></div></section>
+<section class="card" style="margin:18px 0;padding:20px;">
+<h2>Recent Student Check-ins</h2><p>Private records for students linked to your appointments or assigned support requests.</p>
+<div id="counsellorCheckins">Loading check-ins...</div>
+</section>
+<script>
+(async function(){
+ const host=document.getElementById("counsellorCheckins"),token=localStorage.getItem("campuswell_access_token");
+ if(!token){host.textContent="Please sign in with your counsellor account.";return;}
+ try{
+  const r=await fetch("https://campuswell-api-dah4.onrender.com/api/v1/counsellor/wellness-checkins",{headers:{Authorization:"Bearer "+token}});
+  const data=await r.json().catch(()=>[]);
+  if(!r.ok)throw new Error(data.detail||"Unable to load check-ins.");
+  if(!data.length){host.textContent="No check-ins are available for your linked students yet.";return;}
+  host.innerHTML=data.map(x=>'<div style="padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:8px 0;"><strong>Student #'+x.student_id+'</strong><p style="margin:4px 0;color:#64748b">'+new Date(x.submitted_at).toLocaleString()+' · Mood: '+(x.mood||"Not provided")+' · Stress: '+(x.stress_level||"Not provided")+' · Energy: '+(x.energy_level||"Not provided")+'</p><small>Sleep: '+(x.sleep_hours??"Not provided")+' hours · Wellness score: '+(x.score??"Not calculated")+'</small><p>'+String(x.notes||"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))+'</p></div>').join("");
+ }catch(e){host.textContent=e.message;}
+})();
+</script><section class="card hub-info-card"><div class="card-header"><div><h2>Wellness check-in workflow</h2><p>A clear route from student response to counsellor action.</p></div><span class="badge blue">4 steps</span></div><div class="workflow-steps"><div><span>01</span><strong>Review responses</strong><small>Understand how students report feeling.</small></div><div><span>02</span><strong>Identify support needs</strong><small>Use context and trends, not scores alone.</small></div><div><span>03</span><strong>Offer support</strong><small>Arrange an appointment when appropriate.</small></div><div><span>04</span><strong>Plan follow-up</strong><small>Track agreed next steps and progress.</small></div></div></section>
 <section class="card hub-help-card"><div class="help-icon"><i data-lucide="shield-check"></i></div><h2>Student-first support</h2><p>Check-in responses are sensitive. Review them privately, document relevant context, and follow the institution's approved safeguarding process for urgent concerns.</p><a class="text-link" href="wellness-records.html">Browse check-in records <i data-lucide="arrow-up-right"></i></a></section>
 </div>
 </section>
