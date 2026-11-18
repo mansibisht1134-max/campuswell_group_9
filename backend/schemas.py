@@ -58,3 +58,25 @@ class AppointmentResponse(BaseModel):
     reason: str
     message: str | None
     status: str
+
+
+class WellnessCheckinCreate(BaseModel):
+    mood: str | None = Field(default=None, max_length=60)
+    sleep_hours: float | None = Field(default=None, ge=0, le=24)
+    energy_level: str | None = Field(default=None, max_length=40)
+    stress_level: str | None = Field(default=None, max_length=40)
+    score: int | None = Field(default=None, ge=0, le=100)
+    notes: str | None = Field(default=None, max_length=3000)
+
+
+class WellnessCheckinResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    mood: str | None
+    sleep_hours: float | None
+    energy_level: str | None
+    stress_level: str | None
+    score: int | None
+    notes: str | None
+    submitted_at: datetime
