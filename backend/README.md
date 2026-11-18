@@ -17,6 +17,7 @@ py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
 Copy-Item .env.example .env
+alembic upgrade head
 uvicorn main:app --reload
 ```
 
@@ -122,15 +123,14 @@ Never deploy these demo credentials or synthetic records to a live institution. 
 
 ## Database migrations
 
-Alembic is configured for versioned schema migrations. After installing backend requirements, generate the initial migration from the SQLAlchemy models:
+Alembic is configured for versioned schema migrations. The initial schema migration is already included. For a fresh database, apply it with:
 
 ```powershell
 cd backend
-alembic revision --autogenerate -m "initial campuswell schema"
 alembic upgrade head
 ```
 
-For future model changes, generate a new revision and review the generated migration before applying it. Do not rely on `create_all` as a production schema migration strategy.
+For future model changes, generate a new revision with `alembic revision --autogenerate -m "describe schema change"`, review the generated migration, and apply it with `alembic upgrade head`. Do not edit an already-applied migration; create a new revision instead.
 
 ## Automated backend tests
 
@@ -155,6 +155,6 @@ To deploy:
 5. Provide a new, high-entropy `ADMIN_BOOTSTRAP_TOKEN` in Render's environment settings. Render generates `JWT_SECRET` automatically.
 6. After deployment, open the service's `/api/v1/health` endpoint. It should report both the API and database as healthy.
 
-The current API creates missing tables on startup with SQLAlchemy metadata. Alembic is configured, but the initial migration has not yet been generated, so this first deployment configuration does not run an Alembic pre-deploy command. A reviewed initial migration and production migration workflow are still required before treating this as production-ready.
+The initial Alembic migration is committed at `migrations/versions/0001_initial_schema.py`. Render runs `alembic upgrade head` before starting the API. Local development should also run `alembic upgrade head` once before starting the server. The API no longer creates tables automatically at startup; schema changes are managed through reviewed migrations.
 
 Do not add real student information or use the synthetic demo accounts in a public deployment. Do not paste database passwords or secret values into GitHub files or chat; enter them only in the hosting provider's private environment settings. A hosted service/database is not created merely by committing this Blueprint.
