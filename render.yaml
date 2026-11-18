@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: campuswell-api
+    runtime: python
+    plan: free
+    branch: backend-foundation
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/v1/health
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.11
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: ADMIN_BOOTSTRAP_TOKEN
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://mansibisht1134-max.github.io
