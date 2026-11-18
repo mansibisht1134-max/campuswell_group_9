@@ -567,6 +567,49 @@
         });
     </script>
 
+
+    <script>
+    (async function loadStudentDashboardData(){
+        const token=localStorage.getItem("campuswell_access_token");
+        if(!token)return;
+        const API="https://campuswell-api-dah4.onrender.com/api/v1";
+        const cards=document.querySelectorAll(".stats-grid > .stat-card");
+        try{
+            const headers={Authorization:"Bearer "+token};
+            const [checkinRes,appointmentRes,supportRes]=await Promise.all([
+                fetch(API+"/wellness/checkins",{headers}),
+                fetch(API+"/appointments",{headers}),
+                fetch(API+"/support/requests",{headers})
+            ]);
+            if([checkinRes,appointmentRes,supportRes].some(r=>!r.ok))return;
+            const [checkins,appointments,support]=await Promise.all([checkinRes.json(),appointmentRes.json(),supportRes.json()]);
+            if(cards[0]&&checkins.length){
+                const heading=cards[0].querySelector(".stat-content h2");
+                if(heading){const score=checkins[0].score??"—";heading.innerHTML=String(score)+' <span>/ 100</span>';}
+            }
+            const now=new Date();
+            const upcoming=appointments.filter(a=>new Date(a.scheduled_at)>=now&&["Pending","Confirmed"].includes(a.status)).sort((a,b)=>new Date(a.scheduled_at)-new Date(b.scheduled_at));
+            if(cards[1]){
+                const heading=cards[1].querySelector(".stat-content h2");if(heading)heading.textContent=upcoming.length;
+                const small=cards[1].querySelector(".stat-content small");if(small)small.textContent=upcoming.length?"Next: "+new Date(upcoming[0].scheduled_at).toLocaleString():"No upcoming appointments";
+            }
+            const open=support.filter(x=>["Open","In Progress"].includes(x.status));
+            if(cards[2]){
+                const heading=cards[2].querySelector(".stat-content h2");if(heading)heading.textContent=open.length;
+                const small=cards[2].querySelector(".stat-content small");if(small)small.textContent=open.length?"Requests awaiting action":"No pending requests";
+            }
+            const monthStart=new Date(now.getFullYear(),now.getMonth(),1);
+            const thisMonth=checkins.filter(x=>new Date(x.submitted_at)>=monthStart).length;
+            if(cards[3]){
+                const heading=cards[3].querySelector(".stat-content h2");if(heading)heading.textContent=thisMonth;
+                const small=cards[3].querySelector(".stat-content small");if(small)small.textContent="Saved check-ins this month";
+            }
+        }catch(_){
+            // Keep the dashboard usable with its static fallback if the API is unavailable.
+        }
+    })();
+    </script>
+
 </body>
 
 </html>
