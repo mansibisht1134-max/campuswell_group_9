@@ -93,7 +93,55 @@
 <label class="date-filter"><i data-lucide="calendar-days"></i><input aria-label="Start date filter" id="dateFrom" type="date"/><span class="date-dash">–</span><input aria-label="End date filter" id="dateTo" type="date"/></label>
 <button class="reset-button" id="resetFilters" title="Clear filters" type="button">Reset</button>
 </div>
-<div aria-live="polite" class="plans-list" id="plansList"></div>
+<section style="background:#fff;border:1px solid #e5eaf1;border-radius:16px;padding:20px;margin:18px 0;">
+<h2>Live Intervention Plans</h2><p>Plans stored in the CampusWell database.</p>
+<form id="livePlanForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0;">
+<select id="liveStudent" required><option value="">Select assigned student</option></select>
+<input id="livePlanTitle" required minlength="2" maxlength="180" placeholder="Intervention title">
+<select id="livePlanType"><option>Individual Counselling</option><option>Academic Support</option><option>Stress Management</option><option>Peer Support</option><option>Referral</option><option>Other</option></select>
+<input id="livePlanStart" type="date">
+<input id="livePlanEnd" type="date">
+<textarea id="livePlanDescription" placeholder="Description / support steps" rows="2" style="grid-column:1/-1;"></textarea>
+<button type="submit" class="primary-button">Create Live Plan</button>
+</form><p id="livePlanMessage" role="status"></p><div id="livePlans">Loading plans...</div></section>
+<script>
+(function(){
+ const API="https://campuswell-api-dah4.onrender.com/api/v1";
+ const token=localStorage.getItem("campuswell_access_token");
+ const host=document.getElementById("livePlans"),studentSelect=document.getElementById("liveStudent"),msg=document.getElementById("livePlanMessage");
+ const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ async function request(path,options={}){const r=await fetch(API+path,{...options,headers:{...(options.headers||{}),Authorization:"Bearer "+token}});const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.detail||"Request failed");return data;}
+ async function load(){
+  if(!token){host.textContent="Please sign in with your counsellor account.";return;}
+  try{
+   const [students,plans]=await Promise.all([request("/counsellor/students"),request("/counsellor/interventions")]);
+   studentSelect.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
+   host.innerHTML="";
+   if(!plans.length){host.textContent="No intervention plans yet.";return;}
+   plans.forEach(p=>{
+    const row=document.createElement("div");row.style.cssText="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:8px 0;";
+    row.innerHTML='<div><strong>'+safe(p.title)+'</strong><p style="margin:4px 0;color:#64748b">Student #'+p.student_id+' · '+safe(p.intervention_type||"General")+' · '+safe(p.status)+'</p><small>'+safe(p.description||"No description")+'</small></div>';
+    const select=document.createElement("select");["Active","Completed","Paused","Cancelled"].forEach(v=>{const o=document.createElement("option");o.value=v;o.textContent=v;o.selected=p.status===v;select.appendChild(o);});
+    select.addEventListener("change",async()=>{try{await request("/counsellor/interventions/"+p.id,{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status:select.value})});p.status=select.value;}catch(e){select.value=p.status;msg.textContent=e.message;}});
+    row.appendChild(select);host.appendChild(row);
+   });
+  }catch(e){host.textContent=e.message;}
+ }
+ document.getElementById("livePlanForm").addEventListener("submit",async e=>{
+  e.preventDefault();msg.textContent="Saving plan...";
+  try{
+   await request("/counsellor/interventions",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({
+    student_id:Number(studentSelect.value),title:document.getElementById("livePlanTitle").value.trim(),
+    intervention_type:document.getElementById("livePlanType").value,
+    description:document.getElementById("livePlanDescription").value.trim()||null,
+    status:"Active",start_date:document.getElementById("livePlanStart").value||null,end_date:document.getElementById("livePlanEnd").value||null
+   })});
+   msg.textContent="Intervention plan created.";e.target.reset();await load();
+  }catch(err){msg.textContent=err.message;}
+ });
+ load();
+})();
+</script><div aria-live="polite" class="plans-list" id="plansList"></div>
 <div class="empty-state" hidden="" id="emptyState">
 <span><i data-lucide="search-x"></i></span>
 <h3>No intervention plans found</h3>
