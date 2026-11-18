@@ -13,6 +13,11 @@ class StudentRegister(BaseModel):
     year_of_study: int | None = Field(default=None, ge=1, le=10)
 
 
+class StudentProfileUpdate(BaseModel):
+    full_name: str | None = Field(default=None, min_length=2, max_length=150)
+    phone: str | None = Field(default=None, max_length=30)
+
+
 class LoginRequest(BaseModel):
     email: EmailStr
     password: str = Field(min_length=1, max_length=128)
