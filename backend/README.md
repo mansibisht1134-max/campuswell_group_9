@@ -47,7 +47,14 @@ Never commit a real `.env` file, database password, JWT secret, or other deploym
 
 The backend currently includes SQLAlchemy data models, student registration/login with JWT authentication, one-time first-admin bootstrap, admin-managed counsellor accounts and profiles, appointment booking, private wellness check-ins, support requests, Campus Voice submissions, wellness resource management, and role-private in-app notifications.
 
-## Authentication and API routes\n\n### Admin dashboard and analytics\n\n- `GET /api/v1/admin/dashboard/summary` — compact institution-wide dashboard counters (admin only)\n- `GET /api/v1/admin/analytics/overview` — aggregate student, counsellor, appointment, support, wellness, intervention, follow-up, resource, and Campus Voice totals; includes status distributions and six-month appointment/check-in trends (admin only)\n\nAnalytics return aggregate counts and monthly trends only; private wellness notes and individual student identities are not included.
+## Authentication and API routes
+
+### Admin dashboard and analytics
+
+- `GET /api/v1/admin/dashboard/summary` — compact institution-wide dashboard counters (admin only)
+- `GET /api/v1/admin/analytics/overview` — aggregate student, counsellor, appointment, support, wellness, intervention, follow-up, resource, and Campus Voice totals; includes status distributions and six-month appointment/check-in trends (admin only)
+
+Analytics return aggregate counts and monthly trends only; private wellness notes and individual student identities are not included.
 
 ### Notifications
 
