@@ -229,6 +229,97 @@
             if(token)load();else host.textContent="Administrator sign-in required.";
         })();
         </script>
+        <section class="analytics-panel" style="margin-top:22px;padding:22px;">
+            <div class="section-heading"><h2>Campus Voice Moderation</h2><p>Review anonymous submissions without exposing student identities.</p></div>
+            <div id="adminVoiceQueue">Loading submissions...</div>
+        </section>
+        <section class="analytics-panel" style="margin-top:22px;padding:22px;">
+            <div class="section-heading"><h2>Wellness Resource Library</h2><p>Create resources and control whether they are visible to students.</p></div>
+            <form id="adminResourceForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0;">
+                <input id="resourceTitle" placeholder="Resource title" required minlength="2">
+                <input id="resourceCategory" placeholder="Category (e.g. Stress)">
+                <input id="resourceUrl" type="url" placeholder="https://resource-link.example">
+                <textarea id="resourceDescription" placeholder="Short description" rows="2" style="grid-column:1/-1;"></textarea>
+                <label style="display:flex;align-items:center;gap:8px;"><input id="resourcePublished" type="checkbox" checked> Publish immediately</label>
+                <button type="submit" class="primary-button">Add Resource</button>
+            </form>
+            <p id="adminResourceMessage" role="status"></p><div id="adminResourceList">Loading resources...</div>
+        </section>
+        <script>
+        (function(){
+            const API="https://campuswell-api-dah4.onrender.com/api/v1";
+            const token=localStorage.getItem("campuswell_access_token");
+            const headers={"Authorization":"Bearer "+token};
+            const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+            const voiceHost=document.getElementById("adminVoiceQueue");
+            const resourceHost=document.getElementById("adminResourceList");
+            const resourceMessage=document.getElementById("adminResourceMessage");
+            async function loadVoice(){
+                try{
+                    const r=await fetch(API+"/campus-voice",{headers});
+                    const items=await r.json().catch(()=>[]);
+                    if(!r.ok)throw new Error(items.detail||"Unable to load Campus Voice submissions.");
+                    voiceHost.innerHTML="";
+                    if(!items.length){voiceHost.textContent="No Campus Voice submissions yet.";return;}
+                    items.forEach(item=>{
+                        const row=document.createElement("article");
+                        row.style.cssText="padding:13px;border:1px solid #e5eaf1;border-radius:10px;margin:9px 0;";
+                        row.innerHTML="<strong>"+esc(item.title)+"</strong><p style='margin:5px 0;color:#64748b'>"+esc(item.submission_type)+" · "+esc(item.category||"General")+" · "+new Date(item.created_at).toLocaleString()+"</p><p>"+esc(item.message)+"</p><small>Anonymous: "+(item.is_anonymous?"Yes":"No")+"</small>";
+                        const select=document.createElement("select");
+                        ["Pending","Under Review","Resolved","Closed"].forEach(status=>{const o=document.createElement("option");o.value=status;o.textContent=status;o.selected=item.status===status;select.appendChild(o);});
+                        select.style.cssText="display:block;margin-top:10px;padding:8px;border:1px solid #dce2ec;border-radius:8px;";
+                        select.addEventListener("change",async()=>{
+                            const response=await fetch(API+"/campus-voice/"+item.id+"/status",{method:"PATCH",headers:{"Content-Type":"application/json",...headers},body:JSON.stringify({status:select.value})});
+                            if(!response.ok){select.value=item.status;alert("Could not update submission status.");return;}
+                            item.status=select.value;
+                        });
+                        row.appendChild(select);voiceHost.appendChild(row);
+                    });
+                }catch(e){voiceHost.textContent=e.message;}
+            }
+            async function loadResources(){
+                try{
+                    const r=await fetch(API+"/admin/resources",{headers});
+                    const items=await r.json().catch(()=>[]);
+                    if(!r.ok)throw new Error(items.detail||"Unable to load resources.");
+                    resourceHost.innerHTML="";
+                    if(!items.length){resourceHost.textContent="No resources created yet.";return;}
+                    items.forEach(item=>{
+                        const row=document.createElement("div");
+                        row.style.cssText="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:8px 0;";
+                        row.innerHTML="<div><strong>"+esc(item.title)+"</strong><p style='margin:4px 0;color:#64748b'>"+esc(item.category||"General")+" · "+(item.is_published?"Published":"Draft")+"</p><small>"+esc(item.description||"")+"</small></div>";
+                        const button=document.createElement("button");button.type="button";button.className="primary-button";button.textContent=item.is_published?"Unpublish":"Publish";
+                        button.addEventListener("click",async()=>{
+                            button.disabled=true;
+                            try{
+                                const response=await fetch(API+"/resources/"+item.id,{method:"PATCH",headers:{"Content-Type":"application/json",...headers},body:JSON.stringify({is_published:!item.is_published})});
+                                const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||"Could not update resource.");
+                                item.is_published=data.is_published;await loadResources();
+                            }catch(e){button.disabled=false;alert(e.message);}
+                        });
+                        row.appendChild(button);resourceHost.appendChild(row);
+                    });
+                }catch(e){resourceHost.textContent=e.message;}
+            }
+            document.getElementById("adminResourceForm").addEventListener("submit",async e=>{
+                e.preventDefault();resourceMessage.textContent="Saving resource...";
+                const payload={
+                    title:document.getElementById("resourceTitle").value.trim(),
+                    category:document.getElementById("resourceCategory").value.trim()||null,
+                    url:document.getElementById("resourceUrl").value.trim()||null,
+                    description:document.getElementById("resourceDescription").value.trim()||null,
+                    is_published:document.getElementById("resourcePublished").checked
+                };
+                try{
+                    const r=await fetch(API+"/resources",{method:"POST",headers:{"Content-Type":"application/json",...headers},body:JSON.stringify(payload)});
+                    const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.detail||"Could not create resource.");
+                    resourceMessage.textContent="Resource saved successfully.";e.target.reset();document.getElementById("resourcePublished").checked=true;await loadResources();
+                }catch(err){resourceMessage.textContent=err.message;}
+            });
+            if(token){loadVoice();loadResources();}
+            else{voiceHost.textContent="Administrator sign-in required.";resourceHost.textContent="Administrator sign-in required.";}
+        })();
+        </script>
     </main>
 </body>
 </html>
