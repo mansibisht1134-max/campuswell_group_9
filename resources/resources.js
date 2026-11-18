@@ -59,7 +59,8 @@ function openResource(button) {
         title: button.dataset.title,
         category: button.dataset.category,
         time: button.dataset.time,
-        text: button.dataset.text
+        text: button.dataset.text,
+        resourceId: button.dataset.resourceId ? Number(button.dataset.resourceId) : null
     };
 
     modalTitle.textContent = currentResource.title;
@@ -84,23 +85,36 @@ document.querySelectorAll(".resource-open").forEach(button => {
     });
 });
 
-modalAction.addEventListener("click", () => {
-    if (!currentResource) {
-        return;
-    }
+modalAction.addEventListener("click", async () => {
+    if (!currentResource) return;
+    const token = localStorage.getItem("campuswell_access_token");
 
-    const saved = JSON.parse(localStorage.getItem("campuswell_saved_resources")) || [];
-    const exists = saved.some(item => item.title === currentResource.title);
-
-    if (!exists) {
-        saved.push(currentResource);
-        localStorage.setItem("campuswell_saved_resources", JSON.stringify(saved));
-        showToast("Resource saved to your resources.");
+    if (currentResource.resourceId && token) {
+        try {
+            const response = await fetch(`https://campuswell-api-dah4.onrender.com/api/v1/resources/${currentResource.resourceId}/save`, {
+                method: "POST",
+                headers: { Authorization: `Bearer ${token}` }
+            });
+            const data = await response.json().catch(() => ({}));
+            if (!response.ok) throw new Error(data.detail || "Could not save resource.");
+            showToast("Resource saved to your account.");
+            await loadSavedResources();
+        } catch (error) {
+            showToast(error.message || "Could not save resource.");
+            return;
+        }
     } else {
-        showToast("This resource is already saved.");
+        const saved = JSON.parse(localStorage.getItem("campuswell_saved_resources")) || [];
+        const exists = saved.some(item => item.title === currentResource.title);
+        if (!exists) {
+            saved.push(currentResource);
+            localStorage.setItem("campuswell_saved_resources", JSON.stringify(saved));
+            showToast("Resource saved in this browser.");
+        } else {
+            showToast("This resource is already saved.");
+        }
+        renderPersonalResources();
     }
-
-    renderPersonalResources();
     closeResource();
 });
 
@@ -269,13 +283,13 @@ function renderPersonalResources() {
     }
 
     personalResourceGrid.innerHTML = items.map(item => `
-        <button type="button" class="personal-resource resource-history-item" data-title="${item.title}" data-category="${item.category}" data-time="${item.time}" data-text="Explore this wellness resource and discover practical ways to support your wellbeing.">
+        <button type="button" class="personal-resource resource-history-item" data-title="${escapeResourceText(item.title)}" data-category="${escapeResourceText(item.category)}" data-time="${escapeResourceText(item.time)}" data-text="Explore this wellness resource and discover practical ways to support your wellbeing." data-resource-id="${item.id || ""}">
             <div class="personal-resource-icon">
                 <i data-lucide="book-open"></i>
             </div>
             <div>
-                <strong>${item.title}</strong>
-                <span><i data-lucide="clock-3"></i>${item.time}</span>
+                <strong>${escapeResourceText(item.title)}</strong>
+                <span><i data-lucide="clock-3"></i>${escapeResourceText(item.time)}</span>
             </div>
         </button>
     `).join("");
@@ -300,6 +314,29 @@ renderPersonalResources();
 filterResources();
 lucide.createIcons();
 
+async function loadSavedResources() {
+    const token = localStorage.getItem("campuswell_access_token");
+    if (!token) return;
+    try {
+        const response = await fetch("https://campuswell-api-dah4.onrender.com/api/v1/resources/saved", {
+            headers: { Authorization: `Bearer ${token}` }
+        });
+        if (!response.ok) return;
+        const resources = await response.json();
+        const saved = resources.map(resource => ({
+            id: resource.id,
+            title: resource.title,
+            category: resource.category || "Wellness",
+            time: "Saved to account",
+            text: resource.description || "Explore this wellness resource."
+        }));
+        localStorage.setItem("campuswell_saved_resources", JSON.stringify(saved));
+        if (currentTab === "saved") renderPersonalResources();
+    } catch (_) {
+        // Keep locally saved items available if the API is offline.
+    }
+}
+
 async function loadPublishedResources() {
     try {
         const response = await fetch("https://campuswell-api-dah4.onrender.com/api/v1/resources");
@@ -319,6 +356,7 @@ async function loadPublishedResources() {
             button.dataset.category = category;
             button.dataset.time = "CampusWell resource";
             button.dataset.text = resource.description || "Explore this wellness resource.";
+            button.dataset.resourceId = String(resource.id);
             button.addEventListener("click", () => openResource(button));
             resourceGrid.appendChild(article);
         });
@@ -332,3 +370,4 @@ function escapeResourceText(value) {
     return String(value ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c]);
 }
 loadPublishedResources();
+loadSavedResources();
