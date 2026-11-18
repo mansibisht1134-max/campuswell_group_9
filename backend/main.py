@@ -978,6 +978,32 @@ def list_counsellor_students(
     return students
 
 
+@app.get(
+    "/api/v1/counsellor/wellness-checkins",
+    response_model=list[WellnessCheckinResponse],
+    tags=["Counsellors"],
+)
+def list_counsellor_wellness_checkins(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Return check-ins only for students linked to this counsellor's appointments or assigned requests."""
+    counsellor = get_counsellor_profile(current_user, db)
+    appointment_students = db.query(Appointment.student_id).filter(
+        Appointment.counsellor_id == counsellor.id
+    ).all()
+    request_students = db.query(SupportRequest.student_id).filter(
+        SupportRequest.assigned_counsellor_id == counsellor.id
+    ).all()
+    student_ids = {row[0] for row in appointment_students}
+    student_ids.update(row[0] for row in request_students)
+    if not student_ids:
+        return []
+    return db.query(WellnessCheckin).filter(
+        WellnessCheckin.student_id.in_(student_ids)
+    ).order_by(WellnessCheckin.submitted_at.desc()).all()
+
+
 @app.post(
     "/api/v1/counsellor/follow-ups",
     response_model=FollowUpResponse,
