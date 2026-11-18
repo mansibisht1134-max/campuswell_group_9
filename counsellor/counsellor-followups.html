@@ -392,7 +392,15 @@
 </aside>
 </div>
 </section>
-</main>
+<section class="card" style="margin:22px 0;padding:20px;background:#fff;border:1px solid #dceaf8;border-radius:14px;">
+<h2>Live Follow-up Management</h2><p style="color:#6685a9;">Create follow-ups for students linked to your counsellor account and update their status.</p>
+<form id="liveFollowupForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px;margin:14px 0;">
+<select id="liveFollowupStudent" required><option value="">Choose linked student</option></select>
+<input id="liveFollowupDate" type="datetime-local" required>
+<select id="liveFollowupMode"><option value="In-person">In-person</option><option value="Online">Online</option><option value="Phone">Phone</option></select>
+<textarea id="liveFollowupNotes" placeholder="Follow-up notes" rows="2" style="grid-column:1/-1;"></textarea>
+<button type="submit" class="primary-button">Schedule Follow-up</button>
+</form><p id="liveFollowupMessage" role="status"></p><div id="liveFollowupList">Loading follow-ups...</div></section></main>
 </div>
 <div aria-labelledby="modalTitle" aria-modal="true" class="modal" id="modal" role="dialog">
 <div class="modal-card">
