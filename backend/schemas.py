@@ -312,3 +312,20 @@ class OutcomeResponse(BaseModel):
     evaluation_date: date | None
     notes: str | None
     created_at: datetime
+
+
+
+class NotificationResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title: str
+    message: str
+    notification_type: str | None
+    target_url: str | None
+    is_read: bool
+    created_at: datetime
+
+
+class NotificationReadUpdate(BaseModel):
+    is_read: bool = True
