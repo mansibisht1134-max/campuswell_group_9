@@ -63,7 +63,7 @@
 </div>
 <div class="progress-copy">
 <h2>Student Progress at a Glance</h2>
-<p class="progress-description" id="progressDescription">Current results are calculated from the outcome records saved in this browser.</p>
+<p class="progress-description" id="progressDescription">Live results are calculated from outcome records saved in the CampusWell database.</p>
 <div class="change-list">
 <div><span class="change-arrow positive" id="scoreGainArrow">↗</span><strong id="scoreGainMetric">+13 pts</strong><span>Average assessment score change</span></div>
 <div><span class="change-arrow positive">↗</span><strong id="goalRateMetric">52%</strong><span>Goals achieved</span></div>
@@ -97,7 +97,7 @@
 </article>
 </div>
 </section>
-<section aria-label="Outcome charts and insights" class="analytics-grid">
+<section aria-label="Outcome charts and insights" class="analytics-grid"><p style="grid-column:1/-1;color:#7b8794;font-size:12px;">Charts and insight examples are illustrative; live metrics and records above are database-sourced.</p>
 <article class="chart-panel panel trend-panel">
 <div class="panel-heading chart-heading">
 <div><h2>Progress Trend</h2><p>Initial versus latest assessment scores by evaluation month</p></div>
@@ -147,12 +147,30 @@
  const API="https://campuswell-api-dah4.onrender.com/api/v1",token=localStorage.getItem("campuswell_access_token");
  const host=document.getElementById("liveOutcomeList"),msg=document.getElementById("liveOutcomeMessage"),student=document.getElementById("outcomeStudent");
  const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+ function updateOutcomeMetrics(records){
+  const total=records.length;
+  const improved=records.filter(o=>(Number(o.latest_assessment??0)>Number(o.initial_assessment??0))||o.outcome_status==="Improving").length;
+  const support=records.filter(o=>o.outcome_status==="Needs Review").length;
+  const done=records.reduce((n,o)=>n+Number(o.goals_done||0),0), goals=records.reduce((n,o)=>n+Number(o.goals_total||0),0);
+  const gains=records.filter(o=>o.initial_assessment!=null&&o.latest_assessment!=null);
+  const gain=gains.length?Math.round(gains.reduce((n,o)=>n+(Number(o.latest_assessment)-Number(o.initial_assessment)),0)/gains.length):0;
+  const set=(id,value)=>{const el=document.getElementById(id);if(el)el.textContent=value;};
+  set("overallImprovement",(total?Math.round(improved/total*100):0)+"%");
+  set("scoreGainMetric",(gain>0?"+":"")+gain+" pts");
+  set("goalRateMetric",(goals?Math.round(done/goals*100):0)+"%");
+  set("supportRateMetric",(total?Math.round(support/total*100):0)+"%");
+  set("assessmentsMetric",total);set("improvedMetric",(total?Math.round(improved/total*100):0)+"%");
+  set("goalsMetric",(goals?Math.round(done/goals*100):0)+"%");set("supportMetric",support);
+  set("progressDescription",total?"Live summary based on "+total+" database outcome record(s).":"No database outcome records have been saved yet.");
+  set("recordCount","Showing "+total+" live database record(s).");
+  set("distributionImproved",improved);set("distributionNoChange",Math.max(0,total-improved-support));set("distributionSupport",support);
+ }
  async function req(path,opts={}){const r=await fetch(API+path,{...opts,headers:{...(opts.headers||{}),Authorization:"Bearer "+token}});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||"Request failed");return d;}
  async function load(){
   if(!token){host.textContent="Please sign in with your counsellor account.";return;}
   try{
    const [students,records]=await Promise.all([req("/counsellor/students"),req("/counsellor/outcomes")]);
-   student.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
+   updateOutcomeMetrics(records);\n   student.innerHTML='<option value="">Select assigned student</option>'+students.map(s=>'<option value="'+s.id+'">'+safe(s.full_name||("Student #"+s.id))+' · #'+s.id+'</option>').join("");
    host.innerHTML="";
    if(!records.length){host.textContent="No outcome records have been saved yet.";return;}
    records.forEach(o=>{
