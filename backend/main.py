@@ -1004,6 +1004,98 @@ def list_counsellor_wellness_checkins(
     ).order_by(WellnessCheckin.submitted_at.desc()).all()
 
 
+@app.get(
+    "/api/v1/counsellor/wellness-insights",
+    tags=["Counsellors", "Wellness"],
+)
+def counsellor_wellness_insights(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Explainable, non-diagnostic early-warning indicators for linked students only."""
+    counsellor = get_counsellor_profile(current_user, db)
+    appointment_students = db.query(Appointment.student_id).filter(
+        Appointment.counsellor_id == counsellor.id
+    ).all()
+    request_students = db.query(SupportRequest.student_id).filter(
+        SupportRequest.assigned_counsellor_id == counsellor.id
+    ).all()
+    student_ids = {row[0] for row in appointment_students}
+    student_ids.update(row[0] for row in request_students)
+    results = []
+    for student in db.query(StudentProfile).filter(
+        StudentProfile.id.in_(student_ids)
+    ).all() if student_ids else []:
+        records = db.query(WellnessCheckin).filter(
+            WellnessCheckin.student_id == student.id
+        ).order_by(WellnessCheckin.submitted_at.desc()).limit(3).all()
+        if not records:
+            continue
+        latest = records[0]
+        points = 0
+        reasons = []
+        stress = (latest.stress_level or "").strip().lower()
+        mood = (latest.mood or "").strip().lower()
+        energy = (latest.energy_level or "").strip().lower()
+        if stress in {"very high", "high"}:
+            points += 30
+            reasons.append("High reported stress")
+        elif stress == "moderate":
+            points += 12
+            reasons.append("Moderate reported stress")
+        if mood == "stressed":
+            points += 25
+            reasons.append("Reported feeling stressed")
+        elif mood == "low":
+            points += 20
+            reasons.append("Reported low mood")
+        elif mood == "okay":
+            points += 5
+        if latest.sleep_hours is not None:
+            if latest.sleep_hours < 5:
+                points += 20
+                reasons.append("Less than 5 hours of reported sleep")
+            elif latest.sleep_hours < 6:
+                points += 10
+                reasons.append("Less than 6 hours of reported sleep")
+        if energy == "low":
+            points += 15
+            reasons.append("Low reported energy")
+        elif energy == "moderate":
+            points += 5
+        if latest.score is not None:
+            if latest.score < 50:
+                points += 20
+                reasons.append("Latest self-reported wellness score below 50")
+            elif latest.score < 65:
+                points += 10
+                reasons.append("Latest self-reported wellness score below 65")
+        low_scores = sum(1 for item in records if item.score is not None and item.score < 60)
+        if len(records) >= 2 and low_scores >= 2:
+            points += 10
+            reasons.append("More than one recent check-in below 60")
+        points = min(points, 100)
+        level = "Elevated" if points >= 50 else "Watch" if points >= 25 else "Routine"
+        results.append({
+            "student_id": student.id,
+            "student_name": student.full_name,
+            "indicator_score": points,
+            "indicator_level": level,
+            "reasons": reasons or ["No current elevated indicators in the latest check-in"],
+            "checkins_reviewed": len(records),
+            "latest_checkin": latest.submitted_at,
+        })
+    results.sort(key=lambda item: (item["indicator_score"], item["latest_checkin"]), reverse=True)
+    return {
+        "method": "Explainable rule-based screening indicators; not a diagnosis or validated ML prediction.",
+        "students_reviewed": len(results),
+        "elevated_count": sum(1 for item in results if item["indicator_level"] == "Elevated"),
+        "watch_count": sum(1 for item in results if item["indicator_level"] == "Watch"),
+        "routine_count": sum(1 for item in results if item["indicator_level"] == "Routine"),
+        "items": results,
+    }
+
+
 @app.post(
     "/api/v1/counsellor/follow-ups",
     response_model=FollowUpResponse,
