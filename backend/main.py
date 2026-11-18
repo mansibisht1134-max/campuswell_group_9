@@ -18,7 +18,7 @@ from database import get_db
 from models import Appointment, CampusVoiceSubmission, CounsellorProfile, FollowUp, Intervention, Notification, OutcomeRecord, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
-    AuthResponse, LoginRequest, PasswordChange, StudentRegister, UserResponse,
+    AuthResponse, LoginRequest, PasswordChange, StudentRegister, StudentProfileUpdate, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
@@ -182,6 +182,36 @@ def read_student_profile(
         "department": profile.department,
         "course": profile.course,
         "year_of_study": profile.year_of_study,
+        "phone": profile.phone,
+        "is_active": current_user.is_active,
+    }
+
+
+@app.patch("/api/v1/student/profile", tags=["Students"])
+def update_student_profile(
+    payload: StudentProfileUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Update the authenticated student's editable profile fields."""
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can update this profile.")
+    profile = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Student profile not found.")
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(profile, field, value.strip() if isinstance(value, str) else value)
+    db.commit()
+    db.refresh(profile)
+    return {
+        "id": profile.id,
+        "email": current_user.email,
+        "full_name": profile.full_name,
+        "student_number": profile.student_number,
+        "department": profile.department,
+        "course": profile.course,
+        "year_of_study": profile.year_of_study,
+        "phone": profile.phone,
         "is_active": current_user.is_active,
     }
 
