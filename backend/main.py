@@ -18,7 +18,7 @@ from database import get_db
 from models import Appointment, CampusVoiceSubmission, CounsellorProfile, FollowUp, Intervention, Notification, OutcomeRecord, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
-    AuthResponse, LoginRequest, StudentRegister, UserResponse,
+    AuthResponse, LoginRequest, PasswordChange, StudentRegister, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
@@ -138,6 +138,23 @@ def login(payload: LoginRequest, db: Session = Depends(get_db)):
     if user is None or not user.is_active or not verify_password(payload.password, user.password_hash):
         raise HTTPException(status_code=401, detail="Incorrect email or password.")
     return {"access_token": create_access_token(user), "user": user}
+
+
+
+@app.post("/api/v1/auth/change-password", tags=["Authentication"])
+def change_password(
+    payload: PasswordChange,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Change the authenticated user's password after verifying the current password."""
+    if not verify_password(payload.current_password, current_user.password_hash):
+        raise HTTPException(status_code=400, detail="Current password is incorrect.")
+    if verify_password(payload.new_password, current_user.password_hash):
+        raise HTTPException(status_code=400, detail="Choose a password different from the current password.")
+    current_user.password_hash = hash_password(payload.new_password)
+    db.commit()
+    return {"message": "Password changed successfully. Please sign in again."}
 
 
 @app.get("/api/v1/auth/me", response_model=UserResponse, tags=["Authentication"])
