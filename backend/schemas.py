@@ -47,6 +47,10 @@ class AppointmentCreate(BaseModel):
     message: str | None = Field(default=None, max_length=3000)
 
 
+class AppointmentReschedule(BaseModel):
+    scheduled_at: datetime
+
+
 class AppointmentStatusUpdate(BaseModel):
     status: str = Field(pattern="^(Confirmed|Declined|Completed|Cancelled)$")
 
