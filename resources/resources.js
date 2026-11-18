@@ -299,3 +299,36 @@ document.querySelectorAll(".recommended-item.resource-open").forEach(button => {
 renderPersonalResources();
 filterResources();
 lucide.createIcons();
+
+async function loadPublishedResources() {
+    try {
+        const response = await fetch("https://campuswell-api-dah4.onrender.com/api/v1/resources");
+        if (!response.ok) return;
+        const resources = await response.json();
+        resources.forEach(resource => {
+            if (document.querySelector(`.resource-card[data-api-resource="${resource.id}"]`)) return;
+            const article = document.createElement("article");
+            article.className = "resource-card";
+            article.dataset.apiResource = resource.id;
+            article.dataset.category = (resource.category || "other").toLowerCase().replace(/\\s+/g, "-");
+            article.dataset.title = resource.title;
+            const category = resource.category || "Wellness";
+            article.innerHTML = `<div class="resource-icon blue"><i data-lucide="book-open"></i></div><span class="resource-category blue-text">${escapeResourceText(category.toUpperCase())}</span><h3>${escapeResourceText(resource.title)}</h3><p>${escapeResourceText(resource.description || "A CampusWell wellness resource.")}</p><div class="resource-card-bottom"><button type="button" class="read-button resource-open">Read <i data-lucide="arrow-right"></i></button></div>`;
+            const button = article.querySelector(".resource-open");
+            button.dataset.title = resource.title;
+            button.dataset.category = category;
+            button.dataset.time = "CampusWell resource";
+            button.dataset.text = resource.description || "Explore this wellness resource.";
+            button.addEventListener("click", () => openResource(button));
+            resourceGrid.appendChild(article);
+        });
+        filterResources();
+        lucide.createIcons();
+    } catch (_) {
+        // Keep the built-in collection available if the API is offline.
+    }
+}
+function escapeResourceText(value) {
+    return String(value ?? "").replace(/[&<>"']/g, c => ({ "&":"&amp;", "<":"&lt;", ">":"&gt;", '"':"&quot;", "'":"&#39;" })[c]);
+}
+loadPublishedResources();
