@@ -138,4 +138,95 @@ document.querySelectorAll(".urgent-action").forEach(item => {
     });
 });
 
+
+// Connect support requests to the authenticated CampusWell API.
+const SUPPORT_API = "https://campuswell-api-dah4.onrender.com/api/v1";
+const supportToken = localStorage.getItem("campuswell_access_token");
+const supportForm = document.getElementById("supportRequestForm");
+const supportList = document.getElementById("mySupportRequests");
+const supportMessage = document.getElementById("supportFormMessage");
+
+function supportDate(value) {
+    return value ? new Date(value).toLocaleDateString() : "—";
+}
+
+function renderSupportRequests(items) {
+    if (!items.length) {
+        supportList.innerHTML = '<div class="request-row"><span colspan="4">No support requests yet. You can submit one above.</span></div>';
+        return;
+    }
+    supportList.innerHTML = '<div class="request-row request-head"><span>Request</span><span>Priority</span><span>Date</span><span>Status</span></div>' +
+        items.map(item => `<div class="request-row"><strong>${escapeSupportText(item.title)}</strong><span>${escapeSupportText(item.priority)}</span><span>${supportDate(item.created_at)}</span><b class="status">${escapeSupportText(item.status)}</b></div>`).join("");
+}
+
+function escapeSupportText(value) {
+    return String(value ?? "").replace(/[&<>"']/g, char => ({
+        "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[char]));
+}
+
+async function loadSupportRequests() {
+    if (!supportToken) {
+        supportList.innerHTML = "<p>Please sign in to view your support requests.</p>";
+        return;
+    }
+    try {
+        const response = await fetch(`${SUPPORT_API}/support/requests`, {
+            headers: { Authorization: `Bearer ${supportToken}` }
+        });
+        if (response.status === 401) {
+            localStorage.removeItem("campuswell_access_token");
+            window.location.href = "../login/login.html";
+            return;
+        }
+        if (!response.ok) throw new Error("Could not load requests.");
+        renderSupportRequests(await response.json());
+    } catch (error) {
+        supportList.innerHTML = "<p>Unable to load requests. Please refresh and try again.</p>";
+    }
+}
+
+supportForm?.addEventListener("submit", async event => {
+    event.preventDefault();
+    if (!supportToken) {
+        supportMessage.textContent = "Please sign in again before submitting.";
+        return;
+    }
+    const submitButton = document.getElementById("submitSupportRequest");
+    submitButton.disabled = true;
+    supportMessage.textContent = "Submitting...";
+    const payload = {
+        category: document.getElementById("requestCategory").value,
+        priority: document.getElementById("requestPriority").value,
+        title: document.getElementById("requestTitle").value.trim(),
+        message: document.getElementById("requestMessage").value.trim()
+    };
+    try {
+        const response = await fetch(`${SUPPORT_API}/support/requests`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${supportToken}`
+            },
+            body: JSON.stringify(payload)
+        });
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.detail || "Unable to submit your request.");
+        supportForm.reset();
+        supportMessage.textContent = "Your support request was submitted successfully.";
+        await loadSupportRequests();
+    } catch (error) {
+        supportMessage.textContent = error.message;
+    } finally {
+        submitButton.disabled = false;
+    }
+});
+
+document.getElementById("viewRequests")?.addEventListener("click", () => {
+    loadSupportRequests();
+    supportList?.scrollIntoView({ behavior: "smooth", block: "center" });
+});
+
+loadSupportRequests();
+
 lucide.createIcons();
