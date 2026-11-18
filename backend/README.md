@@ -43,7 +43,7 @@ Never commit a real `.env` file, database password, JWT secret, or other deploym
 
 ## Current scope
 
-The backend currently includes SQLAlchemy data models, student registration/login with JWT authentication, appointment booking and status management, and private wellness check-ins.
+The backend currently includes SQLAlchemy data models, student registration/login with JWT authentication, appointment booking, private wellness check-ins, support requests, Campus Voice submissions, and wellness resource management.
 
 ## Authentication and API routes
 
@@ -60,6 +60,9 @@ The backend currently includes SQLAlchemy data models, student registration/logi
 - `PATCH /api/v1/support/requests/{id}` — admins assign requests; assigned counsellors update workflow status
 - `POST /api/v1/campus-voice` — submit anonymous feedback, complaints, or suggestions; authenticated students may also submit non-anonymously
 - `GET /api/v1/campus-voice` and `PATCH /api/v1/campus-voice/{id}/status` — counsellor/admin review and status management
+- `GET /api/v1/resources` — browse published wellness resources with optional category filtering
+- `POST /api/v1/resources` and `PATCH /api/v1/resources/{id}` — admin resource publishing and editing
+- `POST /api/v1/resources/{id}/save`, `GET /api/v1/resources/saved`, and `DELETE /api/v1/resources/{id}/save` — student saved-resource management
 
 Set `JWT_SECRET` to a unique, randomly generated secret of at least 32 characters in your local `.env` and hosting environment. Do not use the example placeholder in a deployed environment. `ACCESS_TOKEN_MINUTES` defaults to 60.
 
