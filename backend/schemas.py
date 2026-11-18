@@ -354,3 +354,8 @@ class AdminAnalyticsOverview(BaseModel):
     intervention_statuses: dict[str, int]
     monthly_appointments: list[dict[str, int | str]]
     monthly_wellness_checkins: list[dict[str, int | str]]
+
+
+class PasswordChange(BaseModel):
+    current_password: str = Field(min_length=1, max_length=128)
+    new_password: str = Field(min_length=12, max_length=128)
