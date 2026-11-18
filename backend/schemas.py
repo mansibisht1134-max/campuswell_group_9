@@ -29,3 +29,32 @@ class AuthResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     user: UserResponse
+
+
+from datetime import datetime
+
+
+class AppointmentCreate(BaseModel):
+    counsellor_id: int = Field(gt=0)
+    scheduled_at: datetime
+    mode: str = Field(default="In-person", max_length=30)
+    reason: str = Field(min_length=2, max_length=120)
+    message: str | None = Field(default=None, max_length=3000)
+
+
+class AppointmentStatusUpdate(BaseModel):
+    status: str = Field(pattern="^(Confirmed|Declined|Completed|Cancelled)$")
+
+
+class AppointmentResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    student_id: int
+    counsellor_id: int
+    scheduled_at: datetime
+    duration_minutes: int
+    mode: str
+    reason: str
+    message: str | None
+    status: str
