@@ -95,6 +95,10 @@ class SupportRequestCreate(BaseModel):
     priority: str = Field(default="Normal", pattern="^(Low|Normal|High|Urgent)$")
 
 
+class SupportReplyCreate(BaseModel):
+    message: str = Field(min_length=2, max_length=3000)
+
+
 class SupportRequestUpdate(BaseModel):
     status: str | None = Field(default=None, pattern="^(Open|In Progress|Resolved|Closed)$")
     assigned_counsellor_id: int | None = Field(default=None, gt=0)
