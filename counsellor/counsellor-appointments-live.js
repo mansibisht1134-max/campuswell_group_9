@@ -46,7 +46,7 @@
   if(window.lucide)lucide.createIcons();
  }
  async function update(id,status){try{await api("/appointments/"+id+"/status",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({status})});await load();}catch(e){alert(e.message);}}
- async function load(){if(!token)return;try{const me=await api("/auth/me");if(me.role!=="counsellor")throw new Error("Counsellor access required.");appointments=await api("/appointments");render();}catch(e){const host=document.querySelector(".calendar-panel");if(host)host.insertAdjacentHTML("afterbegin",'<p role="alert">'+esc(e.message)+'</p>');}}
+ async function load(){if(!token)return;try{const me=await api("/auth/me");if(me.role!=="counsellor")throw new Error("Counsellor access required.");const profile=await api("/counsellors/me");const availabilityButton=$("manageAvailability");if(availabilityButton)availabilityButton.textContent=profile.is_available?"Set Unavailable":"Set Available";appointments=await api("/appointments");render();}catch(e){const host=document.querySelector(".calendar-panel");if(host)host.insertAdjacentHTML("afterbegin",'<p role="alert">'+esc(e.message)+'</p>');}}
  document.addEventListener("click",e=>{
   const action=e.target.closest("[data-status][data-id]");if(action){update(action.dataset.id,action.dataset.status);return;}
   const appt=e.target.closest(".appointment[data-id]");if(appt){const a=appointments.find(x=>x.id===Number(appt.dataset.id));if(a)alert("Student #"+a.student_id+"\n"+a.reason+"\n"+new Date(a.scheduled_at).toLocaleString()+"\n"+a.mode+"\nStatus: "+a.status);}
