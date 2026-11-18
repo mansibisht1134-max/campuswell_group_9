@@ -1,7 +1,8 @@
 import logging
 from datetime import datetime
 import os
-from fastapi import FastAPI, HTTPException
+import secrets
+from fastapi import FastAPI, HTTPException, Header
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
 from sqlalchemy.exc import SQLAlchemyError
@@ -12,7 +13,7 @@ import models  # noqa: F401 - registers SQLAlchemy models with Base.metadata
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from auth import create_access_token, get_current_user, get_optional_current_user, hash_password, verify_password
+from auth import JWT_SECRET, create_access_token, get_current_user, get_optional_current_user, hash_password, verify_password
 from database import get_db
 from models import Appointment, CampusVoiceSubmission, CounsellorProfile, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
@@ -21,7 +22,7 @@ from schemas import (
     WellnessCheckinCreate, WellnessCheckinResponse,
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
-    ResourceCreate, ResourceUpdate, ResourceResponse,
+    ResourceCreate, ResourceUpdate, ResourceResponse,\n    AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -105,6 +106,8 @@ def health_check():
 @app.post("/api/v1/auth/register/student", response_model=AuthResponse, status_code=201, tags=["Authentication"])
 def register_student(payload: StudentRegister, db: Session = Depends(get_db)):
     """Create a student account. Counsellor and admin accounts are provisioned by administrators."""
+    if not JWT_SECRET:
+        raise HTTPException(status_code=503, detail="Authentication is not configured. Set JWT_SECRET.")
     email = payload.email.lower()
     if db.query(User).filter(User.email == email).first():
         raise HTTPException(status_code=409, detail="An account with this email already exists.")
@@ -685,3 +688,168 @@ def unsave_resource(
         raise HTTPException(status_code=404, detail="Saved resource not found.")
     db.delete(saved)
     db.commit()
+
+
+
+@app.post("/api/v1/admin/bootstrap", response_model=AuthResponse, status_code=201, tags=["Administration"])
+def bootstrap_first_admin(
+    payload: AdminBootstrap,
+    x_bootstrap_token: str | None = Header(default=None, alias="X-Bootstrap-Token"),
+    db: Session = Depends(get_db),
+):
+    """Create the first admin only, using a one-time deployment secret."""
+    expected_token = os.getenv("ADMIN_BOOTSTRAP_TOKEN")
+    if not expected_token or not x_bootstrap_token or not secrets.compare_digest(
+        x_bootstrap_token, expected_token
+    ):
+        raise HTTPException(status_code=403, detail="Invalid or missing bootstrap credential.")
+    if not JWT_SECRET:
+        raise HTTPException(status_code=503, detail="Authentication is not configured. Set JWT_SECRET.")
+    if db.query(User).filter(User.role == "admin").first():
+        raise HTTPException(status_code=409, detail="An administrator already exists.")
+    email = payload.email.lower()
+    if db.query(User).filter(User.email == email).first():
+        raise HTTPException(status_code=409, detail="An account with this email already exists.")
+    admin = User(email=email, password_hash=hash_password(payload.password), role="admin")
+    db.add(admin)
+    db.commit()
+    db.refresh(admin)
+    return {"access_token": create_access_token(admin), "user": admin}
+
+
+@app.post(
+    "/api/v1/admin/counsellors",
+    response_model=CounsellorProfileResponse,
+    status_code=201,
+    tags=["Administration"],
+)
+def create_counsellor_account(
+    payload: CounsellorCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can create counsellor accounts.")
+    if not JWT_SECRET:
+        raise HTTPException(status_code=503, detail="Authentication is not configured. Set JWT_SECRET.")
+    email = payload.email.lower()
+    if db.query(User).filter(User.email == email).first():
+        raise HTTPException(status_code=409, detail="An account with this email already exists.")
+    if payload.employee_id and db.query(CounsellorProfile).filter(
+        CounsellorProfile.employee_id == payload.employee_id
+    ).first():
+        raise HTTPException(status_code=409, detail="This employee ID is already registered.")
+
+    user = User(email=email, password_hash=hash_password(payload.password), role="counsellor")
+    db.add(user)
+    db.flush()
+    profile = CounsellorProfile(
+        user_id=user.id,
+        full_name=payload.full_name.strip(),
+        employee_id=payload.employee_id,
+        specialization=payload.specialization,
+        qualification=payload.qualification,
+        phone=payload.phone,
+        is_available=payload.is_available,
+    )
+    db.add(profile)
+    db.commit()
+    db.refresh(profile)
+    return {
+        "id": profile.id,
+        "full_name": profile.full_name,
+        "email": user.email,
+        "employee_id": profile.employee_id,
+        "specialization": profile.specialization,
+        "qualification": profile.qualification,
+        "phone": profile.phone,
+        "is_available": profile.is_available,
+    }
+
+
+@app.get(
+    "/api/v1/admin/counsellors",
+    response_model=list[CounsellorProfileResponse],
+    tags=["Administration"],
+)
+def admin_list_counsellors(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can manage counsellors.")
+    profiles = db.query(CounsellorProfile).join(User).order_by(CounsellorProfile.full_name).all()
+    return [
+        {
+            "id": profile.id,
+            "full_name": profile.full_name,
+            "email": profile.user.email,
+            "employee_id": profile.employee_id,
+            "specialization": profile.specialization,
+            "qualification": profile.qualification,
+            "phone": profile.phone,
+            "is_available": profile.is_available,
+        }
+        for profile in profiles
+    ]
+
+
+@app.get(
+    "/api/v1/counsellors/me",
+    response_model=CounsellorProfileResponse,
+    tags=["Counsellors"],
+)
+def get_my_counsellor_profile(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "counsellor":
+        raise HTTPException(status_code=403, detail="Counsellor account required.")
+    profile = db.query(CounsellorProfile).filter(
+        CounsellorProfile.user_id == current_user.id
+    ).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Counsellor profile not found.")
+    return {
+        "id": profile.id,
+        "full_name": profile.full_name,
+        "email": current_user.email,
+        "employee_id": profile.employee_id,
+        "specialization": profile.specialization,
+        "qualification": profile.qualification,
+        "phone": profile.phone,
+        "is_available": profile.is_available,
+    }
+
+
+@app.patch(
+    "/api/v1/counsellors/me",
+    response_model=CounsellorProfileResponse,
+    tags=["Counsellors"],
+)
+def update_my_counsellor_profile(
+    payload: CounsellorProfileUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "counsellor":
+        raise HTTPException(status_code=403, detail="Counsellor account required.")
+    profile = db.query(CounsellorProfile).filter(
+        CounsellorProfile.user_id == current_user.id
+    ).first()
+    if profile is None:
+        raise HTTPException(status_code=404, detail="Counsellor profile not found.")
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(profile, field, value)
+    db.commit()
+    db.refresh(profile)
+    return {
+        "id": profile.id,
+        "full_name": profile.full_name,
+        "email": current_user.email,
+        "employee_id": profile.employee_id,
+        "specialization": profile.specialization,
+        "qualification": profile.qualification,
+        "phone": profile.phone,
+        "is_available": profile.is_available,
+    }
