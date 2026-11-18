@@ -1,0 +1,574 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>CampusWell | My Profile</title>
+    <link rel="stylesheet" href="../dashboard/dashboard.css">
+    <link rel="stylesheet" href="profile.css">
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <div class="brand">
+                <div class="brand-logo">CW</div>
+                <div>
+                    <h2>Campus<span>Well</span></h2>
+                    <p>Student Wellness Portal</p>
+                </div>
+            </div>
+            <nav class="main-nav">
+                <a href="../dashboard/dashboard.html" class="nav-link"><i data-lucide="house"></i>Dashboard</a>
+                <a href="../wellness/wellness.html" class="nav-link"><i data-lucide="heart"></i>Wellness Check-in</a>
+                <a href="../appointments/appointments.html" class="nav-link"><i data-lucide="calendar-days"></i>Appointments</a>
+                <a href="../support/support.html" class="nav-link"><i data-lucide="messages-square"></i>Counselling & Support</a>
+                <a href="../campus-voice/campus-voice.html" class="nav-link"><i data-lucide="megaphone"></i>Campus Voice</a>
+                <a href="../resources/resources.html" class="nav-link"><i data-lucide="book-open"></i>Wellness Resources</a>
+            </nav>
+            <div class="nav-divider"></div>
+            <p class="nav-heading">YOUR ACCOUNT</p>
+            <nav class="account-nav">
+                <a href="./profile.html" class="nav-link active"><i data-lucide="user-round"></i>My Profile</a>
+                <a href="../notifications/notifications.html" class="nav-link"><i data-lucide="bell"></i>Notifications<span class="notification-count">3</span></a>
+            </nav>
+            <div class="sidebar-support">
+                <div class="support-icon"><i data-lucide="heart-handshake"></i></div>
+                <h3>Need Support?</h3>
+                <p>Our counsellors are here to help you. Reach out anytime.</p>
+                <a href="../support/support.html">Get Support <i data-lucide="arrow-right"></i></a>
+            </div>
+            <a href="../index.html" class="logout"><i data-lucide="log-out"></i>Logout</a>
+        </aside>
+
+        <main class="main-content">
+            <header class="topbar">
+                <div class="search-box">
+                    <i data-lucide="search"></i>
+                    <input id="profileSearch" type="text" placeholder="Search anything...">
+                </div>
+                <div class="topbar-right">
+                    <button class="icon-button" aria-label="Notifications">
+                    <i data-lucide="bell"></i>
+                    <span class="bell-dot">3</span>
+                </button>
+                    <div class="student-profile">
+                        <div class="avatar">M</div>
+                        <div class="profile-info">
+                            <h4>Mansi Sharma</h4>
+                            <p>B.Tech CSE • 2nd Year</p>
+                        </div>
+                        <i data-lucide="chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <section class="page-content">
+                    <div class="page-heading">
+                        <span class="eyebrow">YOUR ACCOUNT</span>
+                        <h1>My Profile</h1>
+                        <p>Manage your student information and account details.</p>
+                    </div>
+
+                    <section class="profile-hero card">
+                        <div class="profile-hero-main">
+                            <div class="profile-photo">
+                                <span id="profileInitial">M</span>
+                            </div>
+                            <div class="profile-identity">
+                                <span class="eyebrow">STUDENT PROFILE</span>
+                                <h2 id="displayName">Mansi Sharma</h2>
+                                <p id="displayStudentId">CW2025CSE024</p>
+                                <div class="profile-academic-line">
+                                    <span>B.Tech CSE</span>
+                                    <b>•</b>
+                                    <span>2nd Year</span>
+                                    <b>•</b>
+                                    <span>Section A</span>
+                                </div>
+                                <div class="profile-status">
+                                    <i data-lucide="circle-check"></i> Active Student
+                                </div>
+                            </div>
+                        </div>
+                        <button type="button" class="edit-profile-button" id="editProfile">
+                        <i data-lucide="pencil"></i>
+                        Edit Profile
+                    </button>
+                    </section>
+
+                    <div class="profile-grid">
+                        <section class="profile-card card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">PERSONAL DETAILS</span>
+                                    <h2>Personal Information</h2>
+                                    <p>Your personal information</p>
+                                </div>
+                                <button type="button" class="mini-edit" data-section="personal"><i data-lucide="pencil"></i></button>
+                            </div>
+                            <div class="info-grid">
+                                <div class="info-item">
+                                    <span>Full Name</span>
+                                    <strong id="fullName">Mansi Sharma</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Date of Birth</span>
+                                    <strong>23 May 2005</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Gender</span>
+                                    <strong>Female</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Email Address</span>
+                                    <strong id="emailAddress">mansi@student.edu</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Phone Number</span>
+                                    <strong id="phoneNumber">+91 98XXXXXX42</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Address</span>
+                                    <strong>Chandigarh, Punjab<br>India</strong>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">ACADEMIC DETAILS</span>
+                                    <h2>Academic Information</h2>
+                                    <p>Your course and academic information</p>
+                                </div>
+                                <button type="button" class="mini-edit" data-section="academic"><i data-lucide="pencil"></i></button>
+                            </div>
+                            <div class="academic-grid">
+                                <div class="info-item">
+                                    <span>Student ID</span>
+                                    <strong>CW2025CSE024</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Programme</span>
+                                    <strong>B.Tech Computer Science Engineering</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Department</span>
+                                    <strong>Computer Science</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Year</span>
+                                    <strong>2nd Year</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Semester</span>
+                                    <strong>4th Semester</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Class / Section</span>
+                                    <strong>603 - A</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Batch</span>
+                                    <strong>2025</strong>
+                                </div>
+                                <div class="info-item">
+                                    <span>Academic Session</span>
+                                    <strong>2025 - 2026</strong>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">FAMILY CONTACT</span>
+                                    <h2>Parent / Guardian Details</h2>
+                                    <p>Family contact information</p>
+                                </div>
+                                <button type="button" class="mini-edit" data-section="guardian"><i data-lucide="pencil"></i></button>
+                            </div>
+                            <div class="guardian-list">
+                                <div class="guardian-item">
+                                    <div class="guardian-icon"><i data-lucide="user-round"></i></div>
+                                    <div>
+                                        <span>Father / Guardian Name</span>
+                                        <strong>Rakesh Sharma</strong>
+                                    </div>
+                                    <small>Parent</small>
+                                </div>
+                                <div class="guardian-item">
+                                    <div class="guardian-icon"><i data-lucide="phone"></i></div>
+                                    <div>
+                                        <span>Father's Contact</span>
+                                        <strong>+91 98XXXXXX10</strong>
+                                    </div>
+                                </div>
+                                <div class="guardian-item">
+                                    <div class="guardian-icon"><i data-lucide="user-round"></i></div>
+                                    <div>
+                                        <span>Mother / Guardian Name</span>
+                                        <strong>Neha Sharma</strong>
+                                    </div>
+                                    <small>Parent</small>
+                                </div>
+                                <div class="guardian-item">
+                                    <div class="guardian-icon"><i data-lucide="phone"></i></div>
+                                    <div>
+                                        <span>Mother's Contact</span>
+                                        <strong>+91 98XXXXXX11</strong>
+                                    </div>
+                                </div>
+                                <div class="guardian-item">
+                                    <div class="guardian-icon"><i data-lucide="phone-call"></i></div>
+                                    <div>
+                                        <span>Alternate Contact</span>
+                                        <strong>+91 97XXXXXX32</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">PREVIOUS EDUCATION</span>
+                                    <h2>School & Board Details</h2>
+                                    <p>Your previous academic record</p>
+                                </div>
+                                <button type="button" class="mini-edit" data-section="education"><i data-lucide="pencil"></i></button>
+                            </div>
+                            <div class="education-block">
+                                <div class="education-title">
+                                    <i data-lucide="school"></i>
+                                    <strong>Matriculation (Class 10)</strong>
+                                </div>
+                                <div class="education-grid">
+                                    <div>
+                                        <span>School Name</span>
+                                        <strong>St. Mary's Convent School</strong>
+                                    </div>
+                                    <div>
+                                        <span>Board</span>
+                                        <strong>CBSE</strong>
+                                    </div>
+                                    <div>
+                                        <span>Year</span>
+                                        <strong>2021</strong>
+                                    </div>
+                                    <div>
+                                        <span>Percentage</span>
+                                        <strong>92.4%</strong>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="education-divider"></div>
+                            <div class="education-block">
+                                <div class="education-title">
+                                    <i data-lucide="graduation-cap"></i>
+                                    <strong>Intermediate (Class 12)</strong>
+                                </div>
+                                <div class="education-grid">
+                                    <div>
+                                        <span>School Name</span>
+                                        <strong>St. Mary's Convent School</strong>
+                                    </div>
+                                    <div>
+                                        <span>Board</span>
+                                        <strong>CBSE</strong>
+                                    </div>
+                                    <div>
+                                        <span>Year</span>
+                                        <strong>2023</strong>
+                                    </div>
+                                    <div>
+                                        <span>Percentage</span>
+                                        <strong>88.6%</strong>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card documents-card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">DOCUMENTS</span>
+                                    <h2>Verified Documents</h2>
+                                    <p>Your submitted documents</p>
+                                </div>
+                                <button type="button" class="mini-edit" data-section="documents"><i data-lucide="upload"></i></button>
+                            </div>
+                            <div class="document-list">
+                                <div class="document-item">
+                                    <div class="document-icon"><i data-lucide="file-check-2"></i></div>
+                                    <div>
+                                        <strong>Matriculation Certificate</strong>
+                                        <span>Class 10 • CBSE</span>
+                                    </div>
+                                    <b class="verified">Verified</b>
+                                    <div class="document-actions">
+                                        <button type="button" class="document-button view-document" data-document="Matriculation Certificate"><i data-lucide="eye"></i>View</button>
+                                        <button type="button" class="document-button download-document" data-document="Matriculation Certificate"><i data-lucide="download"></i></button>
+                                    </div>
+                                </div>
+                                <div class="document-item">
+                                    <div class="document-icon"><i data-lucide="file-check-2"></i></div>
+                                    <div>
+                                        <strong>Intermediate Certificate</strong>
+                                        <span>Class 12 • CBSE</span>
+                                    </div>
+                                    <b class="verified">Verified</b>
+                                    <div class="document-actions">
+                                        <button type="button" class="document-button view-document" data-document="Intermediate Certificate"><i data-lucide="eye"></i>View</button>
+                                        <button type="button" class="document-button download-document" data-document="Intermediate Certificate"><i data-lucide="download"></i></button>
+                                    </div>
+                                </div>
+                                <div class="document-item">
+                                    <div class="document-icon"><i data-lucide="file-check-2"></i></div>
+                                    <div>
+                                        <strong>Student ID / Identity Proof</strong>
+                                        <span>Identity document</span>
+                                    </div>
+                                    <b class="verified">Verified</b>
+                                    <div class="document-actions">
+                                        <button type="button" class="document-button view-document" data-document="Student ID / Identity Proof"><i data-lucide="eye"></i>View</button>
+                                        <button type="button" class="document-button download-document" data-document="Student ID / Identity Proof"><i data-lucide="download"></i></button>
+                                    </div>
+                                </div>
+                                <div class="document-item">
+                                    <div class="document-icon"><i data-lucide="file-check-2"></i></div>
+                                    <div>
+                                        <strong>Admission Document</strong>
+                                        <span>Admission record</span>
+                                    </div>
+                                    <b class="verified">Verified</b>
+                                    <div class="document-actions">
+                                        <button type="button" class="document-button view-document" data-document="Admission Document"><i data-lucide="eye"></i>View</button>
+                                        <button type="button" class="document-button download-document" data-document="Admission Document"><i data-lucide="download"></i></button>
+                                    </div>
+                                </div>
+                                <div class="document-item">
+                                    <div class="document-icon"><i data-lucide="file-up"></i></div>
+                                    <div>
+                                        <strong>Caste / Category Certificate</strong>
+                                        <span>Government document</span>
+                                    </div>
+                                    <b class="pending">Pending</b>
+                                    <div class="document-actions">
+                                        <button type="button" class="document-button upload-document" data-document="Caste / Category Certificate"><i data-lucide="upload"></i>Upload</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card id-card-section">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">STUDENT IDENTITY</span>
+                                    <h2>Student ID Card</h2>
+                                    <p>Your official student identity</p>
+                                </div>
+                                <button type="button" class="mini-edit" id="viewIdCard"><i data-lucide="expand"></i></button>
+                            </div>
+                            <div class="student-id-card">
+                                <div class="id-top">
+                                    <div>
+                                        <strong>CAMPUSWELL</strong>
+                                        <span>STUDENT ID</span>
+                                    </div>
+                                    <div class="id-logo">CW</div>
+                                </div>
+                                <div class="id-body">
+                                    <div class="id-photo">M</div>
+                                    <div class="id-details">
+                                        <strong>Mansi Sharma</strong>
+                                        <span>CW2025CSE024</span>
+                                        <span>B.Tech CSE</span>
+                                        <span>2nd Year • Section A</span>
+                                        <small>Valid through 2026</small>
+                                    </div>
+                                </div>
+                                <div class="barcode"></div>
+                            </div>
+                            <div class="id-actions">
+                                <button type="button" class="id-button primary" id="idViewButton"><i data-lucide="eye"></i>View ID Card</button>
+                                <button type="button" class="id-button" id="idDownloadButton"><i data-lucide="download"></i>Download ID Card</button>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card mentor-card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">ACADEMIC MENTOR</span>
+                                    <h2>Mentor Details</h2>
+                                    <p>Your academic mentor</p>
+                                </div>
+                                <button type="button" class="mini-edit" data-section="mentor"><i data-lucide="pencil"></i></button>
+                            </div>
+                            <div class="mentor-content">
+                                <div class="mentor-avatar">DR</div>
+                                <div class="mentor-info">
+                                    <strong>Dr. Ritu Verma</strong>
+                                    <span>Assistant Professor</span>
+                                    <span>Computer Science Engineering</span>
+                                </div>
+                            </div>
+                            <div class="mentor-contact">
+                                <span><i data-lucide="mail"></i>ritu.verma@college.edu</span>
+                                <span><i data-lucide="phone"></i>+91 98765 43210</span>
+                                <span><i data-lucide="building-2"></i>Block C, Room 204</span>
+                                <button type="button" id="contactMentor"><i data-lucide="users"></i>Contact Mentor</button>
+                            </div>
+                        </section>
+
+                        <section class="profile-card card privacy-card">
+                            <div class="card-heading">
+                                <div>
+                                    <span class="eyebrow">PRIVACY & SECURITY</span>
+                                    <h2>Account & Privacy</h2>
+                                    <p>Manage access to your account</p>
+                                </div>
+                                <i data-lucide="shield-check"></i>
+                            </div>
+                            <div class="privacy-list">
+                                <button type="button" class="privacy-item" data-setting="Change Password">
+                                <div class="privacy-icon"><i data-lucide="lock-keyhole"></i></div>
+                                <div>
+                                    <strong>Change Password</strong>
+                                    <span>Last changed 12 Aug 2025</span>
+                                </div>
+                                <i data-lucide="chevron-right"></i>
+                            </button>
+                                <button type="button" class="privacy-item" data-setting="Login Activity">
+                                <div class="privacy-icon"><i data-lucide="clock-3"></i></div>
+                                <div>
+                                    <strong>Login Activity</strong>
+                                    <span>View your recent login sessions</span>
+                                </div>
+                                <i data-lucide="chevron-right"></i>
+                            </button>
+                                <button type="button" class="privacy-item" data-setting="Privacy Settings">
+                                <div class="privacy-icon"><i data-lucide="settings-2"></i></div>
+                                <div>
+                                    <strong>Privacy Settings</strong>
+                                    <span>Control your data visibility</span>
+                                </div>
+                                <i data-lucide="chevron-right"></i>
+                            </button>
+                                <button type="button" class="privacy-item" data-setting="Account Security">
+                                <div class="privacy-icon"><i data-lucide="shield"></i></div>
+                                <div>
+                                    <strong>Account Security</strong>
+                                    <span>Two-factor authentication settings</span>
+                                </div>
+                                <i data-lucide="chevron-right"></i>
+                            </button>
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="profile-update card">
+                        <div class="update-icon"><i data-lucide="circle-check"></i></div>
+                        <div>
+                            <strong>Your information is up to date!</strong>
+                            <span>Last updated: 7 Oct 2026</span>
+                        </div>
+                        <button type="button" class="update-edit" id="bottomEdit"><i data-lucide="pencil"></i>Edit Profile</button>
+                    </section>
+                </section>
+            </div>
+        </main>
+    </div>
+
+    <div class="modal" id="editModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-box">
+            <button type="button" class="modal-close" data-close="editModal"><i data-lucide="x"></i></button>
+            <span class="eyebrow">EDIT PROFILE</span>
+            <h2>Update Personal Information</h2>
+            <p>Update the information shown on your student profile.</p>
+            <form id="profileForm">
+                <div class="modal-form-grid">
+                    <div>
+                        <label for="editName">Full Name</label>
+                        <input id="editName" type="text" value="Mansi Sharma" required>
+                    </div>
+                    <div>
+                        <label for="editEmail">Email Address</label>
+                        <input id="editEmail" type="email" value="mansi@student.edu" required>
+                    </div>
+                    <div>
+                        <label for="editPhone">Phone Number</label>
+                        <input id="editPhone" type="text" value="+91 98XXXXXX42" required>
+                    </div>
+                    <div>
+                        <label for="editSection">Class / Section</label>
+                        <input id="editSection" type="text" value="603 - A" required>
+                    </div>
+                </div>
+                <div class="modal-actions">
+                    <button type="button" class="secondary-modal-button" data-close="editModal">Cancel</button>
+                    <button type="submit" class="primary-modal-button">Save Changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="documentModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-box document-modal-box">
+            <button type="button" class="modal-close" data-close="documentModal"><i data-lucide="x"></i></button>
+            <div class="document-preview-icon"><i data-lucide="file-text"></i></div>
+            <span class="eyebrow">DOCUMENT</span>
+            <h2 id="documentTitle">Matriculation Certificate</h2>
+            <p id="documentDescription">Verified student document.</p>
+            <div class="document-preview">
+                <i data-lucide="file-check-2"></i>
+                <strong>Verified Document</strong>
+                <span>This document is stored securely in the student record.</span>
+            </div>
+            <button type="button" class="primary-modal-button full-button" id="documentCloseButton">Close</button>
+        </div>
+    </div>
+
+    <div class="modal" id="idModal">
+        <div class="modal-overlay"></div>
+        <div class="modal-box id-modal-box">
+            <button type="button" class="modal-close" data-close="idModal"><i data-lucide="x"></i></button>
+            <span class="eyebrow">STUDENT IDENTITY</span>
+            <h2>CampusWell Student ID</h2>
+            <div class="large-id-card">
+                <div class="large-id-header">
+                    <strong>CAMPUSWELL</strong>
+                    <span>STUDENT ID</span>
+                    <b>CW</b>
+                </div>
+                <div class="large-id-body">
+                    <div class="large-id-photo">M</div>
+                    <div>
+                        <strong>Mansi Sharma</strong>
+                        <span>CW2025CSE024</span>
+                        <span>B.Tech Computer Science Engineering</span>
+                        <span>2nd Year • Section A</span>
+                        <span>Academic Session 2025 - 2026</span>
+                    </div>
+                </div>
+                <div class="large-barcode"></div>
+            </div>
+            <button type="button" class="primary-modal-button full-button" id="idDownloadModal">Download ID Card</button>
+        </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+
+    <script src="profile.js"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+
+</html>
