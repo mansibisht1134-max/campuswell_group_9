@@ -23,7 +23,9 @@ from schemas import (
     SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
     CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
     ResourceCreate, ResourceUpdate, ResourceResponse,
-    AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,\n    CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,\n    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
+    AdminBootstrap, CounsellorCreate, CounsellorProfileUpdate, CounsellorProfileResponse,
+    CounsellorStudentResponse, FollowUpCreate, FollowUpUpdate, FollowUpResponse,
+    InterventionCreate, InterventionUpdate, InterventionResponse, OutcomeCreate, OutcomeUpdate, OutcomeResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
