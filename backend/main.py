@@ -14,12 +14,13 @@ from sqlalchemy.orm import Session
 
 from auth import create_access_token, get_current_user, get_optional_current_user, hash_password, verify_password
 from database import get_db
-from models import Appointment, CampusVoiceSubmission, CounsellorProfile, StudentProfile, SupportRequest, User, WellnessCheckin
+from models import Appointment, CampusVoiceSubmission, CounsellorProfile, Resource, SavedResource, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
     AuthResponse, LoginRequest, StudentRegister, UserResponse,
     WellnessCheckinCreate, WellnessCheckinResponse,
-    SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,\n    CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
+    SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
+    CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,\n    ResourceCreate, ResourceUpdate, ResourceResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -544,3 +545,142 @@ def update_campus_voice_status(
     db.commit()
     db.refresh(submission)
     return submission
+
+
+
+@app.get("/api/v1/resources", response_model=list[ResourceResponse], tags=["Resources"])
+def list_published_resources(
+    category: str | None = None,
+    db: Session = Depends(get_db),
+):
+    """Browse published wellness resources; optional category filtering is case-insensitive."""
+    query = db.query(Resource).filter(Resource.is_published.is_(True))
+    if category:
+        query = query.filter(Resource.category.ilike(category.strip()))
+    return query.order_by(Resource.created_at.desc()).all()
+
+
+@app.post(
+    "/api/v1/resources",
+    response_model=ResourceResponse,
+    status_code=201,
+    tags=["Resources"],
+)
+def create_resource(
+    payload: ResourceCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can publish resources.")
+    resource = Resource(**payload.model_dump())
+    db.add(resource)
+    db.commit()
+    db.refresh(resource)
+    return resource
+
+
+@app.patch(
+    "/api/v1/resources/{resource_id}",
+    response_model=ResourceResponse,
+    tags=["Resources"],
+)
+def update_resource(
+    resource_id: int,
+    payload: ResourceUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "admin":
+        raise HTTPException(status_code=403, detail="Only admins can update resources.")
+    resource = db.query(Resource).filter(Resource.id == resource_id).first()
+    if resource is None:
+        raise HTTPException(status_code=404, detail="Resource not found.")
+    for field, value in payload.model_dump(exclude_unset=True).items():
+        setattr(resource, field, value)
+    db.commit()
+    db.refresh(resource)
+    return resource
+
+
+@app.post(
+    "/api/v1/resources/{resource_id}/save",
+    status_code=201,
+    tags=["Resources"],
+)
+def save_resource(
+    resource_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can save resources.")
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if student is None:
+        raise HTTPException(status_code=400, detail="Student profile is missing.")
+    resource = db.query(Resource).filter(
+        Resource.id == resource_id,
+        Resource.is_published.is_(True),
+    ).first()
+    if resource is None:
+        raise HTTPException(status_code=404, detail="Published resource not found.")
+    saved = db.query(SavedResource).filter(
+        SavedResource.student_id == student.id,
+        SavedResource.resource_id == resource.id,
+    ).first()
+    if saved is None:
+        saved = SavedResource(student_id=student.id, resource_id=resource.id)
+        db.add(saved)
+        db.commit()
+    return {"message": "Resource saved.", "resource_id": resource.id}
+
+
+@app.get(
+    "/api/v1/resources/saved",
+    response_model=list[ResourceResponse],
+    tags=["Resources"],
+)
+def list_saved_resources(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can view saved resources.")
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if student is None:
+        raise HTTPException(status_code=400, detail="Student profile is missing.")
+    return (
+        db.query(Resource)
+        .join(SavedResource, SavedResource.resource_id == Resource.id)
+        .filter(
+            SavedResource.student_id == student.id,
+            Resource.is_published.is_(True),
+        )
+        .order_by(SavedResource.saved_at.desc())
+        .all()
+    )
+
+
+@app.delete(
+    "/api/v1/resources/{resource_id}/save",
+    status_code=204,
+    tags=["Resources"],
+)
+def unsave_resource(
+    resource_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can remove saved resources.")
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if student is None:
+        raise HTTPException(status_code=400, detail="Student profile is missing.")
+    saved = db.query(SavedResource).filter(
+        SavedResource.student_id == student.id,
+        SavedResource.resource_id == resource_id,
+    ).first()
+    if saved is None:
+        raise HTTPException(status_code=404, detail="Saved resource not found.")
+    db.delete(saved)
+    db.commit()
