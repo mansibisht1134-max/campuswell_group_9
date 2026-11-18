@@ -14,10 +14,10 @@ from sqlalchemy.orm import Session
 
 from auth import create_access_token, get_current_user, hash_password, verify_password
 from database import get_db
-from models import Appointment, CounsellorProfile, StudentProfile, User
+from models import Appointment, CounsellorProfile, StudentProfile, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
-    AuthResponse, LoginRequest, StudentRegister, UserResponse,
+    AuthResponse, LoginRequest, StudentRegister, UserResponse,\n    WellnessCheckinCreate, WellnessCheckinResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -261,3 +261,94 @@ def update_appointment_status(
     db.commit()
     db.refresh(appointment)
     return appointment
+
+
+
+@app.post(
+    "/api/v1/wellness/checkins",
+    response_model=WellnessCheckinResponse,
+    status_code=201,
+    tags=["Wellness"],
+)
+def create_wellness_checkin(
+    payload: WellnessCheckinCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Save a private wellness check-in for the authenticated student."""
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can submit wellness check-ins.")
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if student is None:
+        raise HTTPException(status_code=400, detail="Student profile is missing.")
+
+    checkin = WellnessCheckin(
+        student_id=student.id,
+        mood=payload.mood,
+        sleep_hours=payload.sleep_hours,
+        energy_level=payload.energy_level,
+        stress_level=payload.stress_level,
+        score=payload.score,
+        notes=payload.notes,
+    )
+    db.add(checkin)
+    db.commit()
+    db.refresh(checkin)
+    return checkin
+
+
+@app.get(
+    "/api/v1/wellness/checkins",
+    response_model=list[WellnessCheckinResponse],
+    tags=["Wellness"],
+)
+def list_my_wellness_checkins(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Students can retrieve only their own wellness history."""
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Use the counsellor-scoped wellness endpoint.")
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if student is None:
+        raise HTTPException(status_code=400, detail="Student profile is missing.")
+    return (
+        db.query(WellnessCheckin)
+        .filter(WellnessCheckin.student_id == student.id)
+        .order_by(WellnessCheckin.submitted_at.desc())
+        .all()
+    )
+
+
+@app.get(
+    "/api/v1/wellness/students/{student_id}/checkins",
+    response_model=list[WellnessCheckinResponse],
+    tags=["Wellness"],
+)
+def list_student_wellness_for_counsellor(
+    student_id: int,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """A counsellor may view records only for a student linked through their appointments."""
+    if current_user.role != "counsellor":
+        raise HTTPException(status_code=403, detail="Only counsellors can use this endpoint.")
+    counsellor = db.query(CounsellorProfile).filter(
+        CounsellorProfile.user_id == current_user.id
+    ).first()
+    if counsellor is None:
+        raise HTTPException(status_code=400, detail="Counsellor profile is missing.")
+
+    linked_student = db.query(Appointment.id).filter(
+        Appointment.counsellor_id == counsellor.id,
+        Appointment.student_id == student_id,
+    ).first()
+    if linked_student is None:
+        raise HTTPException(status_code=403, detail="You are not assigned to this student.")
+
+    return (
+        db.query(WellnessCheckin)
+        .filter(WellnessCheckin.student_id == student_id)
+        .order_by(WellnessCheckin.submitted_at.desc())
+        .all()
+    )
