@@ -1,5 +1,5 @@
-const STORAGE_KEY = "campuswell_appointments";
-
+const API_BASE_URL = "https://campuswell-api-dah4.onrender.com/api/v1";
+const token = localStorage.getItem("campuswell_access_token");
 const counsellorCards = document.querySelectorAll(".counsellor-card");
 const reasonOptions = document.querySelectorAll(".reason-option");
 const appointmentReason = document.getElementById("appointmentReason");
@@ -24,235 +24,188 @@ const modalCounsellor = document.getElementById("modalCounsellor");
 const modalDate = document.getElementById("modalDate");
 const modalTime = document.getElementById("modalTime");
 
-let appointments = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-let selectedCounsellor = "Dr. Priya Sharma";
-
-function saveAppointments() {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(appointments));
-}
+let appointments = [];
+let counsellors = [];
+let selectedCounsellorId = null;
+let selectedCounsellorName = "";
 
 function showToast(message) {
     toast.textContent = message;
     toast.classList.add("show");
-    setTimeout(() => {
-        toast.classList.remove("show");
-    }, 2500);
+    setTimeout(() => toast.classList.remove("show"), 2800);
 }
 
-function formatDate(date) {
-    return new Date(date + "T00:00:00").toLocaleDateString("en-IN", {
-        day: "numeric",
-        month: "short",
-        year: "numeric"
+function apiRequest(path, options = {}) {
+    return fetch(API_BASE_URL + path, {
+        ...options,
+        headers: {
+            "Authorization": "Bearer " + token,
+            "Accept": "application/json",
+            ...(options.body ? { "Content-Type": "application/json" } : {}),
+            ...(options.headers || {})
+        }
+    }).then(async response => {
+        if (response.status === 401) {
+            ["campuswell_access_token", "campuswell_student_email", "campuswell_user"].forEach(key => localStorage.removeItem(key));
+            window.location.replace("../student-login/student-login.html");
+            throw new Error("Your session expired. Please sign in again.");
+        }
+        const data = await response.json().catch(() => ({}));
+        if (!response.ok) throw new Error(data.detail || "Request failed.");
+        return data;
     });
 }
 
-function getStatus(appointment) {
-    const appointmentDateTime = new Date(`${appointment.date}T${convertTo24Hour(appointment.time)}`);
-    if (appointmentDateTime < new Date()) {
-        return "Completed";
-    }
-    return appointment.status || "Upcoming";
+function formatDate(value) {
+    return new Date(value).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" });
 }
 
-function convertTo24Hour(time) {
-    const [value, modifier] = time.split(" ");
-    let [hours, minutes] = value.split(":").map(Number);
-
-    if (modifier === "PM" && hours !== 12) {
-        hours += 12;
-    }
-
-    if (modifier === "AM" && hours === 12) {
-        hours = 0;
-    }
-
-    return `${String(hours).padStart(2, "0")}:${String(minutes).padStart(2, "0")}:00`;
+function formatTime(value) {
+    return new Date(value).toLocaleTimeString("en-IN", { hour: "2-digit", minute: "2-digit" });
 }
 
-function updateStats() {
-    const upcoming = appointments.filter(item => getStatus(item) === "Upcoming").length;
-    const completed = appointments.filter(item => getStatus(item) === "Completed").length;
-    const pending = appointments.filter(item => item.status === "Pending").length;
+function showModal(appointment) {
+    modalCounsellor.textContent = selectedCounsellorName;
+    modalDate.textContent = formatDate(appointment.scheduled_at);
+    modalTime.textContent = formatTime(appointment.scheduled_at);
+    confirmationModal.classList.add("show");
+}
 
-    upcomingCount.textContent = upcoming;
-    completedCount.textContent = completed;
-    pendingCount.textContent = pending;
+function renderCounsellors() {
+    const grid = document.querySelector(".counsellor-grid");
+    if (!counsellors.length) {
+        grid.innerHTML = "<p>No counsellors are currently available. Please contact student support.</p>";
+        return;
+    }
+    grid.innerHTML = counsellors.map((person, index) => {
+        const initials = person.full_name.split(/\s+/).map(part => part[0]).slice(0, 2).join("").toUpperCase();
+        return '<button type="button" class="counsellor-card ' + (index === 0 ? "active" : "") + '" data-id="' + person.id + '" data-name="' + person.full_name.replace(/&/g, "&amp;").replace(/"/g, "&quot;") + '"><div class="counsellor-avatar">' + initials + '</div><div><strong>' + person.full_name + '</strong><span>' + (person.specialization || "Student Counsellor") + '</span><small>Available for requests</small></div></button>';
+    }).join("");
+    const cards = grid.querySelectorAll(".counsellor-card");
+    cards.forEach((card, index) => card.addEventListener("click", () => {
+        cards.forEach(item => item.classList.remove("active"));
+        card.classList.add("active");
+        selectedCounsellorId = Number(card.dataset.id);
+        selectedCounsellorName = card.dataset.name;
+    }));
+    selectedCounsellorId = counsellors[0].id;
+    selectedCounsellorName = counsellors[0].full_name;
+}
+
+function renderAppointments() {
+    const now = new Date();
+    const upcoming = appointments.filter(item => new Date(item.scheduled_at) >= now && !["Cancelled", "Declined", "Completed"].includes(item.status));
+    const completed = appointments.filter(item => ["Completed", "Cancelled", "Declined"].includes(item.status) || new Date(item.scheduled_at) < now);
+    const pending = appointments.filter(item => item.status === "Pending");
+    upcomingCount.textContent = upcoming.length;
+    completedCount.textContent = completed.length;
+    pendingCount.textContent = pending.length;
     totalCount.textContent = appointments.length;
-    historyCount.textContent = completed;
-}
-
-function renderUpcoming() {
-    const upcoming = appointments
-        .filter(item => getStatus(item) === "Upcoming")
-        .sort((a, b) => new Date(`${a.date}T${convertTo24Hour(a.time)}`) - new Date(`${b.date}T${convertTo24Hour(b.time)}`));
+    historyCount.textContent = completed.length;
 
     if (!upcoming.length) {
-        upcomingAppointment.innerHTML = `
-            <div class="no-appointment">
-                <div class="no-appointment-icon"><i data-lucide="calendar-off"></i></div>
-                <strong>No upcoming appointments</strong>
-                <p>Your scheduled sessions will appear here.</p>
-                <button id="startBooking">Book an Appointment</button>
-            </div>
-        `;
-
+        upcomingAppointment.innerHTML = '<div class="no-appointment"><div class="no-appointment-icon"><i data-lucide="calendar-off"></i></div><strong>No upcoming appointments</strong><p>Your requested sessions will appear here.</p><button id="startBooking">Book an Appointment</button></div>';
         document.getElementById("startBooking").addEventListener("click", scrollToBooking);
-        lucide.createIcons();
-        return;
+    } else {
+        upcomingAppointment.innerHTML = upcoming.map(item => {
+            const person = counsellors.find(c => c.id === item.counsellor_id);
+            return '<div class="appointment-item upcoming-item"><strong>' + (person?.full_name || "Counsellor") + '</strong><span><i data-lucide="calendar"></i> ' + formatDate(item.scheduled_at) + '</span><span><i data-lucide="clock-3"></i> ' + formatTime(item.scheduled_at) + '</span><span><i data-lucide="message-circle"></i> ' + item.reason + '</span><small>Status: ' + item.status + '</small>' + (item.status === "Pending" ? '<button type="button" class="cancel-appointment" data-id="' + item.id + '">Cancel request</button>' : "") + '</div>';
+        }).join("");
+        upcomingAppointment.querySelectorAll(".cancel-appointment").forEach(button => button.addEventListener("click", () => updateAppointmentStatus(button.dataset.id, "Cancelled")));
     }
-
-    const appointment = upcoming[0];
-
-    upcomingAppointment.innerHTML = `
-        <div class="appointment-item upcoming-item">
-            <strong>${appointment.counsellor}</strong>
-            <span><i data-lucide="calendar"></i> ${formatDate(appointment.date)}</span>
-            <span><i data-lucide="clock-3"></i> ${appointment.time}</span>
-            <span><i data-lucide="message-circle"></i> ${appointment.reason}</span>
-            <small>Upcoming appointment</small>
-        </div>
-    `;
-
-    lucide.createIcons();
-}
-
-function renderHistory() {
-    const completed = appointments
-        .filter(item => getStatus(item) === "Completed")
-        .sort((a, b) => new Date(b.date) - new Date(a.date));
 
     if (!completed.length) {
-        appointmentHistory.innerHTML = `
-            <div class="empty-history">
-                <i data-lucide="calendar-search"></i>
-                <p>No appointment history yet.</p>
-            </div>
-        `;
-        lucide.createIcons();
-        return;
+        appointmentHistory.innerHTML = '<div class="empty-history"><i data-lucide="calendar-search"></i><p>No appointment history yet.</p></div>';
+    } else {
+        appointmentHistory.innerHTML = completed.map(item => '<div class="appointment-item"><strong>' + (counsellors.find(c => c.id === item.counsellor_id)?.full_name || "Counsellor") + '</strong><span>' + formatDate(item.scheduled_at) + ' • ' + formatTime(item.scheduled_at) + '</span><span>' + item.reason + '</span><small>' + item.status + '</small></div>').join("");
     }
-
-    appointmentHistory.innerHTML = completed.map(appointment => `
-        <div class="appointment-item">
-            <strong>${appointment.counsellor}</strong>
-            <span>${formatDate(appointment.date)} • ${appointment.time}</span>
-            <span>${appointment.reason}</span>
-            <small>Completed</small>
-        </div>
-    `).join("");
-
-    lucide.createIcons();
+    if (window.lucide) lucide.createIcons();
 }
 
-function renderAll() {
-    updateStats();
-    renderUpcoming();
-    renderHistory();
+async function updateAppointmentStatus(id, status) {
+    try {
+        await apiRequest("/appointments/" + id + "/status", { method: "PATCH", body: JSON.stringify({ status }) });
+        showToast("Appointment request cancelled.");
+        await loadAppointments();
+    } catch (error) { showToast(error.message); }
+}
+
+async function loadAppointments() {
+    try {
+        const [people, items] = await Promise.all([apiRequest("/counsellors"), apiRequest("/appointments")]);
+        counsellors = people;
+        appointments = items;
+        renderCounsellors();
+        renderAppointments();
+    } catch (error) {
+        showToast(error.message);
+    }
 }
 
 function scrollToBooking() {
-    document.getElementById("bookingSection").scrollIntoView({
-        behavior: "smooth",
-        block: "start"
-    });
+    document.getElementById("bookingSection").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-counsellorCards.forEach(card => {
-    card.addEventListener("click", () => {
-        counsellorCards.forEach(item => item.classList.remove("active"));
-        card.classList.add("active");
-        selectedCounsellor = card.dataset.counsellor;
-    });
-});
-
-reasonOptions.forEach(option => {
-    option.addEventListener("click", () => {
-        reasonOptions.forEach(item => item.classList.remove("active"));
-        option.classList.add("active");
-        appointmentReason.value = option.dataset.reason;
-    });
-});
+reasonOptions.forEach(option => option.addEventListener("click", () => {
+    reasonOptions.forEach(item => item.classList.remove("active"));
+    option.classList.add("active");
+    appointmentReason.value = option.dataset.reason;
+}));
 
 appointmentMessage.addEventListener("input", () => {
-    characterCount.textContent = `${appointmentMessage.value.length}/300`;
+    characterCount.textContent = appointmentMessage.value.length + "/300";
 });
 
 appointmentDate.min = new Date().toISOString().split("T")[0];
 
-confirmAppointment.addEventListener("click", () => {
+confirmAppointment.addEventListener("click", async () => {
     const date = appointmentDate.value;
     const time = appointmentTime.value;
     const reason = appointmentReason.value;
-    const message = appointmentMessage.value.trim();
-
-    if (!date) {
-        showToast("Please select an appointment date.");
-        appointmentDate.focus();
-        return;
+    if (!selectedCounsellorId) return showToast("No counsellor is currently available.");
+    if (!date || !time || !reason) return showToast("Please select a date, time and reason.");
+    const [clock, meridiem] = time.split(" ");
+    let [hours, minutes] = clock.split(":").map(Number);
+    if (meridiem === "PM" && hours !== 12) hours += 12;
+    if (meridiem === "AM" && hours === 12) hours = 0;
+    const scheduled = new Date(date + "T" + String(hours).padStart(2, "0") + ":" + String(minutes).padStart(2, "0") + ":00");
+    if (scheduled <= new Date()) return showToast("Please choose a future date and time.");
+    confirmAppointment.disabled = true;
+    confirmAppointment.textContent = "Sending request...";
+    try {
+        const result = await apiRequest("/appointments", {
+            method: "POST",
+            body: JSON.stringify({
+                counsellor_id: selectedCounsellorId,
+                scheduled_at: scheduled.toISOString(),
+                mode: "In-person",
+                reason,
+                message: appointmentMessage.value.trim() || null
+            })
+        });
+        showModal(result);
+        appointmentDate.value = "";
+        appointmentTime.value = "";
+        appointmentMessage.value = "";
+        appointmentReason.value = "";
+        characterCount.textContent = "0/300";
+        reasonOptions.forEach(item => item.classList.remove("active"));
+        await loadAppointments();
+    } catch (error) {
+        showToast(error.message);
+    } finally {
+        confirmAppointment.disabled = false;
+        confirmAppointment.innerHTML = '<i data-lucide="calendar-check-2"></i>Confirm Appointment';
+        if (window.lucide) lucide.createIcons();
     }
-
-    if (!time) {
-        showToast("Please select an appointment time.");
-        appointmentTime.focus();
-        return;
-    }
-
-    if (!reason) {
-        showToast("Please select a reason for your appointment.");
-        return;
-    }
-
-    const selectedDateTime = new Date(`${date}T${convertTo24Hour(time)}`);
-
-    if (selectedDateTime < new Date()) {
-        showToast("Please choose a future date and time.");
-        return;
-    }
-
-    const newAppointment = {
-        id: Date.now(),
-        counsellor: selectedCounsellor,
-        date,
-        time,
-        reason,
-        message,
-        status: "Upcoming",
-        createdAt: new Date().toISOString()
-    };
-
-    appointments.push(newAppointment);
-    saveAppointments();
-
-    modalCounsellor.textContent = selectedCounsellor;
-    modalDate.textContent = formatDate(date);
-    modalTime.textContent = time;
-
-    confirmationModal.classList.add("show");
-
-    appointmentDate.value = "";
-    appointmentTime.value = "";
-    appointmentMessage.value = "";
-    appointmentReason.value = "";
-    characterCount.textContent = "0/300";
-
-    reasonOptions.forEach(item => item.classList.remove("active"));
-
-    renderAll();
 });
 
-function hideModal() {
-    confirmationModal.classList.remove("show");
-}
-
+function hideModal() { confirmationModal.classList.remove("show"); }
 closeModal.addEventListener("click", hideModal);
 doneModal.addEventListener("click", hideModal);
-
 document.querySelector(".modal-overlay").addEventListener("click", hideModal);
+if (startBooking) startBooking.addEventListener("click", scrollToBooking);
 
-if (startBooking) {
-    startBooking.addEventListener("click", scrollToBooking);
-}
-
-renderAll();
-lucide.createIcons();
+if (!token) window.location.replace("../student-login/student-login.html");
+else loadAppointments();
+if (window.lucide) lucide.createIcons();
