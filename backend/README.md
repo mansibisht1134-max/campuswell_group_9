@@ -118,3 +118,26 @@ Demo login accounts (all use the same demo-only password):
 - Password: `CampusWellDemo!2026`
 
 Never deploy these demo credentials or synthetic records to a live institution. Use a fresh database and real, authorized account provisioning for production.
+
+
+## Database migrations
+
+Alembic is configured for versioned schema migrations. After installing backend requirements, generate the initial migration from the SQLAlchemy models:
+
+```powershell
+cd backend
+alembic revision --autogenerate -m "initial campuswell schema"
+alembic upgrade head
+```
+
+For future model changes, generate a new revision and review the generated migration before applying it. Do not rely on `create_all` as a production schema migration strategy.
+
+## Automated backend tests
+
+Run from the backend directory:
+
+```powershell
+pytest -q
+```
+
+The GitHub Actions workflow runs these backend smoke tests when code is pushed to this branch or a pull request targets it. These tests are an initial safety net, not a substitute for full integration, authorization, and database tests.
