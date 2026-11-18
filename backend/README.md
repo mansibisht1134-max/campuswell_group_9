@@ -141,3 +141,20 @@ pytest -q
 ```
 
 The GitHub Actions workflow runs these backend smoke tests when code is pushed to this branch or a pull request targets it. These tests are an initial safety net, not a substitute for full integration, authorization, and database tests.
+
+## Cloud deployment preparation (Render)
+
+The repository root contains a Render Blueprint at `render.yaml`. It defines the CampusWell FastAPI web service and deploys from the `backend-foundation` branch. It does not create a paid database automatically.
+
+To deploy:
+
+1. Create or sign in to a Render account and connect the GitHub repository.
+2. In Render, choose **New → Blueprint** and select this repository and the `backend-foundation` branch.
+3. Review the Blueprint and create the web service.
+4. When prompted, provide `DATABASE_URL` from a PostgreSQL database you control. Use the provider's PostgreSQL connection string; keep it private.
+5. Provide a new, high-entropy `ADMIN_BOOTSTRAP_TOKEN` in Render's environment settings. Render generates `JWT_SECRET` automatically.
+6. After deployment, open the service's `/api/v1/health` endpoint. It should report both the API and database as healthy.
+
+The current API creates missing tables on startup with SQLAlchemy metadata. Alembic is configured, but the initial migration has not yet been generated, so this first deployment configuration does not run an Alembic pre-deploy command. A reviewed initial migration and production migration workflow are still required before treating this as production-ready.
+
+Do not add real student information or use the synthetic demo accounts in a public deployment. Do not paste database passwords or secret values into GitHub files or chat; enter them only in the hosting provider's private environment settings. A hosted service/database is not created merely by committing this Blueprint.
