@@ -14,10 +14,10 @@ from sqlalchemy.orm import Session
 
 from auth import create_access_token, get_current_user, hash_password, verify_password
 from database import get_db
-from models import Appointment, CounsellorProfile, StudentProfile, User, WellnessCheckin
+from models import Appointment, CounsellorProfile, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
-    AuthResponse, LoginRequest, StudentRegister, UserResponse,\n    WellnessCheckinCreate, WellnessCheckinResponse,
+    AuthResponse, LoginRequest, StudentRegister, UserResponse,\n    WellnessCheckinCreate, WellnessCheckinResponse,\n    SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -352,3 +352,110 @@ def list_student_wellness_for_counsellor(
         .order_by(WellnessCheckin.submitted_at.desc())
         .all()
     )
+
+
+@app.post(
+    "/api/v1/support/requests",
+    response_model=SupportRequestResponse,
+    status_code=201,
+    tags=["Support"],
+)
+def create_support_request(
+    payload: SupportRequestCreate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Allow a signed-in student to submit a private support request."""
+    if current_user.role != "student":
+        raise HTTPException(status_code=403, detail="Only students can create support requests.")
+    student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+    if student is None:
+        raise HTTPException(status_code=400, detail="Student profile is missing.")
+    request = SupportRequest(
+        student_id=student.id,
+        category=payload.category,
+        title=payload.title,
+        message=payload.message,
+        priority=payload.priority,
+        status="Open",
+    )
+    db.add(request)
+    db.commit()
+    db.refresh(request)
+    return request
+
+
+@app.get(
+    "/api/v1/support/requests",
+    response_model=list[SupportRequestResponse],
+    tags=["Support"],
+)
+def list_support_requests(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Return only support requests the signed-in role is permitted to access."""
+    if current_user.role == "student":
+        student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+        if student is None:
+            raise HTTPException(status_code=400, detail="Student profile is missing.")
+        query = db.query(SupportRequest).filter(SupportRequest.student_id == student.id)
+    elif current_user.role == "counsellor":
+        counsellor = db.query(CounsellorProfile).filter(
+            CounsellorProfile.user_id == current_user.id
+        ).first()
+        if counsellor is None:
+            raise HTTPException(status_code=400, detail="Counsellor profile is missing.")
+        query = db.query(SupportRequest).filter(
+            SupportRequest.assigned_counsellor_id == counsellor.id
+        )
+    elif current_user.role == "admin":
+        query = db.query(SupportRequest)
+    else:
+        raise HTTPException(status_code=403, detail="Not authorized.")
+    return query.order_by(SupportRequest.created_at.desc()).all()
+
+
+@app.patch(
+    "/api/v1/support/requests/{request_id}",
+    response_model=SupportRequestResponse,
+    tags=["Support"],
+)
+def update_support_request(
+    request_id: int,
+    payload: SupportRequestUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Admins can assign requests; assigned counsellors can update their workflow status."""
+    request = db.query(SupportRequest).filter(SupportRequest.id == request_id).first()
+    if request is None:
+        raise HTTPException(status_code=404, detail="Support request not found.")
+
+    if current_user.role == "admin":
+        if payload.assigned_counsellor_id is not None:
+            counsellor = db.query(CounsellorProfile).join(User).filter(
+                CounsellorProfile.id == payload.assigned_counsellor_id,
+                User.is_active.is_(True),
+            ).first()
+            if counsellor is None:
+                raise HTTPException(status_code=404, detail="Counsellor not found.")
+            request.assigned_counsellor_id = counsellor.id
+        if payload.status is not None:
+            request.status = payload.status
+    elif current_user.role == "counsellor":
+        counsellor = db.query(CounsellorProfile).filter(
+            CounsellorProfile.user_id == current_user.id
+        ).first()
+        if counsellor is None or request.assigned_counsellor_id != counsellor.id:
+            raise HTTPException(status_code=403, detail="This request is not assigned to you.")
+        if payload.assigned_counsellor_id is not None:
+            raise HTTPException(status_code=403, detail="Counsellors cannot reassign requests.")
+        if payload.status is not None:
+            request.status = payload.status
+    else:
+        raise HTTPException(status_code=403, detail="Not authorized to update support requests.")
+
+    db.commit()
+    db.refresh(request)
+    return request
