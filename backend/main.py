@@ -1,4 +1,5 @@
 import logging
+import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from sqlalchemy import text
@@ -26,7 +27,7 @@ default_origins = [
 ]
 configured_origins = [
     origin.strip()
-    for origin in __import__("os").getenv("CORS_ORIGINS", "").split(",")
+    for origin in os.getenv("CORS_ORIGINS", "").split(",")
     if origin.strip()
 ]
 app.add_middleware(
