@@ -222,5 +222,9 @@
 </div>
 <div aria-live="polite" class="toast" id="toast" role="status"><i data-lucide="check-circle-2"></i><span id="toastText">Saved</span></div>
 <script src="./counsellor-outcomes.js"></script>
-</body>
+<script>
+document.querySelectorAll(".logout").forEach(link=>link.addEventListener("click",()=>{
+ ["campuswell_access_token","campuswell_user","campuswell_student_email","campuswell_counsellor_email"].forEach(key=>localStorage.removeItem(key));
+}));
+</script></body>
 </html>
