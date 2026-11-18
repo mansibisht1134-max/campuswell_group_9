@@ -56,7 +56,17 @@
  $("todayButton")?.addEventListener("click",()=>{weekStart=monday(new Date());render();});
  $("newAppointmentButton")?.addEventListener("click",()=>alert("Students submit appointment requests from their portal. Review and confirm or decline them here."));
  $("allRequests")?.addEventListener("click",()=>location.href="counsellor-request.html");
- $("manageAvailability")?.addEventListener("click",()=>alert("Availability editing is not connected to the current backend yet."));
+ $("manageAvailability")?.addEventListener("click",async()=>{
+  const button=$("manageAvailability");
+  if(button)button.disabled=true;
+  try{
+   const profile=await api("/counsellors/me");
+   const updated=await api("/counsellors/me",{method:"PATCH",headers:{"Content-Type":"application/json"},body:JSON.stringify({is_available:!profile.is_available})});
+   alert(updated.is_available?"You are now marked available for new appointment requests.":"You are now marked unavailable for new appointment requests.");
+   if(button)button.textContent=updated.is_available?"Set Unavailable":"Set Available";
+  }catch(error){alert(error.message||"Could not update availability.");}
+  finally{if(button)button.disabled=false;}
+ });
  $("rulesButton")?.addEventListener("click",()=>alert("Appointment rule management is not connected to the current backend yet."));
  $("historyFilter")?.addEventListener("click",()=>document.querySelector(".history-panel")?.scrollIntoView({behavior:"smooth"}));
  $("searchInput")?.addEventListener("input",e=>{const q=e.target.value.toLowerCase();document.querySelectorAll(".appointment").forEach(n=>n.style.display=n.textContent.toLowerCase().includes(q)?"":"none");document.querySelectorAll(".request-card").forEach(n=>n.style.display=n.textContent.toLowerCase().includes(q)?"":"none");});
