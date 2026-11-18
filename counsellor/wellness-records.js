@@ -1,287 +1,58 @@
-const recordSearch = document.getElementById("recordSearch");
-const tableSearch = document.getElementById("tableSearch");
-const moodFilter = document.getElementById("moodFilter");
-const stressFilter = document.getElementById("stressFilter");
-const recordPeriod = document.getElementById("recordPeriod");
-const recordsTableBody = document.getElementById("recordsTableBody");
-const recordsEmpty = document.getElementById("recordsEmpty");
-const recordsCount = document.getElementById("recordsCount");
-const selectAllRecords = document.getElementById("selectAllRecords");
-const resetFilters = document.getElementById("resetFilters");
-const emptyReset = document.getElementById("emptyReset");
-const rows = Array.from(document.querySelectorAll("#recordsTableBody tr"));
-const tabs = Array.from(document.querySelectorAll(".record-tab"));
-
-let activeStatus = "all";
-
-function getSearchQuery() {
-    return (tableSearch ? .value || recordSearch ? .value || "").trim().toLowerCase();
+const API="https://campuswell-api-dah4.onrender.com/api/v1";
+const token=localStorage.getItem("campuswell_access_token");
+const body=document.getElementById("recordsTableBody");
+const search=document.getElementById("recordSearch");
+const moodFilter=document.getElementById("moodFilter");
+const statusFilter=document.getElementById("statusFilter");
+const empty=document.getElementById("recordsEmpty");
+const count=document.getElementById("recordResultCount");
+let records=[];
+function esc(v){return String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function level(item){
+ const score=Number(item.score??100);
+ const stress=String(item.stress_level||"").toLowerCase();
+ if(score<50||["high","very high"].includes(stress))return "Elevated";
+ if(score<65||stress==="moderate")return "Watch";
+ return "Routine";
 }
-
-function updateSearchInputs(value, source) {
-    if (source !== recordSearch && recordSearch) {
-        recordSearch.value = value;
-    }
-
-    if (source !== tableSearch && tableSearch) {
-        tableSearch.value = value;
-    }
+function render(){
+ const q=(search?.value||"").trim().toLowerCase();
+ const mood=moodFilter?.value||"all";
+ const status=statusFilter?.value||"all";
+ const visible=records.filter(x=>{
+  const label=level(x);
+  const moodValue=String(x.mood||"").toLowerCase().replace(/\s+/g,"");
+  return (!q||("student "+x.student_id+" "+(x.notes||"")).toLowerCase().includes(q))
+   &&(mood==="all"||moodValue===mood)
+   &&(status==="all"||label.toLowerCase()===status);
+ });
+ body.innerHTML=visible.map(x=>{
+  const date=x.submitted_at?new Date(x.submitted_at).toLocaleString():"—";
+  const statusText=level(x);
+  return '<tr><td><strong>Student #'+x.student_id+'</strong></td><td>'+esc(date)+'</td><td>'+esc(x.mood||"Not reported")+'</td><td>'+esc(x.stress_level||"Not reported")+'</td><td>'+(x.sleep_hours??"—")+' hrs</td><td>'+esc(x.energy_level||"Not reported")+'</td><td><span class="status-badge">'+statusText+'</span></td><td>Self check-in</td><td><button type="button" class="view-record" data-id="'+x.id+'">View</button></td></tr>';
+ }).join("");
+ empty.hidden=visible.length>0;
+ count.textContent="Showing "+visible.length+" of "+records.length+" live check-ins";
+ body.querySelectorAll(".view-record").forEach(button=>button.addEventListener("click",()=>{
+  const item=records.find(x=>String(x.id)===button.dataset.id);
+  if(!item)return;
+  const details="Student #"+item.student_id+"\nSubmitted: "+new Date(item.submitted_at).toLocaleString()+"\nMood: "+(item.mood||"Not reported")+"\nStress: "+(item.stress_level||"Not reported")+"\nSleep: "+(item.sleep_hours??"Not reported")+" hours\nEnergy: "+(item.energy_level||"Not reported")+"\nScore: "+(item.score??"Not calculated")+"\nNotes: "+(item.notes||"No notes");
+  alert(details);
+ }));
 }
-
-function getVisibleRows() {
-    return rows.filter(row => row.style.display !== "none");
+async function load(){
+ if(!token){body.innerHTML='<tr><td colspan="9">Please sign in with your counsellor account.</td></tr>';return;}
+ try{
+  const r=await fetch(API+"/counsellor/wellness-checkins",{headers:{Authorization:"Bearer "+token}});
+  const data=await r.json().catch(()=>[]);
+  if(!r.ok)throw new Error(data.detail||"Unable to load wellness records.");
+  records=Array.isArray(data)?data:[];
+  records.sort((a,b)=>new Date(b.submitted_at)-new Date(a.submitted_at));
+  render();
+ }catch(e){body.innerHTML='<tr><td colspan="9">'+esc(e.message)+'</td></tr>';count.textContent="Records unavailable";}
 }
-
-function filterRecords() {
-    const query = getSearchQuery();
-    const mood = moodFilter ? .value || "all";
-    const stress = stressFilter ? .value || "all";
-    let visibleCount = 0;
-
-    rows.forEach(row => {
-        const searchableText = [
-            row.dataset.student,
-            row.dataset.id,
-            row.dataset.search,
-            row.textContent
-        ].join(" ").toLowerCase();
-
-        const rowStatus = row.dataset.status || "pending";
-        const rowMood = row.dataset.mood || "";
-        const stressValue = Number(row.dataset.stressValue || 0);
-
-        const matchesSearch = searchableText.includes(query);
-        const matchesStatus = activeStatus === "all" || rowStatus === activeStatus;
-        const matchesMood = mood === "all" || rowMood === mood;
-
-        let matchesStress = true;
-
-        if (stress === "low") {
-            matchesStress = stressValue >= 1 && stressValue <= 2;
-        } else if (stress === "medium") {
-            matchesStress = stressValue === 3;
-        } else if (stress === "high") {
-            matchesStress = stressValue >= 4 && stressValue <= 5;
-        }
-
-        const visible = matchesSearch && matchesStatus && matchesMood && matchesStress;
-
-        row.style.display = visible ? "" : "none";
-
-        if (visible) {
-            visibleCount++;
-        }
-    });
-
-    if (recordsEmpty) {
-        recordsEmpty.hidden = visibleCount !== 0;
-    }
-
-    if (recordsTableBody) {
-        recordsTableBody.closest(".records-table-wrap").style.display =
-            visibleCount === 0 ? "none" : "";
-    }
-
-    if (recordsCount) {
-        recordsCount.textContent = `Showing ${visibleCount} of ${rows.length} sample records`;
-    }
-
-    if (selectAllRecords) {
-        const visibleCheckboxes = getVisibleRows()
-            .map(row => row.querySelector(".record-checkbox"))
-            .filter(Boolean);
-
-        selectAllRecords.checked =
-            visibleCheckboxes.length > 0 &&
-            visibleCheckboxes.every(checkbox => checkbox.checked);
-
-        selectAllRecords.indeterminate =
-            visibleCheckboxes.some(checkbox => checkbox.checked) &&
-            !selectAllRecords.checked;
-    }
-}
-
-function setActiveTab(status) {
-    activeStatus = status;
-
-    tabs.forEach(tab => {
-        const active = tab.dataset.status === status;
-        tab.classList.toggle("active", active);
-
-        if (active) {
-            tab.setAttribute("aria-pressed", "true");
-        } else {
-            tab.setAttribute("aria-pressed", "false");
-        }
-    });
-
-    filterRecords();
-}
-
-function clearFilters() {
-    if (recordSearch) {
-        recordSearch.value = "";
-    }
-
-    if (tableSearch) {
-        tableSearch.value = "";
-    }
-
-    if (moodFilter) {
-        moodFilter.value = "all";
-    }
-
-    if (stressFilter) {
-        stressFilter.value = "all";
-    }
-
-    if (recordPeriod) {
-        recordPeriod.value = "30";
-    }
-
-    if (selectAllRecords) {
-        selectAllRecords.checked = false;
-        selectAllRecords.indeterminate = false;
-    }
-
-    rows.forEach(row => {
-        const checkbox = row.querySelector(".record-checkbox");
-
-        if (checkbox) {
-            checkbox.checked = false;
-        }
-    });
-
-    setActiveTab("all");
-}
-
-if (recordSearch) {
-    recordSearch.addEventListener("input", () => {
-        updateSearchInputs(recordSearch.value, recordSearch);
-        filterRecords();
-    });
-}
-
-if (tableSearch) {
-    tableSearch.addEventListener("input", () => {
-        updateSearchInputs(tableSearch.value, tableSearch);
-        filterRecords();
-    });
-}
-
-if (moodFilter) {
-    moodFilter.addEventListener("change", filterRecords);
-}
-
-if (stressFilter) {
-    stressFilter.addEventListener("change", filterRecords);
-}
-
-if (recordPeriod) {
-    recordPeriod.addEventListener("change", () => {
-        window.alert(
-            "These six records are demonstration data. Date-range filtering will be available when actual submission dates are connected."
-        );
-    });
-}
-
-tabs.forEach(tab => {
-    tab.addEventListener("click", () => {
-        setActiveTab(tab.dataset.status || "all");
-    });
-});
-
-if (selectAllRecords) {
-    selectAllRecords.addEventListener("change", () => {
-        getVisibleRows().forEach(row => {
-            const checkbox = row.querySelector(".record-checkbox");
-
-            if (checkbox) {
-                checkbox.checked = selectAllRecords.checked;
-            }
-        });
-
-        filterRecords();
-    });
-}
-
-rows.forEach(row => {
-    const checkbox = row.querySelector(".record-checkbox");
-
-    if (checkbox) {
-        checkbox.addEventListener("change", filterRecords);
-    }
-});
-
-if (resetFilters) {
-    resetFilters.addEventListener("click", clearFilters);
-}
-
-if (emptyReset) {
-    emptyReset.addEventListener("click", clearFilters);
-}
-
-const initialFilter = new URLSearchParams(window.location.search).get("filter");
-
-if (initialFilter === "review") {
-    setActiveTab("pending");
-} else {
-    setActiveTab("all");
-}
-
-const notificationButton = document.getElementById("notificationButton");
-
-if (notificationButton) {
-    notificationButton.addEventListener("click", () => {
-        window.alert("You have 3 unread notifications.");
-    });
-}
-
-const supportButton = document.getElementById("supportButton");
-
-if (supportButton) {
-    supportButton.addEventListener("click", event => {
-        event.preventDefault();
-        window.alert("Contact CampusWell administration for portal support.");
-    });
-}
-
-document.querySelectorAll("[data-page]").forEach(link => {
-    link.addEventListener("click", event => {
-        event.preventDefault();
-        window.alert(`${link.dataset.page} will be connected in a future step.`);
-    });
-});
-
-const nextPage = document.getElementById("nextPage");
-const nextPageArrow = document.getElementById("nextPageArrow");
-
-function showPaginationMessage() {
-    window.alert(
-        "This frontend preview currently contains six sample records. More records will appear when the database is connected."
-    );
-}
-
-if (nextPage) {
-
-    nextPage.addEventListener("click", showPaginationMessage);
-}
-
-if (nextPageArrow) {
-
-    nextPageArrow.addEventListener("click", showPaginationMessage);
-}
-
-const previousPage = document.getElementById("previousPage");
-
-if (previousPage) {
-
-    previousPage.addEventListener("click", showPaginationMessage);
-}
-
-if (window.lucide) {
-
-    lucide.createIcons();
-}
-
-filterRecords();
+search?.addEventListener("input",render);
+moodFilter?.addEventListener("change",render);
+statusFilter?.addEventListener("change",render);
+if(statusFilter)statusFilter.innerHTML='<option value="all">Indicator (All)</option><option value="elevated">Elevated</option><option value="watch">Watch</option><option value="routine">Routine</option>';
+load();
