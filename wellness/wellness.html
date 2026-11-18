@@ -121,7 +121,20 @@
                                 <span class="eyebrow">DAILY CHECK-IN</span>
                                 <h2>How are you feeling today?</h2>
                                 <p>Take a moment to reflect on your mood, stress, and overall well-being. Your responses are private and help us support you better.</p>
-                                <a class="checkin-button" href="#checkin-card"><span>→</span>Start Wellness Check-in</a>
+                                <form id="wellnessForm" class="wellness-api-form">
+                                    <label for="moodInput">How is your mood today?</label>
+                                    <select id="moodInput" required><option value="">Choose mood</option><option>Great</option><option>Good</option><option>Okay</option><option>Low</option><option>Stressed</option></select>
+                                    <label for="sleepInput">Hours of sleep</label>
+                                    <input id="sleepInput" type="number" min="0" max="24" step="0.5" placeholder="e.g. 7.5" required>
+                                    <label for="energyInput">Energy level</label>
+                                    <select id="energyInput" required><option value="">Choose energy</option><option>High</option><option>Moderate</option><option>Low</option></select>
+                                    <label for="stressInput">Stress level</label>
+                                    <select id="stressInput" required><option value="">Choose stress</option><option>Low</option><option>Moderate</option><option>High</option></select>
+                                    <label for="notesInput">Anything you'd like to note? (optional)</label>
+                                    <textarea id="notesInput" rows="3" maxlength="3000" placeholder="Write a private note..."></textarea>
+                                    <button class="checkin-button" type="submit" id="wellnessSubmit">Save check-in</button>
+                                    <p id="wellnessFormStatus" role="status" aria-live="polite"></p>
+                                </form>
                             </div>
                         </section>
                         <section class="insights-card card">
