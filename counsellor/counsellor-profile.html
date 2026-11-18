@@ -86,4 +86,8 @@ const saved=JSON.parse(localStorage.getItem(storageKey)||"{}");keys.forEach(k=>{
 })();
 </script>
 
-</body></html>
+<script>
+document.querySelectorAll(".logout").forEach(link=>link.addEventListener("click",()=>{
+ ["campuswell_access_token","campuswell_user","campuswell_student_email","campuswell_counsellor_email"].forEach(key=>localStorage.removeItem(key));
+}));
+</script></body></html>
