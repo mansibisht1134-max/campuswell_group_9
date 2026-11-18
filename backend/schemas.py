@@ -80,3 +80,29 @@ class WellnessCheckinResponse(BaseModel):
     score: int | None
     notes: str | None
     submitted_at: datetime
+
+
+class SupportRequestCreate(BaseModel):
+    category: str = Field(min_length=2, max_length=100)
+    title: str = Field(min_length=2, max_length=180)
+    message: str = Field(min_length=5, max_length=5000)
+    priority: str = Field(default="Normal", pattern="^(Low|Normal|High|Urgent)$")
+
+
+class SupportRequestUpdate(BaseModel):
+    status: str | None = Field(default=None, pattern="^(Open|In Progress|Resolved|Closed)$")
+    assigned_counsellor_id: int | None = Field(default=None, gt=0)
+
+
+class SupportRequestResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    student_id: int
+    assigned_counsellor_id: int | None
+    category: str
+    priority: str
+    title: str
+    message: str
+    status: str
+    created_at: datetime
