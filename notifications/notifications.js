@@ -65,7 +65,7 @@ function renderNotifications() {
         item.addEventListener("click", async () => {
             if (!n.is_read) await markRead(n);
             const target = n.target_url;
-            if (target && (target.startsWith("../") || target.startsWith("/"))) window.location.href = target;
+            if (target && !/^(?:[a-z]+:|\\/\\/|javascript:)/i.test(target)) window.location.href = target.startsWith("/") ? ".." + target : target;
         });
         container.appendChild(item);
     });
