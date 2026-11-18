@@ -12,12 +12,14 @@ import models  # noqa: F401 - registers SQLAlchemy models with Base.metadata
 from fastapi import Depends
 from sqlalchemy.orm import Session
 
-from auth import create_access_token, get_current_user, hash_password, verify_password
+from auth import create_access_token, get_current_user, get_optional_current_user, hash_password, verify_password
 from database import get_db
-from models import Appointment, CounsellorProfile, StudentProfile, SupportRequest, User, WellnessCheckin
+from models import Appointment, CampusVoiceSubmission, CounsellorProfile, StudentProfile, SupportRequest, User, WellnessCheckin
 from schemas import (
     AppointmentCreate, AppointmentResponse, AppointmentStatusUpdate,
-    AuthResponse, LoginRequest, StudentRegister, UserResponse,\n    WellnessCheckinCreate, WellnessCheckinResponse,\n    SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,
+    AuthResponse, LoginRequest, StudentRegister, UserResponse,
+    WellnessCheckinCreate, WellnessCheckinResponse,
+    SupportRequestCreate, SupportRequestUpdate, SupportRequestResponse,\n    CampusVoiceCreate, CampusVoiceStatusUpdate, CampusVoiceResponse,
 )
 
 logging.basicConfig(level=logging.INFO)
@@ -459,3 +461,86 @@ def update_support_request(
     db.commit()
     db.refresh(request)
     return request
+
+
+
+@app.post(
+    "/api/v1/campus-voice",
+    response_model=CampusVoiceResponse,
+    status_code=201,
+    tags=["Campus Voice"],
+)
+def create_campus_voice_submission(
+    payload: CampusVoiceCreate,
+    current_user: User | None = Depends(get_optional_current_user),
+    db: Session = Depends(get_db),
+):
+    """Accept anonymous submissions without storing a student identity."""
+    student_id = None
+    if not payload.is_anonymous:
+        if current_user is None or current_user.role != "student":
+            raise HTTPException(
+                status_code=401,
+                detail="Sign in with a student account to submit non-anonymous feedback.",
+            )
+        student = db.query(StudentProfile).filter(StudentProfile.user_id == current_user.id).first()
+        if student is None:
+            raise HTTPException(status_code=400, detail="Student profile is missing.")
+        student_id = student.id
+
+    submission = CampusVoiceSubmission(
+        student_id=student_id,
+        is_anonymous=payload.is_anonymous,
+        submission_type=payload.submission_type,
+        category=payload.category,
+        title=payload.title,
+        message=payload.message,
+        status="Pending",
+    )
+    db.add(submission)
+    db.commit()
+    db.refresh(submission)
+    return submission
+
+
+@app.get(
+    "/api/v1/campus-voice",
+    response_model=list[CampusVoiceResponse],
+    tags=["Campus Voice"],
+)
+def list_campus_voice_submissions(
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Only counsellors and admins can review; identity fields are never returned."""
+    if current_user.role not in {"counsellor", "admin"}:
+        raise HTTPException(status_code=403, detail="Not authorized to review Campus Voice submissions.")
+    return (
+        db.query(CampusVoiceSubmission)
+        .order_by(CampusVoiceSubmission.created_at.desc())
+        .all()
+    )
+
+
+@app.patch(
+    "/api/v1/campus-voice/{submission_id}/status",
+    response_model=CampusVoiceResponse,
+    tags=["Campus Voice"],
+)
+def update_campus_voice_status(
+    submission_id: int,
+    payload: CampusVoiceStatusUpdate,
+    current_user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if current_user.role not in {"counsellor", "admin"}:
+        raise HTTPException(status_code=403, detail="Not authorized to update Campus Voice submissions.")
+    submission = db.query(CampusVoiceSubmission).filter(
+        CampusVoiceSubmission.id == submission_id
+    ).first()
+    if submission is None:
+        raise HTTPException(status_code=404, detail="Campus Voice submission not found.")
+    submission.status = payload.status
+    db.commit()
+    db.refresh(submission)
+    return submission
