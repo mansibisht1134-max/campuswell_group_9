@@ -87,7 +87,14 @@ const saved=JSON.parse(localStorage.getItem(storageKey)||"{}");keys.forEach(k=>{
 </script>
 
 <script>
-document.querySelectorAll(".logout").forEach(link=>link.addEventListener("click",()=>{
- ["campuswell_access_token","campuswell_user","campuswell_student_email","campuswell_counsellor_email"].forEach(key=>localStorage.removeItem(key));
-}));
+(function(){
+ const login="../counsellor-login/counsellor-login.html";
+ const token=localStorage.getItem("campuswell_access_token");
+ const clear=()=>["campuswell_access_token","campuswell_user","campuswell_student_email","campuswell_counsellor_email"].forEach(key=>localStorage.removeItem(key));
+ document.querySelectorAll(".logout").forEach(link=>link.addEventListener("click",clear));
+ if(!token){location.replace(login);return;}
+ fetch("https://campuswell-api-dah4.onrender.com/api/v1/auth/me",{headers:{Authorization:"Bearer "+token}})
+  .then(async r=>{const u=await r.json().catch(()=>({}));if(!r.ok||u.role!=="counsellor")throw new Error("Invalid counsellor session");})
+  .catch(()=>{clear();location.replace(login);});
+})();
 </script></body></html>
