@@ -131,3 +131,31 @@ class CampusVoiceResponse(BaseModel):
     message: str
     status: str
     created_at: datetime
+
+
+class ResourceCreate(BaseModel):
+    title: str = Field(min_length=2, max_length=180)
+    category: str | None = Field(default=None, max_length=100)
+    description: str | None = Field(default=None, max_length=5000)
+    url: str | None = Field(default=None, max_length=1000)
+    is_published: bool = True
+
+
+class ResourceUpdate(BaseModel):
+    title: str | None = Field(default=None, min_length=2, max_length=180)
+    category: str | None = Field(default=None, max_length=100)
+    description: str | None = Field(default=None, max_length=5000)
+    url: str | None = Field(default=None, max_length=1000)
+    is_published: bool | None = None
+
+
+class ResourceResponse(BaseModel):
+    model_config = ConfigDict(from_attributes=True)
+
+    id: int
+    title: str
+    category: str | None
+    description: str | None
+    url: str | None
+    is_published: bool
+    created_at: datetime
