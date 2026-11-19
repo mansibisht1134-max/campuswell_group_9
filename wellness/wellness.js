@@ -57,16 +57,16 @@ function renderHistory(records) {
 
 function updateOverview(records) {
     if (!records.length) {
-        scoreElement.textContent = "—";
-        progressElement.style.width = "0%";
-        statusElement.textContent = "Your wellness journey starts here.";
+        if (scoreElement) scoreElement.textContent = "—";
+        if (progressElement) progressElement.style.width = "0%";
+        if (statusElement) statusElement.textContent = "Your wellness journey starts here.";
         return;
     }
     const latest = records[0];
     const score = latest.score ?? 0;
-    scoreElement.textContent = score;
-    progressElement.style.width = score + "%";
-    statusElement.textContent = score >= 80 ? "Your well-being is looking great!" : score >= 60 ? "Your well-being is going steadily." : "Consider reaching out for support if you need it.";
+    if (scoreElement) scoreElement.textContent = score;
+    if (progressElement) progressElement.style.width = score + "%";
+    if (statusElement) statusElement.textContent = score >= 80 ? "Your well-being is looking great!" : score >= 60 ? "Your well-being is going steadily." : "Consider reaching out for support if you need it.";
     if (moodElement) moodElement.textContent = latest.mood || "Not recorded";
     if (sleepElement) sleepElement.textContent = latest.sleep_hours == null ? "Not recorded" : latest.sleep_hours + " hrs";
     if (activityElement) activityElement.textContent = latest.energy_level || "Not recorded";
@@ -79,7 +79,7 @@ async function loadCheckins() {
         updateOverview(records);
         renderHistory(records);
     } catch (error) {
-        formStatus.textContent = error.message;
+        if (formStatus) formStatus.textContent = error.message;
     }
 }
 
@@ -101,7 +101,9 @@ document.querySelectorAll("[data-sleep]").forEach(button => button.addEventListe
     document.getElementById("sleepInput").value = button.dataset.sleep;
     document.querySelectorAll("[data-sleep]").forEach(item => item.classList.toggle("selected", item === button));
 }));
-form.addEventListener("reset", () => document.querySelectorAll(".mood-choice,.level-picker button,.sleep-quick-picks button").forEach(item => item.classList.remove("selected")));
+form.addEventListener("reset", () => {
+    document.querySelectorAll(".mood-choice,.level-picker button,.sleep-quick-picks button").forEach(item => item.classList.remove("selected"));
+});
 
 form.addEventListener("submit", async event => {
     event.preventDefault();
