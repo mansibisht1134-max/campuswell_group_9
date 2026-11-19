@@ -3218,12 +3218,15 @@ input {
   box-sizing:border-box!important;
   align-self:stretch!important;
 }
-@media(max-width:800px){
-  .support-workspace{
-    grid-template-columns:minmax(0,1fr)!important;
-  }
-  .support-workspace > .support-request-compose,
-  .support-workspace > .support-request-history{
-    grid-column:1!important;
-  }
+/* Keep both request panels half-width on every screen size */
+.support-workspace{
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
 }
+.support-workspace > .support-request-compose{grid-column:1!important}
+.support-workspace > .support-request-history{grid-column:2!important}
+.support-workspace > .support-request-compose,
+.support-workspace > .support-request-history{
+  min-width:0!important;
+  width:100%!important;
+}
+
