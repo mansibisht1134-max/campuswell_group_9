@@ -1,0 +1,52 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CampusWell · Support Assignments</title><link rel="stylesheet" href="../admin/admin-dashboard.css"><link rel="stylesheet" href="../admin/admin-modern.css"></head><body><aside class="sidebar"><div class="sidebar-brand"><div class="brand-icon">CW</div><strong class="brand-text">Campus<span>Well</span></strong></div><p class="portal-title">Administrator Portal</p><div class="admin-profile"><div class="profile-avatar">A</div><div><strong>Administrator</strong><span>Institutional workspace</span></div></div><nav class="sidebar-nav" aria-label="Admin navigation">
+<a class="nav-item " href="../analytics/analytics.html"><span class="nav-icon">▥</span><span>Analytics</span></a>
+<a class="nav-item " href="../admin/counsellors.html"><span class="nav-icon">♙</span><span>Counsellor Management</span></a>
+<a class="nav-item active" href="../admin/support.html"><span class="nav-icon">✉</span><span>Support Assignments</span></a>
+<a class="nav-item " href="../admin/campus-voice.html"><span class="nav-icon">◎</span><span>Campus Voice</span></a>
+<a class="nav-item " href="../admin/resources.html"><span class="nav-icon">▤</span><span>Resource Library</span></a>
+</nav><a class="logout-link" href="../admin/admin.html" onclick="localStorage.removeItem('campuswell_access_token');localStorage.removeItem('campuswell_user');localStorage.removeItem('campuswell_student_email')"><span class="nav-icon">↪</span><span>Logout</span></a></aside><main class="main-content"><header class="dashboard-header"><div><p class="page-label">Administrator / Support Assignments</p><h1>Support Assignments</h1><p class="page-description">Review incoming student support requests and route them to the right counsellor.</p></div><div class="header-date"><span>CampusWell Portal</span><strong>Admin workspace</strong></div></header><section class="admin-welcome"><div class="welcome-content"><p class="small-label">Institutional wellness management</p><h2>Support Assignments</h2><p>Review incoming student support requests and route them to the right counsellor.</p></div><div class="welcome-icon">✦</div></section><section class="analytics-panel" id="support-assignment" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
+            <div class="section-heading"><h2>Support Request Assignment</h2><p>Assign open student requests to a counsellor.</p></div>
+            <div id="adminSupportRequests">Loading support requests...</div>
+        </section><script>
+        (function(){
+            const API="https://campuswell-api-dah4.onrender.com/api/v1";
+            const token=localStorage.getItem("campuswell_access_token");
+            const host=document.getElementById("adminSupportRequests");
+            const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+            async function load(){
+                try{
+                    const [rr,cr]=await Promise.all([
+                        fetch(API+"/support/requests",{headers:{Authorization:"Bearer "+token}}),
+                        fetch(API+"/admin/counsellors",{headers:{Authorization:"Bearer "+token}})
+                    ]);
+                    const [requests,counsellors]=await Promise.all([rr.json(),cr.json()]);
+                    if(!rr.ok||!cr.ok)throw new Error("Unable to load assignment queue.");
+                    host.innerHTML="";
+                    if(!requests.length){host.textContent="No support requests have been submitted yet.";return;}
+                    requests.forEach(item=>{
+                        const row=document.createElement("div");
+                        row.style.cssText="padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:9px 0;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;";
+                        const title=document.createElement("div");
+                        title.innerHTML="<strong>"+safe(item.title)+"</strong><p style='margin:4px 0;color:#64748b'>Student #"+item.student_id+" · "+safe(item.category)+" · "+safe(item.priority)+" · "+safe(item.status)+"</p>";
+                        const select=document.createElement("select");
+                        select.style.cssText="padding:9px;border:1px solid #dce2ec;border-radius:8px;";
+                        select.innerHTML='<option value="">Assign counsellor...</option>'+counsellors.map(c=>'<option value="'+c.id+'">'+safe(c.full_name)+'</option>').join("");
+                        if(item.assigned_counsellor_id)select.value=String(item.assigned_counsellor_id);
+                        const button=document.createElement("button");button.textContent="Save assignment";button.className="primary-button";
+                        button.addEventListener("click",async()=>{
+                            if(!select.value)return;
+                            button.disabled=true;
+                            try{
+                                const r=await fetch(API+"/support/requests/"+item.id,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({assigned_counsellor_id:Number(select.value)})});
+                                const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||"Assignment failed.");
+                                item.assigned_counsellor_id=Number(select.value);button.textContent="Assigned";
+                            }catch(e){button.disabled=false;button.textContent="Retry";alert(e.message);}
+                        });
+                        const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;align-items:center;flex-wrap:wrap;";actions.append(select,button);
+                        row.append(title,actions);host.appendChild(row);
+                    });
+                }catch(e){host.textContent=e.message;}
+            }
+            if(token)load();else host.textContent="Administrator sign-in required.";
+        })();
+        </script></main></body></html>
