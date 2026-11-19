@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CampusWell - Admin Analytics</title>
     <link rel="stylesheet" href="../admin/admin-dashboard.css">
-    <link rel="stylesheet" href="./analytics.css">
+    <link rel="stylesheet" href="./analytics.css"><link rel="stylesheet" href="../admin/admin-modern.css">
 </head>
 <body>
     <aside class="sidebar">
@@ -19,12 +19,12 @@
             <div><strong>Administrator</strong><span>System Overview</span></div>
         </div>
         <nav class="sidebar-nav" aria-label="Admin navigation">
-            <a class="nav-item active" href="#analytics-top" aria-current="page"><span class="nav-icon">▥</span><span>Analytics</span></a>
-            <a class="nav-item" href="#counsellor-management"><span class="nav-icon">♙</span><span>Counsellor Management</span></a>
-            <a class="nav-item" href="#support-assignment"><span class="nav-icon">✉</span><span>Support Assignments</span></a>
-            <a class="nav-item" href="#campus-voice-moderation"><span class="nav-icon">◎</span><span>Campus Voice</span></a>
-            <a class="nav-item" href="#resource-library"><span class="nav-icon">▤</span><span>Resource Library</span></a>
-        </nav>
+<a class="nav-item active" href="../analytics/analytics.html"><span class="nav-icon">▥</span><span>Analytics</span></a>
+<a class="nav-item " href="../admin/counsellors.html"><span class="nav-icon">♙</span><span>Counsellor Management</span></a>
+<a class="nav-item " href="../admin/support.html"><span class="nav-icon">✉</span><span>Support Assignments</span></a>
+<a class="nav-item " href="../admin/campus-voice.html"><span class="nav-icon">◎</span><span>Campus Voice</span></a>
+<a class="nav-item " href="../admin/resources.html"><span class="nav-icon">▤</span><span>Resource Library</span></a>
+</nav>
         <a class="logout-link" href="../admin/admin.html"><span class="nav-icon">↪</span><span>Logout</span></a>
     </aside>
 
@@ -125,203 +125,14 @@
         })();
         </script>
 
-        <section class="analytics-panel" id="counsellor-management" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
-            <div class="section-heading"><h2>Counsellor Management</h2><p>Create counsellor accounts and review active profiles.</p></div>
-            <form id="createCounsellorForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0;">
-                <input id="newCounsellorName" placeholder="Full name" required minlength="2">
-                <input id="newCounsellorEmail" type="email" placeholder="Work email" required>
-                <input id="newCounsellorPassword" type="password" placeholder="Temporary password (12+ chars)" required minlength="12">
-                <input id="newCounsellorEmployee" placeholder="Employee ID">
-                <input id="newCounsellorSpecialty" placeholder="Specialization">
-                <input id="newCounsellorQualification" placeholder="Qualification">
-                <input id="newCounsellorPhone" placeholder="Phone">
-                <button type="submit" class="primary-button">Create Counsellor</button>
-            </form>
-            <p id="counsellorAdminMessage" role="status"></p><div id="counsellorAdminList">Loading counsellors...</div>
-        </section>
-        <script>
-        (function(){
-            const API="https://campuswell-api-dah4.onrender.com/api/v1";
-            const token=localStorage.getItem("campuswell_access_token");
-            const form=document.getElementById("createCounsellorForm");
-            const message=document.getElementById("counsellorAdminMessage");
-            const list=document.getElementById("counsellorAdminList");
-            const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-            async function load(){
-                if(!token){list.textContent="Administrator sign-in required.";return;}
-                try{
-                    const r=await fetch(API+"/admin/counsellors",{headers:{Authorization:"Bearer "+token}});
-                    const data=await r.json().catch(()=>[]);
-                    if(!r.ok)throw new Error(data.detail||"Unable to load counsellors.");
-                    list.innerHTML=data.length?data.map(c=>'<div style="padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:8px 0;"><strong>'+safe(c.full_name)+'</strong><p style="margin:4px 0;color:#64748b">'+safe(c.email)+' · '+safe(c.specialization||"General counselling")+' · '+(c.is_available?"Available":"Unavailable")+'</p></div>').join(""):"No counsellor accounts yet.";
-                }catch(e){list.textContent=e.message;}
-            }
-            form.addEventListener("submit",async e=>{
-                e.preventDefault();message.textContent="Creating counsellor account...";
-                const payload={
-                    full_name:document.getElementById("newCounsellorName").value.trim(),
-                    email:document.getElementById("newCounsellorEmail").value.trim(),
-                    password:document.getElementById("newCounsellorPassword").value,
-                    employee_id:document.getElementById("newCounsellorEmployee").value.trim()||null,
-                    specialization:document.getElementById("newCounsellorSpecialty").value.trim()||null,
-                    qualification:document.getElementById("newCounsellorQualification").value.trim()||null,
-                    phone:document.getElementById("newCounsellorPhone").value.trim()||null
-                };
-                try{
-                    const r=await fetch(API+"/admin/counsellors",{method:"POST",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify(payload)});
-                    const data=await r.json().catch(()=>({}));
-                    if(!r.ok)throw new Error(data.detail||"Could not create counsellor.");
-                    message.textContent="Counsellor account created. Share login details securely with the counsellor.";
-                    form.reset();await load();
-                }catch(err){message.textContent=err.message;}
-            });
-            load();
-        })();
-        document.querySelector('.logout-link')?.addEventListener('click',function(){
-            localStorage.removeItem("campuswell_access_token");
-            localStorage.removeItem("campuswell_user");
-            localStorage.removeItem("campuswell_student_email");
-        });
-        </script>
+        
+        
 
-        <section class="analytics-panel" id="support-assignment" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
-            <div class="section-heading"><h2>Support Request Assignment</h2><p>Assign open student requests to a counsellor.</p></div>
-            <div id="adminSupportRequests">Loading support requests...</div>
-        </section>
-        <script>
-        (function(){
-            const API="https://campuswell-api-dah4.onrender.com/api/v1";
-            const token=localStorage.getItem("campuswell_access_token");
-            const host=document.getElementById("adminSupportRequests");
-            const safe=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-            async function load(){
-                try{
-                    const [rr,cr]=await Promise.all([
-                        fetch(API+"/support/requests",{headers:{Authorization:"Bearer "+token}}),
-                        fetch(API+"/admin/counsellors",{headers:{Authorization:"Bearer "+token}})
-                    ]);
-                    const [requests,counsellors]=await Promise.all([rr.json(),cr.json()]);
-                    if(!rr.ok||!cr.ok)throw new Error("Unable to load assignment queue.");
-                    host.innerHTML="";
-                    if(!requests.length){host.textContent="No support requests have been submitted yet.";return;}
-                    requests.forEach(item=>{
-                        const row=document.createElement("div");
-                        row.style.cssText="padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:9px 0;display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;";
-                        const title=document.createElement("div");
-                        title.innerHTML="<strong>"+safe(item.title)+"</strong><p style='margin:4px 0;color:#64748b'>Student #"+item.student_id+" · "+safe(item.category)+" · "+safe(item.priority)+" · "+safe(item.status)+"</p>";
-                        const select=document.createElement("select");
-                        select.style.cssText="padding:9px;border:1px solid #dce2ec;border-radius:8px;";
-                        select.innerHTML='<option value="">Assign counsellor...</option>'+counsellors.map(c=>'<option value="'+c.id+'">'+safe(c.full_name)+'</option>').join("");
-                        if(item.assigned_counsellor_id)select.value=String(item.assigned_counsellor_id);
-                        const button=document.createElement("button");button.textContent="Save assignment";button.className="primary-button";
-                        button.addEventListener("click",async()=>{
-                            if(!select.value)return;
-                            button.disabled=true;
-                            try{
-                                const r=await fetch(API+"/support/requests/"+item.id,{method:"PATCH",headers:{"Content-Type":"application/json",Authorization:"Bearer "+token},body:JSON.stringify({assigned_counsellor_id:Number(select.value)})});
-                                const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.detail||"Assignment failed.");
-                                item.assigned_counsellor_id=Number(select.value);button.textContent="Assigned";
-                            }catch(e){button.disabled=false;button.textContent="Retry";alert(e.message);}
-                        });
-                        const actions=document.createElement("div");actions.style.cssText="display:flex;gap:8px;align-items:center;flex-wrap:wrap;";actions.append(select,button);
-                        row.append(title,actions);host.appendChild(row);
-                    });
-                }catch(e){host.textContent=e.message;}
-            }
-            if(token)load();else host.textContent="Administrator sign-in required.";
-        })();
-        </script>
-        <section class="analytics-panel" id="campus-voice-moderation" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
-            <div class="section-heading"><h2>Campus Voice Moderation</h2><p>Review anonymous submissions without exposing student identities.</p></div>
-            <div id="adminVoiceQueue">Loading submissions...</div>
-        </section>
-        <section class="analytics-panel" id="resource-library" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
-            <div class="section-heading"><h2>Wellness Resource Library</h2><p>Create resources and control whether they are visible to students.</p></div>
-            <form id="adminResourceForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0;">
-                <input id="resourceTitle" placeholder="Resource title" required minlength="2">
-                <input id="resourceCategory" placeholder="Category (e.g. Stress)">
-                <input id="resourceUrl" type="url" placeholder="https://resource-link.example">
-                <textarea id="resourceDescription" placeholder="Short description" rows="2" style="grid-column:1/-1;"></textarea>
-                <label style="display:flex;align-items:center;gap:8px;"><input id="resourcePublished" type="checkbox" checked> Publish immediately</label>
-                <button type="submit" class="primary-button">Add Resource</button>
-            </form>
-            <p id="adminResourceMessage" role="status"></p><div id="adminResourceList">Loading resources...</div>
-        </section>
-        <script>
-        (function(){
-            const API="https://campuswell-api-dah4.onrender.com/api/v1";
-            const token=localStorage.getItem("campuswell_access_token");
-            const headers={"Authorization":"Bearer "+token};
-            const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-            const voiceHost=document.getElementById("adminVoiceQueue");
-            const resourceHost=document.getElementById("adminResourceList");
-            const resourceMessage=document.getElementById("adminResourceMessage");
-            async function loadVoice(){
-                try{
-                    const r=await fetch(API+"/campus-voice",{headers});
-                    const items=await r.json().catch(()=>[]);
-                    if(!r.ok)throw new Error(items.detail||"Unable to load Campus Voice submissions.");
-                    voiceHost.innerHTML="";
-                    if(!items.length){voiceHost.textContent="No Campus Voice submissions yet.";return;}
-                    items.forEach(item=>{
-                        const row=document.createElement("article");
-                        row.style.cssText="padding:13px;border:1px solid #e5eaf1;border-radius:10px;margin:9px 0;";
-                        row.innerHTML="<strong>"+esc(item.title)+"</strong><p style='margin:5px 0;color:#64748b'>"+esc(item.submission_type)+" · "+esc(item.category||"General")+" · "+new Date(item.created_at).toLocaleString()+"</p><p>"+esc(item.message)+"</p><small>Anonymous: "+(item.is_anonymous?"Yes":"No")+"</small>";
-                        const select=document.createElement("select");
-                        ["Pending","Under Review","Resolved","Closed"].forEach(status=>{const o=document.createElement("option");o.value=status;o.textContent=status;o.selected=item.status===status;select.appendChild(o);});
-                        select.style.cssText="display:block;margin-top:10px;padding:8px;border:1px solid #dce2ec;border-radius:8px;";
-                        select.addEventListener("change",async()=>{
-                            const response=await fetch(API+"/campus-voice/"+item.id+"/status",{method:"PATCH",headers:{"Content-Type":"application/json",...headers},body:JSON.stringify({status:select.value})});
-                            if(!response.ok){select.value=item.status;alert("Could not update submission status.");return;}
-                            item.status=select.value;
-                        });
-                        row.appendChild(select);voiceHost.appendChild(row);
-                    });
-                }catch(e){voiceHost.textContent=e.message;}
-            }
-            async function loadResources(){
-                try{
-                    const r=await fetch(API+"/admin/resources",{headers});
-                    const items=await r.json().catch(()=>[]);
-                    if(!r.ok)throw new Error(items.detail||"Unable to load resources.");
-                    resourceHost.innerHTML="";
-                    if(!items.length){resourceHost.textContent="No resources created yet.";return;}
-                    items.forEach(item=>{
-                        const row=document.createElement("div");
-                        row.style.cssText="display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:12px;border:1px solid #e5eaf1;border-radius:10px;margin:8px 0;";
-                        row.innerHTML="<div><strong>"+esc(item.title)+"</strong><p style='margin:4px 0;color:#64748b'>"+esc(item.category||"General")+" · "+(item.is_published?"Published":"Draft")+"</p><small>"+esc(item.description||"")+"</small></div>";
-                        const button=document.createElement("button");button.type="button";button.className="primary-button";button.textContent=item.is_published?"Unpublish":"Publish";
-                        button.addEventListener("click",async()=>{
-                            button.disabled=true;
-                            try{
-                                const response=await fetch(API+"/resources/"+item.id,{method:"PATCH",headers:{"Content-Type":"application/json",...headers},body:JSON.stringify({is_published:!item.is_published})});
-                                const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||"Could not update resource.");
-                                item.is_published=data.is_published;await loadResources();
-                            }catch(e){button.disabled=false;alert(e.message);}
-                        });
-                        row.appendChild(button);resourceHost.appendChild(row);
-                    });
-                }catch(e){resourceHost.textContent=e.message;}
-            }
-            document.getElementById("adminResourceForm").addEventListener("submit",async e=>{
-                e.preventDefault();resourceMessage.textContent="Saving resource...";
-                const payload={
-                    title:document.getElementById("resourceTitle").value.trim(),
-                    category:document.getElementById("resourceCategory").value.trim()||null,
-                    url:document.getElementById("resourceUrl").value.trim()||null,
-                    description:document.getElementById("resourceDescription").value.trim()||null,
-                    is_published:document.getElementById("resourcePublished").checked
-                };
-                try{
-                    const r=await fetch(API+"/resources",{method:"POST",headers:{"Content-Type":"application/json",...headers},body:JSON.stringify(payload)});
-                    const data=await r.json().catch(()=>({}));if(!r.ok)throw new Error(data.detail||"Could not create resource.");
-                    resourceMessage.textContent="Resource saved successfully.";e.target.reset();document.getElementById("resourcePublished").checked=true;await loadResources();
-                }catch(err){resourceMessage.textContent=err.message;}
-            });
-            if(token){loadVoice();loadResources();}
-            else{voiceHost.textContent="Administrator sign-in required.";resourceHost.textContent="Administrator sign-in required.";}
-        })();
-        </script>
+        
+        
+        
+        
+        
     </main>
 </body>
 </html>
