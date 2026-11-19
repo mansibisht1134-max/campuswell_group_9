@@ -3149,3 +3149,38 @@ input {
  .support-workspace .support-options-row{grid-template-columns:1fr!important;gap:10px!important}
  .support-workspace .support-options-row .call112-card{grid-column:1!important;grid-row:2!important;justify-content:flex-start!important}
 }
+
+
+/* Keep the request form and request history side by side */
+.support-workspace{
+ display:flex!important;
+ flex-direction:row!important;
+ flex-wrap:wrap!important;
+ align-items:stretch!important;
+ gap:14px!important;
+}
+.support-workspace>.find-support-card,
+.support-workspace>.counsellors-card,
+.support-workspace>.support-options-row,
+.support-workspace>.support-tools-card,
+.support-workspace>.next-step-card,
+.support-workspace>.privacy-note,
+.support-workspace>.support-faq{
+ width:100%!important;
+ flex:0 0 100%!important;
+}
+.support-workspace>.requests-card:has(#supportRequestForm),
+.support-workspace>.requests-card:has(#mySupportRequests){
+ width:calc(50% - 7px)!important;
+ flex:0 0 calc(50% - 7px)!important;
+ min-width:0!important;
+ margin:0!important;
+ align-self:stretch!important;
+}
+@media(max-width:800px){
+ .support-workspace>.requests-card:has(#supportRequestForm),
+ .support-workspace>.requests-card:has(#mySupportRequests){
+  width:100%!important;
+  flex:0 0 100%!important;
+ }
+}
