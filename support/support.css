@@ -3251,3 +3251,27 @@ input {
 }
 .support-workspace > .requests-card.support-request-compose:has(#supportRequestForm){grid-column:1!important}
 .support-workspace > .requests-card.support-request-history:has(#mySupportRequests){grid-column:2!important}
+
+
+/* Two adjoining equal support panels: no gutter, no unused middle space */
+.support-workspace{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  column-gap:0!important;
+  row-gap:12px!important;
+  justify-content:stretch!important;
+  justify-items:stretch!important;
+}
+.support-workspace > .requests-card.support-request-compose:has(#supportRequestForm),
+.support-workspace > .requests-card.support-request-history:has(#mySupportRequests){
+  grid-column:auto!important;
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  justify-self:stretch!important;
+  border-radius:12px!important;
+  box-sizing:border-box!important;
+}
+.support-workspace > .requests-card.support-request-compose:has(#supportRequestForm){grid-column:1!important}
+.support-workspace > .requests-card.support-request-history:has(#mySupportRequests){grid-column:2!important}
