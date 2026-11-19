@@ -3110,3 +3110,42 @@ input {
  .support-workspace .support-options-row{grid-template-columns:1fr!important}
  .support-workspace .support-options-row .urgent-help-card{grid-column:1!important;grid-row:2!important}
 }
+
+
+/* Only a compact Call 112 action in the remaining space beside the six tiles */
+.support-workspace .support-options-row{
+ display:grid!important;
+ grid-template-columns:max-content minmax(130px,1fr)!important;
+ align-items:center!important;
+ gap:18px!important;
+}
+.support-workspace .support-options-row .support-category-grid{
+ grid-column:1!important;grid-row:1!important;
+}
+.support-workspace .support-options-row .call112-card{
+ grid-column:2!important;grid-row:1!important;
+ width:100%!important;min-width:130px!important;
+ min-height:72px!important;box-sizing:border-box!important;
+ display:flex!important;align-items:center!important;justify-content:center!important;
+ gap:9px!important;padding:12px!important;margin:0!important;
+ border:1px solid #f0d9d8!important;border-radius:13px!important;
+ background:#fff6f5!important;box-shadow:none!important;
+}
+.support-workspace .call112-icon{
+ width:32px!important;height:32px!important;flex:0 0 32px!important;
+ display:grid!important;place-items:center!important;border-radius:10px!important;
+ color:#b64f4b!important;background:#ffe5e2!important;
+}
+.support-workspace .call112-copy{display:flex!important;flex-direction:column!important;gap:3px!important}
+.support-workspace .call112-copy strong{font-size:10px!important;color:#783d3b!important;white-space:nowrap!important}
+.support-workspace .call112-copy small{font-size:8px!important;color:#956d6b!important}
+.support-workspace .call112-card>a{
+ display:inline-flex!important;align-items:center!important;justify-content:center!important;
+ min-width:38px!important;height:34px!important;padding:0 8px!important;
+ border-radius:9px!important;background:#c95751!important;color:#fff!important;
+ font-size:12px!important;font-weight:800!important;text-decoration:none!important;
+}
+@media(max-width:980px){
+ .support-workspace .support-options-row{grid-template-columns:1fr!important;gap:10px!important}
+ .support-workspace .support-options-row .call112-card{grid-column:1!important;grid-row:2!important;justify-content:flex-start!important}
+}
