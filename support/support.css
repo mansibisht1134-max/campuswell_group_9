@@ -3470,3 +3470,10 @@ input {
  .support-workspace .support-category-grid{grid-template-columns:repeat(2,128px)!important}
  #counsellorGrid{grid-template-columns:repeat(2,128px)!important}
 }
+
+
+/* Allow JavaScript category matching to hide non-matching counsellors.
+   Earlier tile styling used display:flex!important, which overrode JS. */
+#counsellorGrid > article.counsellor-card[style*="display: none"]{
+ display:none!important;
+}
