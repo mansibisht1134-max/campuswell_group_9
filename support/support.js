@@ -67,20 +67,23 @@ function matchesSupportCategory(card, category) {
 }
 
 function renderCounsellorRecommendations(category = selectedSupportCategory) {
-    const cards = [...document.querySelectorAll(".counsellor-card")];
+    const cards = [...document.querySelectorAll("#counsellorGrid .counsellor-card")];
+    const query = (search?.value || "").trim().toLowerCase();
     let matches = 0;
 
     cards.forEach(card => {
-        const isMatch = !category || matchesSupportCategory(card, category);
+        const categoryMatch = !category || matchesSupportCategory(card, category);
+        const searchText = `${card.dataset.name || ""} ${card.dataset.specialization || ""} ${card.dataset.category || ""} ${card.textContent || ""}`.toLowerCase();
+        const searchMatch = !query || searchText.includes(query);
         const isExtra = card.classList.contains("extra-counsellor");
-        const visible = isMatch && (!isExtra || showAllCounsellors || !!category);
+        const visible = categoryMatch && searchMatch && (category ? true : (!isExtra || showAllCounsellors));
         card.style.display = visible ? "flex" : "none";
         if (visible) matches++;
     });
 
     if (category) {
         categoryTitle.textContent = `Recommended for ${category} support`;
-        categoryText.textContent = categoryMessages[category] || "Here are counsellors whose expertise may help with this concern.";
+        categoryText.textContent = categoryMessages[category] || "Here are counsellors whose experience may help with this concern.";
     } else {
         categoryTitle.textContent = "Available counsellors";
         categoryText.textContent = "Choose a counsellor whose experience best matches your needs.";
@@ -148,18 +151,7 @@ document.addEventListener("keydown", event => {
 });
 
 search.addEventListener("input", () => {
-    const query = search.value.trim().toLowerCase();
-
-    document.querySelectorAll(".counsellor-card").forEach(card => {
-        const content = `${card.dataset.name} ${card.dataset.specialization} ${card.dataset.category} ${card.textContent}`.toLowerCase();
-
-        if (!query) {
-            card.style.display = card.classList.contains("extra-counsellor") ? "none" : "block";
-            return;
-        }
-
-        card.style.display = content.includes(query) ? "block" : "none";
-    });
+    renderCounsellorRecommendations(selectedSupportCategory);
 });
 
 document.querySelectorAll(".urgent-action").forEach(item => {
@@ -258,6 +250,7 @@ document.getElementById("viewRequests")?.addEventListener("click", () => {
     supportList?.scrollIntoView({ behavior: "smooth", block: "center" });
 });
 
+renderCounsellorRecommendations(null);
 loadSupportRequests();
 
 lucide.createIcons();
