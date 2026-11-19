@@ -707,3 +707,23 @@ textarea:focus {
 @media (max-width: 520px) {
     .counsellor-grid { grid-template-columns: 1fr; }
 }
+
+
+/* FINAL COMPACT PASS — appointment booking without oversized whitespace */
+.appointment-stats { gap:10px; margin:12px 0; }
+.appointment-stat { min-height:68px; padding:11px 13px; }
+.appointments-layout { gap:12px; align-items:start; }
+.booking-card,.appointment-side > .card { padding:15px; }
+.section-heading { margin-bottom:12px; }
+.form-section,.form-group { margin-bottom:10px; }
+.counsellor-grid { gap:9px; }
+.counsellor-card { padding:10px; min-height:0; }
+.form-row { gap:10px; }
+.reason-grid { gap:7px; }
+.reason-option { min-height:34px; padding:7px 9px; }
+.input-wrap input,.input-wrap select, .form-group textarea { min-height:38px; padding:8px 10px; }
+.form-group textarea { min-height:68px; }
+.confirm-button { margin-top:8px; min-height:39px; }
+@media(max-width:900px) {
+ .appointments-layout { grid-template-columns:1fr; }
+}
