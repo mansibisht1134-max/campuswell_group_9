@@ -2547,3 +2547,99 @@ input {
 @media(max-width:1120px){.support-workspace{grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr)}.support-tool-grid{grid-template-columns:1fr}.support-tool{padding:9px}}
 @media(max-width:900px){.support-workspace{grid-template-columns:1fr}.support-secondary{grid-template-columns:repeat(2,minmax(0,1fr))}.support-secondary .requests-card,.support-secondary .support-faq{grid-column:1/-1}.support-tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.dashboard-content{padding:10px!important}.support-heading{padding:15px!important}.heading-wellness-card{display:none}.support-workspace .support-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.support-workspace .counsellor-grid{grid-template-columns:1fr}.support-secondary{grid-template-columns:1fr}.support-secondary .requests-card,.support-secondary .support-faq{grid-column:auto}.support-tool-grid{grid-template-columns:1fr}.support-workspace .category-result{align-items:flex-start;flex-direction:column}.support-workspace .request-row{grid-template-columns:1fr 1fr}.support-workspace .request-head{display:none}}
+
+/* ===== FINAL COMPACT SUPPORT LAYOUT: replace the spacious stacked layout ===== */
+.dashboard-content{padding:9px 14px 14px!important}
+.support-heading{min-height:76px!important;margin:0 0 9px!important;padding:11px 16px!important;border-radius:13px!important}
+.support-heading h1{font-size:21px!important;margin:2px 0 3px!important}
+.support-heading p{font-size:10px!important}
+.support-heading .eyebrow{font-size:8px!important;margin:0 0 3px!important}
+.heading-wellness-card{padding:8px 11px!important;gap:8px}
+.heading-wellness-icon{width:30px!important;height:30px!important}
+.heading-wellness-card strong{font-size:9px!important}
+.heading-wellness-card span{font-size:8px!important}
+.support-workspace{grid-template-columns:minmax(0,1.35fr) minmax(300px,.95fr)!important;gap:10px!important;align-items:start}
+.support-primary{grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;gap:10px!important}
+.support-secondary{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:9px!important}
+.support-workspace .card{border-radius:13px!important;box-shadow:0 3px 10px rgba(44,83,146,.04)!important}
+.support-workspace .find-support-card,.support-workspace .counsellors-card,.support-workspace .support-tools-card,.support-workspace .requests-card,.support-workspace .urgent-help-card,.support-workspace .support-faq{padding:12px!important}
+.support-workspace .section-title{gap:8px!important;margin-bottom:9px!important;align-items:center!important}
+.support-workspace .section-title-icon{width:32px!important;height:32px!important;flex-basis:32px!important;border-radius:9px!important}
+.support-workspace .section-title-icon svg{width:17px!important;height:17px!important}
+.support-workspace .section-title h2,.support-workspace .section-header h2{font-size:13px!important;margin:0!important}
+.support-workspace .section-title p,.support-workspace .section-header p{font-size:8px!important;line-height:1.35!important;margin-top:3px!important}
+.support-workspace .eyebrow{font-size:7px!important;margin-bottom:3px!important}
+.support-workspace .support-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:6px!important}
+.support-workspace .support-category{min-height:65px!important;padding:7px!important;display:grid!important;grid-template-columns:27px 1fr;grid-template-rows:auto auto;column-gap:7px;align-items:center;text-align:left}
+.support-workspace .category-icon{grid-row:1/3;width:27px!important;height:27px!important;margin:0!important;border-radius:8px!important}
+.support-workspace .category-icon svg{width:14px!important;height:14px!important}
+.support-workspace .support-category strong{font-size:9px!important;align-self:end}
+.support-workspace .support-category small{font-size:7px!important;line-height:1.2!important;align-self:start}
+.support-workspace .category-result{margin-top:7px!important;padding:8px!important;gap:7px!important;border-radius:9px!important}
+.support-workspace .category-result strong{font-size:8px!important}
+.support-workspace .category-result p{font-size:7px!important;line-height:1.3!important;margin-top:2px!important}
+.support-workspace .result-button{padding:7px 8px!important;font-size:8px!important}
+.support-workspace .section-header{margin-bottom:8px!important;gap:6px!important}
+.support-workspace .section-header .text-button{font-size:8px!important;white-space:nowrap}
+.support-workspace .counsellor-grid{grid-template-columns:1fr!important;gap:6px!important}
+.support-workspace .counsellor-card{display:grid!important;grid-template-columns:34px minmax(0,1fr) auto;grid-template-rows:auto auto auto;column-gap:7px;align-items:center;padding:8px!important;border-radius:9px!important}
+.support-workspace .counsellor-top{grid-column:1;grid-row:1/4;display:block!important}
+.support-workspace .counsellor-avatar{width:32px!important;height:32px!important;border-radius:9px!important;font-size:9px!important}
+.support-workspace .availability{display:none!important}
+.support-workspace .counsellor-card>strong{grid-column:2;grid-row:1;font-size:9px!important;line-height:1.2}
+.support-workspace .counsellor-card .specialization{grid-column:2;grid-row:2;font-size:7px!important}
+.support-workspace .counsellor-card .tag-row{display:none!important}
+.support-workspace .counsellor-card>p{display:none!important}
+.support-workspace .counsellor-meta{display:none!important}
+.support-workspace .counsellor-actions{grid-column:3;grid-row:1/4;display:flex!important;flex-direction:column;gap:4px!important}
+.support-workspace .counsellor-actions button{padding:5px 7px!important;font-size:7px!important;white-space:nowrap}
+.support-workspace .support-tools-card{grid-column:1/-1!important}
+.support-tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:6px!important}
+.support-tool{padding:7px!important;gap:6px!important;border-radius:9px!important}
+.tool-icon{width:27px!important;height:27px!important;flex-basis:27px!important}
+.tool-icon svg{width:14px!important}
+.support-tool strong{font-size:8px!important}
+.support-tool small{font-size:7px!important}
+.support-workspace .next-step-card{grid-column:1/-1!important;padding:10px 12px!important;display:grid!important;grid-template-columns:34px 1fr auto;grid-template-rows:auto auto;align-items:center;column-gap:8px}
+.next-step-art{grid-column:1;grid-row:1/3;width:32px!important;height:32px!important;margin:0!important;border-radius:9px!important}
+.next-step-art svg{width:17px!important}
+.support-workspace .next-step-card .eyebrow{grid-column:2;grid-row:1}
+.support-workspace .next-step-card h2{grid-column:2;grid-row:2;font-size:10px!important;margin:0!important}
+.support-workspace .next-step-card p{display:none!important}
+.next-step-button{grid-column:3;grid-row:1/3;padding:7px 9px!important;font-size:8px!important;white-space:nowrap}
+.support-workspace .privacy-note{display:none!important}
+.support-workspace .requests-card{min-width:0}
+.support-workspace .requests-card:first-of-type{grid-column:1}
+.support-workspace .requests-card:nth-of-type(2){grid-column:2}
+.support-request-form{gap:6px!important}
+.support-request-form label{gap:3px!important;font-size:8px!important}
+.support-request-form input,.support-request-form select,.support-request-form textarea{padding:7px 8px!important;font-size:8px!important;border-radius:7px!important}
+.support-request-form textarea{min-height:48px!important}
+.request-submit{min-height:32px!important;font-size:8px!important}
+#supportFormMessage{min-height:9px!important;font-size:7px!important}
+.support-workspace .request-table{font-size:8px!important}
+.support-workspace .request-row{grid-template-columns:minmax(0,1.1fr) minmax(0,.7fr) minmax(0,.7fr) minmax(0,.7fr)!important;padding:7px 5px!important;gap:4px!important}
+.support-workspace .request-row>span,.support-workspace .request-row>strong,.support-workspace .request-row>b{font-size:7px!important}
+.support-workspace .urgent-help-card{grid-column:1/-1!important;padding:9px 11px!important;align-items:center!important}
+.urgent-help-icon{width:30px!important;height:30px!important;flex-basis:30px!important;border-radius:9px!important}
+.urgent-help-icon svg{width:16px!important}
+.urgent-help-card h2{font-size:9px!important;margin:0 0 2px!important}
+.urgent-help-card p{font-size:7px!important;margin:0!important}
+.urgent-help-card a{font-size:8px!important;white-space:nowrap}
+.support-workspace .support-faq{grid-column:1/-1!important;padding:9px 11px!important}
+.support-faq h2{font-size:10px!important;margin:0 0 4px!important}
+.support-faq details{padding:6px 0!important}
+.support-faq summary{font-size:8px!important}
+.support-faq details p{font-size:7px!important;padding-top:4px!important}
+@media(max-width:1100px){
+ .support-workspace{grid-template-columns:1fr!important}
+ .support-primary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .support-secondary{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+}
+@media(max-width:700px){
+ .support-primary,.support-secondary{grid-template-columns:1fr!important}
+ .support-workspace .support-tools-card,.support-workspace .next-step-card,.support-workspace .urgent-help-card,.support-workspace .support-faq{grid-column:1!important}
+ .support-tool-grid{grid-template-columns:1fr!important}
+ .support-workspace .requests-card:first-of-type,.support-workspace .requests-card:nth-of-type(2){grid-column:1!important}
+ .support-heading .heading-wellness-card{display:none!important}
+}
