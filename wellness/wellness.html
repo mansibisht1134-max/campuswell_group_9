@@ -108,11 +108,30 @@
                                         </div>
                                         <select id="stressInput" class="visually-hidden" required aria-label="Stress"><option value="">Choose stress</option><option>Low</option><option>Moderate</option><option>High</option></select>
                                     </div>
-                                    <label for="notesInput">Anything you'd like to note? (optional)</label>
-                                    <textarea id="notesInput" rows="3" maxlength="3000" placeholder="Write a private note..."></textarea>
+                                    <div class="checkin-notes">
+                                        <label for="notesInput">Anything you'd like to note? (optional)</label>
+                                        <textarea id="notesInput" rows="3" maxlength="3000" placeholder="Write a private note..."></textarea>
+                                    </div>
                                     <button class="checkin-button" type="submit" id="wellnessSubmit">Save check-in</button>
                                     <p id="wellnessFormStatus" role="status" aria-live="polite"></p>
                                 </form>
+                            </div>
+                        </section>
+                        <section class="wellness-summary card">
+                            <div class="insights-heading">
+                                <div class="lightbulb">✦</div>
+                                <div><h2>Your Wellness Summary</h2><p class="summary-subtitle">A gentle snapshot of your recent check-ins</p></div>
+                            </div>
+                            <div class="score-content">
+                                <div class="score-circle"><div><strong id="wellnessScore">—</strong><span>/100</span></div></div>
+                                <div class="score-text"><h3 id="wellnessStatus">Your wellness journey starts here.</h3><p>Based on your latest check-in</p></div>
+                            </div>
+                            <div class="score-bar"><span id="scoreProgress" style="width:0%"></span></div>
+                            <div class="summary-metrics">
+                                <div><span>Mood</span><strong id="overviewMood">—</strong></div>
+                                <div><span>Sleep</span><strong id="overviewSleep">—</strong></div>
+                                <div><span>Energy</span><strong id="overviewActivity">—</strong></div>
+                                <div><span>Stress</span><strong id="overviewStress">—</strong></div>
                             </div>
                         </section>
                         <section class="recent-card card wellness-recent">
