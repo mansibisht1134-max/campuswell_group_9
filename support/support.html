@@ -78,43 +78,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="support-stats">
-                        <div class="support-stat">
-                            <div class="support-stat-icon blue"><i data-lucide="users-round"></i></div>
-                            <div>
-                                <span>Counsellors</span>
-                                <strong>6</strong>
-                                <small>Available to support you</small>
-                            </div>
-                        </div>
-                        <div class="support-stat">
-                            <div class="support-stat-icon green"><i data-lucide="calendar-check-2"></i></div>
-                            <div>
-                                <span>Upcoming Session</span>
-                                <strong>1</strong>
-                                <small>Scheduled appointment</small>
-                            </div>
-                        </div>
-                        <div class="support-stat">
-                            <div class="support-stat-icon orange"><i data-lucide="file-clock"></i></div>
-                            <div>
-                                <span>Support Requests</span>
-                                <strong>2</strong>
-                                <small>Active or recent requests</small>
-                            </div>
-                        </div>
-                        <div class="support-stat">
-                            <div class="support-stat-icon purple"><i data-lucide="book-open"></i></div>
-                            <div>
-                                <span>Resources</span>
-                                <strong>12</strong>
-                                <small>Helpful wellness guides</small>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="support-main-grid">
-                        <div class="support-left">
-                            <section class="find-support-card card">
+                    <div class="support-workspace">
+  <div class="support-primary">
+    <section class="find-support-card card">
                                 <div class="section-title">
                                     <div class="section-title-icon blue"><i data-lucide="hand-heart"></i></div>
                                     <div>
@@ -163,7 +129,8 @@
                                     <a href="../appointments/appointments.html" class="result-button">Book Support <i data-lucide="arrow-right"></i></a>
                                 </div>
                             </section>
-                            <section class="counsellors-card card">
+                            
+    <section class="counsellors-card card">
                                 <div class="section-header">
                                     <div>
                                         <span class="eyebrow">AVAILABLE COUNSELLORS</span>
@@ -283,57 +250,49 @@
                                     </article>
                                 </div>
                             </section>
-                        </div>
-                        <aside class="support-right">
-                            <section class="upcoming-session-card card">
-                                <div class="section-header compact">
-                                    <div>
-                                        <span class="eyebrow">YOUR SCHEDULE</span>
-                                        <h2>My Upcoming Session</h2>
-                                    </div>
-                                    <i data-lucide="calendar-clock"></i>
-                                </div>
-                                <div class="session-profile">
-                                    <div class="session-avatar avatar-blue">PS</div>
-                                    <div>
-                                        <strong>Dr. Priya Sharma</strong>
-                                        <span>Clinical Counsellor</span>
-                                    </div>
-                                </div>
-                                <div class="session-info">
-                                    <div><i data-lucide="calendar"></i><span>14 Oct 2025</span></div>
-                                    <div><i data-lucide="clock-3"></i><span>3:00 PM – 4:00 PM</span></div>
-                                    <div><i data-lucide="video"></i><span>Online</span></div>
-                                </div>
-                                <div class="status-badge">Confirmed</div>
-                                <a href="../appointments/appointments.html" class="session-button">View Appointment <i data-lucide="arrow-right"></i></a>
-                            </section>
-                            <section class="requests-card card">
-                                <div class="section-header compact">
-                                    <div><span class="eyebrow">GET HELP</span><h2>Submit a Support Request</h2></div>
-                                </div>
-                                <form id="supportRequestForm" style="display:grid;gap:12px;">
-                                    <label>Category
-                                        <select id="requestCategory" required style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;">
-                                            <option>Academic</option><option>Stress & Anxiety</option><option>Personal</option><option>Career</option><option>Relationships</option><option>Other</option>
-                                        </select>
-                                    </label>
-                                    <label>Priority
-                                        <select id="requestPriority" style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;">
-                                            <option>Normal</option><option>Low</option><option>High</option><option>Urgent</option>
-                                        </select>
-                                    </label>
-                                    <label>Request title
-                                        <input id="requestTitle" required minlength="2" maxlength="180" placeholder="What do you need help with?" style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;box-sizing:border-box;">
-                                    </label>
-                                    <label>Tell us a little more
-                                        <textarea id="requestMessage" required minlength="5" rows="4" placeholder="Describe what support would help..." style="width:100%;padding:12px;border:1px solid #dce2ec;border-radius:10px;margin-top:6px;box-sizing:border-box;resize:vertical;"></textarea>
-                                    </label>
-                                    <button type="submit" class="primary-button" id="submitSupportRequest">Send Support Request</button>
-                                    <p id="supportFormMessage" role="status" aria-live="polite"></p>
-                                </form>
-                            </section>
-                            <section class="requests-card card">
+    <section class="support-tools-card card">
+      <div class="section-header">
+        <div><span class="eyebrow">SMALL STEPS, REAL SUPPORT</span><h2>Your self-care toolkit</h2><p>Practical tools you can use at your own pace.</p></div>
+      </div>
+      <div class="support-tool-grid">
+        <a class="support-tool" href="../wellness/wellness.html"><span class="tool-icon tool-blue"><i data-lucide="heart-pulse"></i></span><span><strong>Daily wellness check-in</strong><small>Reflect on mood, sleep and stress</small></span><i data-lucide="arrow-up-right"></i></a>
+        <a class="support-tool" href="../resources/resources.html"><span class="tool-icon tool-purple"><i data-lucide="book-open-check"></i></span><span><strong>Guided self-help resources</strong><small>Explore coping tips and wellness guides</small></span><i data-lucide="arrow-up-right"></i></a>
+        <a class="support-tool" href="../appointments/appointments.html"><span class="tool-icon tool-green"><i data-lucide="calendar-plus"></i></span><span><strong>Plan a counselling session</strong><small>Choose a counsellor and preferred time</small></span><i data-lucide="arrow-up-right"></i></a>
+      </div>
+    </section>
+  </div>
+  <aside class="support-secondary">
+    <section class="next-step-card card">
+      <div class="next-step-art"><i data-lucide="calendar-heart"></i></div>
+      <span class="eyebrow">YOUR NEXT STEP</span>
+      <h2>You don't have to figure it out alone.</h2>
+      <p>Choose a counsellor or send a support request. Start with whichever feels easiest.</p>
+      <a class="next-step-button" href="../appointments/appointments.html"><i data-lucide="calendar-days"></i> Schedule a session</a>
+    </section>
+    <section class="privacy-note card">
+      <span class="privacy-icon"><i data-lucide="shield-check"></i></span>
+      <div><strong>Take your time</strong><p>Share only what you feel comfortable sharing in a support request. For urgent danger, contact emergency services.</p></div>
+    </section>
+    <section class="requests-card card">
+      <div class="section-header compact"><div><span class="eyebrow">REACH OUT</span><h2>Send a support request</h2><p>Tell the support team what kind of help would be useful.</p></div></div>
+      <form id="supportRequestForm" class="support-request-form">
+        <label for="requestCategory">What do you need help with?
+          <select id="requestCategory" required><option>Academic</option><option>Stress & Anxiety</option><option>Personal</option><option>Career</option><option>Relationships</option><option>Other</option></select>
+        </label>
+        <label for="requestPriority">How urgent is it?
+          <select id="requestPriority"><option>Normal</option><option>Low</option><option>High</option><option>Urgent</option></select>
+        </label>
+        <label for="requestTitle">Request title
+          <input id="requestTitle" required minlength="2" maxlength="180" placeholder="A short title for your request">
+        </label>
+        <label for="requestMessage">A little more detail
+          <textarea id="requestMessage" required minlength="5" rows="3" placeholder="Write only what you're comfortable sharing..."></textarea>
+        </label>
+        <button type="submit" class="request-submit" id="submitSupportRequest"><i data-lucide="send"></i> Send request</button>
+        <p id="supportFormMessage" role="status" aria-live="polite"></p>
+      </form>
+    </section>
+    <section class="requests-card card">
                                 <div class="section-header compact">
                                     <div>
                                         <span class="eyebrow">SUPPORT REQUESTS</span>
@@ -346,72 +305,18 @@
                                     <p>Loading your requests...</p>
                                 </div>
                             </section>
-                            <section class="resources-card card">
-                                <div class="section-header compact">
-                                    <div>
-                                        <span class="eyebrow">WELLNESS RESOURCES</span>
-                                        <h2>Helpful Resources</h2>
-                                    </div>
-                                    <a href="../resources/resources.html" class="text-button">View all <i data-lucide="arrow-right"></i></a>
-                                </div>
-                                <div class="resource-grid">
-                                    <a href="../resources/resources.html" class="resource-item blue-resource">
-                                        <div><i data-lucide="leaf"></i></div>
-                                        <strong>Stress Management</strong>
-                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
-                                    </a>
-                                    <a href="../resources/resources.html" class="resource-item purple-resource">
-                                        <div><i data-lucide="moon"></i></div>
-                                        <strong>Better Sleep</strong>
-                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
-                                    </a>
-                                    <a href="../resources/resources.html" class="resource-item pink-resource">
-                                        <div><i data-lucide="brain"></i></div>
-                                        <strong>Exam Anxiety</strong>
-                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
-                                    </a>
-                                    <a href="../resources/resources.html" class="resource-item green-resource">
-                                        <div><i data-lucide="clock-3"></i></div>
-                                        <strong>Time Management</strong>
-                                        <span>Learn more <i data-lucide="arrow-right"></i></span>
-                                    </a>
-                                </div>
-                            </section>
-                        </aside>
-                    </div>
-                    <section class="urgent-support card">
-                        <div class="urgent-intro">
-                            <div class="urgent-icon"><i data-lucide="heart-handshake"></i></div>
-                            <div>
-                                <span class="eyebrow">IMMEDIATE SUPPORT</span>
-                                <h2>Need help right now?</h2>
-                                <p>If you need urgent support, use the campus contacts below or reach out to a trusted person near you.</p>
-                            </div>
-                        </div>
-                        <div class="urgent-actions">
-                            <a href="tel:+91100" class="urgent-action">
-                                <div class="urgent-action-icon red"><i data-lucide="phone"></i></div>
-                                <div>
-                                    <strong>Contact Campus Counsellor</strong>
-                                    <span>Get help now <i data-lucide="arrow-right"></i></span>
-                                </div>
-                            </a>
-                            <a href="tel:+91112" class="urgent-action">
-                                <div class="urgent-action-icon blue"><i data-lucide="shield"></i></div>
-                                <div>
-                                    <strong>Campus Emergency Contact</strong>
-                                    <span>24/7 support <i data-lucide="arrow-right"></i></span>
-                                </div>
-                            </a>
-                            <a href="#trusted-support" class="urgent-action">
-                                <div class="urgent-action-icon purple"><i data-lucide="users"></i></div>
-                                <div>
-                                    <strong>Trusted Campus Support</strong>
-                                    <span>Guidance & assistance <i data-lucide="arrow-right"></i></span>
-                                </div>
-                            </a>
-                        </div>
-                    </section>
+    <section class="urgent-help-card card">
+      <div class="urgent-help-icon"><i data-lucide="life-buoy"></i></div>
+      <div><span class="eyebrow">URGENT HELP</span><h2>Need immediate help?</h2><p>If someone is in immediate danger in India, call the national emergency number.</p><a href="tel:112">Call 112 <i data-lucide="phone"></i></a></div>
+    </section>
+    <section class="support-faq card">
+      <span class="eyebrow">GOOD TO KNOW</span><h2>Quick answers</h2>
+      <details><summary>What should I write in a support request?</summary><p>Briefly describe what is happening and what kind of help you are looking for. You can keep personal details limited.</p></details>
+      <details><summary>Can I book directly with a counsellor?</summary><p>Yes. Choose a counsellor above or open Appointments to select a concern, date and time.</p></details>
+      <details><summary>What if I need help urgently?</summary><p>If there is immediate danger, contact emergency services or go to the nearest emergency department. You can also reach out to someone you trust nearby.</p></details>
+    </section>
+  </aside>
+</div>
                 </section>
             </div>
         </main>
