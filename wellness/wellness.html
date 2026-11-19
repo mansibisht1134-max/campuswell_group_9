@@ -122,14 +122,36 @@
                                 <h2>How are you feeling today?</h2>
                                 <p>Take a moment to reflect on your mood, stress, and overall well-being. Your responses are private and help us support you better.</p>
                                 <form id="wellnessForm" class="wellness-api-form">
-                                    <label for="moodInput">How is your mood today?</label>
-                                    <select id="moodInput" required><option value="">Choose mood</option><option>Great</option><option>Good</option><option>Okay</option><option>Low</option><option>Stressed</option></select>
-                                    <label for="sleepInput">Hours of sleep</label>
-                                    <input id="sleepInput" type="number" min="0" max="24" step="0.5" placeholder="e.g. 7.5" required>
-                                    <label for="energyInput">Energy level</label>
-                                    <select id="energyInput" required><option value="">Choose energy</option><option>High</option><option>Moderate</option><option>Low</option></select>
-                                    <label for="stressInput">Stress level</label>
-                                    <select id="stressInput" required><option value="">Choose stress</option><option>Low</option><option>Moderate</option><option>High</option></select>
+                                    <div class="visual-field mood-field">
+                                        <span class="visual-label">How are you feeling?</span>
+                                        <div class="mood-picker" role="group" aria-label="Choose your mood">
+                                            <button type="button" class="mood-choice" data-mood="Great"><span>😄</span><small>Great</small></button>
+                                            <button type="button" class="mood-choice" data-mood="Good"><span>🙂</span><small>Good</small></button>
+                                            <button type="button" class="mood-choice" data-mood="Okay"><span>😐</span><small>Okay</small></button>
+                                            <button type="button" class="mood-choice" data-mood="Low"><span>😔</span><small>Low</small></button>
+                                            <button type="button" class="mood-choice" data-mood="Stressed"><span>😣</span><small>Stressed</small></button>
+                                        </div>
+                                        <select id="moodInput" class="visually-hidden" required aria-label="Mood"><option value="">Choose mood</option><option>Great</option><option>Good</option><option>Okay</option><option>Low</option><option>Stressed</option></select>
+                                    </div>
+                                    <div class="visual-field sleep-field">
+                                        <label for="sleepInput" class="visual-label">How much did you sleep?</label>
+                                        <div class="sleep-input-wrap"><span class="sleep-symbol">🌙</span><input id="sleepInput" type="number" min="0" max="24" step="0.5" placeholder="7.5" required><span class="sleep-unit">hours</span></div>
+                                        <div class="sleep-quick-picks"><button type="button" data-sleep="5">Under 6h</button><button type="button" data-sleep="7">7–8h</button><button type="button" data-sleep="9">9h+</button></div>
+                                    </div>
+                                    <div class="visual-field">
+                                        <label for="energyInput" class="visual-label">Your energy</label>
+                                        <div class="level-picker energy-picker" role="group" aria-label="Choose energy level">
+                                            <button type="button" data-energy="High"><span>⚡</span>High</button><button type="button" data-energy="Moderate"><span>☀️</span>Moderate</button><button type="button" data-energy="Low"><span>🌿</span>Low</button>
+                                        </div>
+                                        <select id="energyInput" class="visually-hidden" required aria-label="Energy"><option value="">Choose energy</option><option>High</option><option>Moderate</option><option>Low</option></select>
+                                    </div>
+                                    <div class="visual-field">
+                                        <label for="stressInput" class="visual-label">Your stress level</label>
+                                        <div class="level-picker stress-picker" role="group" aria-label="Choose stress level">
+                                            <button type="button" data-stress="Low"><span>🌱</span>Low</button><button type="button" data-stress="Moderate"><span>🌤️</span>Moderate</button><button type="button" data-stress="High"><span>🌧️</span>High</button>
+                                        </div>
+                                        <select id="stressInput" class="visually-hidden" required aria-label="Stress"><option value="">Choose stress</option><option>Low</option><option>Moderate</option><option>High</option></select>
+                                    </div>
                                     <label for="notesInput">Anything you'd like to note? (optional)</label>
                                     <textarea id="notesInput" rows="3" maxlength="3000" placeholder="Write a private note..."></textarea>
                                     <button class="checkin-button" type="submit" id="wellnessSubmit">Save check-in</button>
