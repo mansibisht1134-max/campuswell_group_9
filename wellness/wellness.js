@@ -83,6 +83,26 @@ async function loadCheckins() {
     }
 }
 
+
+// Visual mood, energy, stress and sleep controls stay connected to the original form fields.
+document.querySelectorAll("[data-mood]").forEach(button => button.addEventListener("click", () => {
+    document.getElementById("moodInput").value = button.dataset.mood;
+    document.querySelectorAll("[data-mood]").forEach(item => item.classList.toggle("selected", item === button));
+}));
+document.querySelectorAll("[data-energy]").forEach(button => button.addEventListener("click", () => {
+    document.getElementById("energyInput").value = button.dataset.energy;
+    document.querySelectorAll("[data-energy]").forEach(item => item.classList.toggle("selected", item === button));
+}));
+document.querySelectorAll("[data-stress]").forEach(button => button.addEventListener("click", () => {
+    document.getElementById("stressInput").value = button.dataset.stress;
+    document.querySelectorAll("[data-stress]").forEach(item => item.classList.toggle("selected", item === button));
+}));
+document.querySelectorAll("[data-sleep]").forEach(button => button.addEventListener("click", () => {
+    document.getElementById("sleepInput").value = button.dataset.sleep;
+    document.querySelectorAll("[data-sleep]").forEach(item => item.classList.toggle("selected", item === button));
+}));
+form.addEventListener("reset", () => document.querySelectorAll(".mood-choice,.level-picker button,.sleep-quick-picks button").forEach(item => item.classList.remove("selected")));
+
 form.addEventListener("submit", async event => {
     event.preventDefault();
     const mood = document.getElementById("moodInput").value;
