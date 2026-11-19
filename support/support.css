@@ -2914,3 +2914,23 @@ input {
  .support-workspace .support-request-form{grid-template-columns:1fr!important}
  .support-workspace .support-request-form>*{grid-column:1!important}
 }
+
+/* Final geometry: broad feature panels, balanced lower row */
+.support-workspace{
+ display:grid!important;
+ grid-template-columns:repeat(2,minmax(0,1fr))!important;
+ gap:16px!important;
+ align-items:stretch!important;
+}
+.support-workspace>.find-support-card{grid-column:1/-1!important;grid-row:1!important}
+.support-workspace>.counsellors-card{grid-column:1/-1!important;grid-row:2!important}
+.support-workspace>.support-tools-card{grid-column:1/-1!important;grid-row:3!important}
+.support-workspace>.requests-card:has(#supportRequestForm){grid-column:1!important;grid-row:4!important;width:100%!important;margin:0!important}
+.support-workspace>.requests-card:has(#mySupportRequests){grid-column:2!important;grid-row:4!important;width:100%!important;margin:0!important}
+.support-workspace>.urgent-help-card{grid-column:1!important;grid-row:5!important;width:100%!important;margin:0!important}
+.support-workspace>.support-faq{grid-column:2!important;grid-row:5!important;width:100%!important;margin:0!important}
+@media(max-width:900px){
+ .support-workspace{grid-template-columns:minmax(0,1fr)!important}
+ .support-workspace>.find-support-card,.support-workspace>.counsellors-card,.support-workspace>.support-tools-card,
+ .support-workspace>.requests-card,.support-workspace>.urgent-help-card,.support-workspace>.support-faq{grid-column:1!important;grid-row:auto!important;width:100%!important;margin:0!important}
+}
