@@ -2984,3 +2984,36 @@ input {
  .support-workspace .support-category{aspect-ratio:1/1!important}
  .support-workspace .counsellor-grid{grid-template-columns:1fr!important}
 }
+
+
+/* Compact square support category tiles */
+.support-workspace .support-category-grid{
+ display:grid!important;
+ grid-template-columns:repeat(6,minmax(0,116px))!important;
+ justify-content:start!important;
+ gap:10px!important;
+}
+.support-workspace .support-category{
+ width:116px!important;
+ max-width:116px!important;
+ aspect-ratio:1/1!important;
+ min-height:0!important;
+ padding:8px!important;
+ gap:6px!important;
+ border-radius:12px!important;
+}
+.support-workspace .support-category .category-icon{
+ width:34px!important;
+ height:34px!important;
+ flex:0 0 34px!important;
+ border-radius:10px!important;
+}
+.support-workspace .support-category .category-icon svg{width:17px!important;height:17px!important}
+.support-workspace .support-category strong{font-size:10px!important;line-height:1.2!important}
+.support-workspace .support-category small{font-size:8px!important;line-height:1.2!important}
+@media(max-width:850px){
+ .support-workspace .support-category-grid{grid-template-columns:repeat(3,minmax(0,116px))!important}
+}
+@media(max-width:430px){
+ .support-workspace .support-category-grid{grid-template-columns:repeat(2,minmax(0,116px))!important}
+}
