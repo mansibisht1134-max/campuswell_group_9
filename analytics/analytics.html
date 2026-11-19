@@ -19,14 +19,16 @@
             <div><strong>Administrator</strong><span>System Overview</span></div>
         </div>
         <nav class="sidebar-nav" aria-label="Admin navigation">
-            <a class="nav-item active" href="./analytics.html" aria-current="page">
-                <span class="nav-icon">▥</span><span>Analytics</span>
-            </a>
+            <a class="nav-item active" href="#analytics-top" aria-current="page"><span class="nav-icon">▥</span><span>Analytics</span></a>
+            <a class="nav-item" href="#counsellor-management"><span class="nav-icon">♙</span><span>Counsellor Management</span></a>
+            <a class="nav-item" href="#support-assignment"><span class="nav-icon">✉</span><span>Support Assignments</span></a>
+            <a class="nav-item" href="#campus-voice-moderation"><span class="nav-icon">◎</span><span>Campus Voice</span></a>
+            <a class="nav-item" href="#resource-library"><span class="nav-icon">▤</span><span>Resource Library</span></a>
         </nav>
         <a class="logout-link" href="../admin/admin.html"><span class="nav-icon">↪</span><span>Logout</span></a>
     </aside>
 
-    <main class="main-content analytics-main">
+    <main class="main-content analytics-main" id="analytics-top">
         <header class="dashboard-header">
             <div>
                 <p class="page-label">Administrator / Analytics</p>
@@ -123,7 +125,7 @@
         })();
         </script>
 
-        <section class="analytics-panel" style="margin-top:22px;padding:22px;">
+        <section class="analytics-panel" id="counsellor-management" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
             <div class="section-heading"><h2>Counsellor Management</h2><p>Create counsellor accounts and review active profiles.</p></div>
             <form id="createCounsellorForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0;">
                 <input id="newCounsellorName" placeholder="Full name" required minlength="2">
@@ -182,7 +184,7 @@
         });
         </script>
 
-        <section class="analytics-panel" style="margin-top:22px;padding:22px;">
+        <section class="analytics-panel" id="support-assignment" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
             <div class="section-heading"><h2>Support Request Assignment</h2><p>Assign open student requests to a counsellor.</p></div>
             <div id="adminSupportRequests">Loading support requests...</div>
         </section>
@@ -229,11 +231,11 @@
             if(token)load();else host.textContent="Administrator sign-in required.";
         })();
         </script>
-        <section class="analytics-panel" style="margin-top:22px;padding:22px;">
+        <section class="analytics-panel" id="campus-voice-moderation" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
             <div class="section-heading"><h2>Campus Voice Moderation</h2><p>Review anonymous submissions without exposing student identities.</p></div>
             <div id="adminVoiceQueue">Loading submissions...</div>
         </section>
-        <section class="analytics-panel" style="margin-top:22px;padding:22px;">
+        <section class="analytics-panel" id="resource-library" style="margin-top:22px;padding:22px;scroll-margin-top:24px;">
             <div class="section-heading"><h2>Wellness Resource Library</h2><p>Create resources and control whether they are visible to students.</p></div>
             <form id="adminResourceForm" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px;margin:16px 0;">
                 <input id="resourceTitle" placeholder="Resource title" required minlength="2">
