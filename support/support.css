@@ -3409,3 +3409,64 @@ input {
 @media(max-width:390px){
  #counsellorGrid{grid-template-columns:repeat(2,104px)!important}
 }
+
+
+/* Readable square tiles: categories and counsellors share the same larger size */
+.support-workspace .support-category-grid{
+ grid-template-columns:repeat(6,128px)!important;
+ grid-auto-rows:128px!important;
+ gap:10px!important;
+}
+.support-workspace .support-category-grid > button.support-category{
+ width:128px!important;min-width:128px!important;max-width:128px!important;
+ height:128px!important;min-height:128px!important;max-height:128px!important;
+ padding:10px!important;gap:7px!important;
+}
+.support-workspace .support-category-grid > button.support-category .category-icon{
+ width:36px!important;height:36px!important;min-width:36px!important;flex-basis:36px!important;
+}
+.support-workspace .support-category-grid > button.support-category strong{
+ font-size:11px!important;line-height:1.2!important;
+}
+.support-workspace .support-category-grid > button.support-category small{
+ font-size:9px!important;line-height:1.25!important;
+}
+#counsellorGrid{
+ grid-template-columns:repeat(6,128px)!important;
+ grid-auto-columns:128px!important;
+ grid-auto-rows:128px!important;
+ gap:10px!important;
+}
+#counsellorGrid > article.counsellor-card{
+ width:128px!important;min-width:128px!important;max-width:128px!important;
+ height:128px!important;min-height:128px!important;max-height:128px!important;
+ padding:10px!important;gap:5px!important;
+}
+#counsellorGrid > article.counsellor-card .counsellor-top{
+ min-height:30px!important;height:30px!important;
+}
+#counsellorGrid > article.counsellor-card .counsellor-avatar{
+ width:30px!important;height:30px!important;min-width:30px!important;
+ flex-basis:30px!important;font-size:10px!important;
+}
+#counsellorGrid > article.counsellor-card > strong{
+ font-size:10px!important;line-height:1.2!important;
+}
+#counsellorGrid > article.counsellor-card > .specialization{
+ font-size:9px!important;line-height:1.2!important;
+}
+#counsellorGrid > article.counsellor-card .counsellor-actions{
+ gap:4px!important;
+}
+#counsellorGrid > article.counsellor-card .counsellor-actions button{
+ min-height:24px!important;height:24px!important;
+ padding:3px 2px!important;font-size:8px!important;line-height:1.1!important;
+}
+@media(max-width:900px){
+ .support-workspace .support-category-grid{grid-template-columns:repeat(3,128px)!important;grid-auto-rows:128px!important}
+ #counsellorGrid{grid-template-columns:repeat(3,128px)!important}
+}
+@media(max-width:430px){
+ .support-workspace .support-category-grid{grid-template-columns:repeat(2,128px)!important}
+ #counsellorGrid{grid-template-columns:repeat(2,128px)!important}
+}
