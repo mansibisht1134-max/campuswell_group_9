@@ -3230,3 +3230,24 @@ input {
   width:100%!important;
 }
 
+
+
+/* Fix request cards shrinking to half of their already half-width grid tracks */
+.support-workspace{
+  width:100%!important;
+  max-width:none!important;
+  justify-content:stretch!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  column-gap:14px!important;
+}
+.support-workspace > .requests-card.support-request-compose:has(#supportRequestForm),
+.support-workspace > .requests-card.support-request-history:has(#mySupportRequests){
+  width:100%!important;
+  max-width:none!important;
+  min-width:0!important;
+  margin:0!important;
+  justify-self:stretch!important;
+  box-sizing:border-box!important;
+}
+.support-workspace > .requests-card.support-request-compose:has(#supportRequestForm){grid-column:1!important}
+.support-workspace > .requests-card.support-request-history:has(#mySupportRequests){grid-column:2!important}
