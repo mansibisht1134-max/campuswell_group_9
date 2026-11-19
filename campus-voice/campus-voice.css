@@ -2573,3 +2573,35 @@ input {
 @media(min-width:901px) {
  .voice-layout { grid-template-columns:minmax(0,1.7fr) minmax(250px,.8fr); }
 }
+
+
+/* Balanced compact Campus Voice: masonry-like two-column flow, no tall side rail */
+.page-content { padding-top:0 !important; }
+.voice-heading { margin-bottom:8px !important; }
+.voice-actions { margin:8px 0 !important; gap:8px !important; }
+.voice-action { min-height:64px !important; padding:9px 10px !important; }
+.voice-layout {
+ display:grid !important;
+ grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+ align-items:start !important;
+ gap:10px !important;
+}
+.voice-main,.voice-side { display:contents !important; }
+.voice-layout > * { min-width:0 !important; align-self:start !important; }
+.voice-layout .card { padding:11px !important; margin:0 !important; }
+.voice-layout .section-header { margin-bottom:7px !important; }
+.voice-layout .updates-grid { gap:7px !important; }
+.voice-layout .update-visual { height:56px !important; }
+.voice-layout .update-body { padding:8px !important; }
+.voice-layout .impact-item { padding:7px 0 !important; }
+.voice-layout .status-summary { gap:8px !important; }
+.voice-layout .poll-options { gap:5px !important; }
+.voice-footer { margin-top:9px !important; padding:10px 13px !important; }
+@media(max-width:900px) {
+ .voice-layout { grid-template-columns:1fr !important; }
+ .voice-main,.voice-side { display:flex !important; gap:9px !important; }
+ .voice-layout .card { width:100%; }
+}
+@media(min-width:901px) and (max-width:1200px) {
+ .voice-actions { grid-template-columns:repeat(2,minmax(0,1fr)) !important; }
+}
