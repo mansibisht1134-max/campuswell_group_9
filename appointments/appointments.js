@@ -88,8 +88,51 @@ function renderCounsellors() {
         selectedCounsellorId = Number(card.dataset.id);
         selectedCounsellorName = card.dataset.name;
     }));
-    selectedCounsellorId = counsellors[0].id;
-    selectedCounsellorName = counsellors[0].full_name;
+    const savedName = localStorage.getItem("campuswell_selected_counsellor");
+    const savedCard = savedName ? [...cards].find(card => card.dataset.name === savedName) : null;
+    const initialCard = savedCard || cards[0];
+    cards.forEach(card => card.classList.toggle("active", card === initialCard));
+    selectedCounsellorId = Number(initialCard.dataset.id);
+    selectedCounsellorName = initialCard.dataset.name;
+    if (savedName) localStorage.removeItem("campuswell_selected_counsellor");
+    addCounsellorRecommendationNote();
+    if (appointmentReason.value) recommendCounsellor(appointmentReason.value);
+}
+
+function addCounsellorRecommendationNote() {
+    const grid = document.querySelector(".counsellor-grid");
+    if (!grid || document.getElementById("counsellorRecommendation")) return;
+    const note = document.createElement("p");
+    note.id = "counsellorRecommendation";
+    note.className = "counsellor-recommendation";
+    note.textContent = "Choose a concern below to see a suitable counsellor recommendation.";
+    grid.parentElement.insertBefore(note, grid);
+}
+
+function recommendCounsellor(reason) {
+    const cards = [...document.querySelectorAll(".counsellor-card")];
+    if (!cards.length) return;
+    const terms = {
+        "Academic Stress": ["academic", "student", "career"],
+        "Personal Concerns": ["personal", "clinical", "wellness"],
+        "Anxiety & Stress": ["stress", "anxiety", "clinical", "wellness"],
+        "Relationships": ["relationship", "personal", "clinical"],
+        "Career Guidance": ["career", "academic", "student"],
+        "Other": []
+    }[reason] || [];
+    const match = cards.find(card => {
+        const description = card.textContent.toLowerCase();
+        return terms.some(term => description.includes(term));
+    });
+    const note = document.getElementById("counsellorRecommendation");
+    if (!match) {
+        if (note) note.textContent = "No exact specialization match found. You can choose any available counsellor.";
+        return;
+    }
+    cards.forEach(card => card.classList.toggle("active", card === match));
+    selectedCounsellorId = Number(match.dataset.id);
+    selectedCounsellorName = match.dataset.name;
+    if (note) note.textContent = "Recommended for " + reason + ": " + selectedCounsellorName + ". You can still choose another counsellor.";
 }
 
 function renderAppointments() {
@@ -150,6 +193,7 @@ reasonOptions.forEach(option => option.addEventListener("click", () => {
     reasonOptions.forEach(item => item.classList.remove("active"));
     option.classList.add("active");
     appointmentReason.value = option.dataset.reason;
+    recommendCounsellor(appointmentReason.value);
 }));
 
 appointmentMessage.addEventListener("input", () => {
