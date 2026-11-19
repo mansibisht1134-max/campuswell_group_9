@@ -67,10 +67,10 @@ function updateOverview(records) {
     scoreElement.textContent = score;
     progressElement.style.width = score + "%";
     statusElement.textContent = score >= 80 ? "Your well-being is looking great!" : score >= 60 ? "Your well-being is going steadily." : "Consider reaching out for support if you need it.";
-    moodElement.textContent = latest.mood || "Not recorded";
-    sleepElement.textContent = latest.sleep_hours == null ? "Not recorded" : latest.sleep_hours + " hrs";
-    activityElement.textContent = latest.energy_level || "Not recorded";
-    stressElement.textContent = latest.stress_level || "Not recorded";
+    if (moodElement) moodElement.textContent = latest.mood || "Not recorded";
+    if (sleepElement) sleepElement.textContent = latest.sleep_hours == null ? "Not recorded" : latest.sleep_hours + " hrs";
+    if (activityElement) activityElement.textContent = latest.energy_level || "Not recorded";
+    if (stressElement) stressElement.textContent = latest.stress_level || "Not recorded";
 }
 
 async function loadCheckins() {
