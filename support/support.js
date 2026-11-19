@@ -43,40 +43,71 @@ function getInitials(name) {
         .toUpperCase();
 }
 
+let selectedSupportCategory = null;
+let showAllCounsellors = false;
+
+function matchesSupportCategory(card, category) {
+    const profile = (card.dataset.category || "").toLowerCase();
+    const specialization = (card.dataset.specialization || "").toLowerCase();
+    const nameAndTags = (card.textContent || "").toLowerCase();
+    const haystack = `${profile} ${specialization} ${nameAndTags}`;
+
+    const rules = {
+        "academic": ["academic", "study", "exam", "learning"],
+        "stress & anxiety": ["stress", "anxiety", "emotional", "wellbeing", "wellness"],
+        "personal": ["personal", "emotional", "wellbeing", "wellness", "clinical"],
+        "career": ["career", "goal", "future", "professional"],
+        "relationships": ["relationship", "communication", "family", "friends"],
+        "other": []
+    };
+    const key = category.toLowerCase();
+    if (key === "other") return true;
+    const terms = rules[key] || [key];
+    return terms.some(term => haystack.includes(term));
+}
+
+function renderCounsellorRecommendations(category = selectedSupportCategory) {
+    const cards = [...document.querySelectorAll(".counsellor-card")];
+    let matches = 0;
+
+    cards.forEach(card => {
+        const isMatch = !category || matchesSupportCategory(card, category);
+        const isExtra = card.classList.contains("extra-counsellor");
+        const visible = isMatch && (!isExtra || showAllCounsellors || !!category);
+        card.style.display = visible ? "flex" : "none";
+        if (visible) matches++;
+    });
+
+    if (category) {
+        categoryTitle.textContent = `Recommended for ${category} support`;
+        categoryText.textContent = categoryMessages[category] || "Here are counsellors whose expertise may help with this concern.";
+    } else {
+        categoryTitle.textContent = "Available counsellors";
+        categoryText.textContent = "Choose a counsellor whose experience best matches your needs.";
+    }
+    return matches;
+}
+
 categories.forEach(button => {
     button.addEventListener("click", () => {
         categories.forEach(item => item.classList.remove("active"));
         button.classList.add("active");
-
-        const category = button.dataset.category;
-
-        categoryTitle.textContent = `Recommended for ${category} support`;
-        categoryText.textContent = categoryMessages[category];
-
-        document.querySelectorAll(".counsellor-card").forEach(card => {
-            const values = card.dataset.category.toLowerCase();
-            const match = values.includes(category.toLowerCase());
-
-            if (card.classList.contains("extra-counsellor")) {
-                card.style.display = match && counsellorGrid.classList.contains("show-all") ? "block" : "none";
-            } else {
-                card.style.display = match ? "block" : "none";
-            }
-        });
+        selectedSupportCategory = button.dataset.category;
+        showAllCounsellors = true;
+        renderCounsellorRecommendations(selectedSupportCategory);
     });
 });
 
 viewAllCounsellors.addEventListener("click", () => {
-    const showingAll = counsellorGrid.classList.toggle("show-all");
-
-    document.querySelectorAll(".extra-counsellor").forEach(card => {
-        card.style.display = showingAll ? "block" : "none";
-    });
-
-    viewAllCounsellors.innerHTML = showingAll ?
+    showAllCounsellors = !showAllCounsellors;
+    if (selectedSupportCategory) {
+        renderCounsellorRecommendations(selectedSupportCategory);
+    } else {
+        renderCounsellorRecommendations(null);
+    }
+    viewAllCounsellors.innerHTML = showAllCounsellors ?
         'Show less <i data-lucide="arrow-up"></i>' :
         'View all <i data-lucide="arrow-right"></i>';
-
     lucide.createIcons();
 });
 
