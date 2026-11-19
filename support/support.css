@@ -3184,3 +3184,46 @@ input {
   flex:0 0 100%!important;
  }
 }
+
+
+/* Support request panels: true equal two-column layout */
+.support-workspace{
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(0,1fr)!important;
+  align-items:stretch!important;
+  column-gap:14px!important;
+  row-gap:14px!important;
+}
+.support-workspace > :not(.support-request-compose):not(.support-request-history){
+  grid-column:1 / -1!important;
+}
+.support-workspace > .support-request-compose{
+  grid-column:1!important;
+  grid-row:auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+}
+.support-workspace > .support-request-history{
+  grid-column:2!important;
+  grid-row:auto!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  margin:0!important;
+}
+.support-workspace > .support-request-compose,
+.support-workspace > .support-request-history{
+  box-sizing:border-box!important;
+  align-self:stretch!important;
+}
+@media(max-width:800px){
+  .support-workspace{
+    grid-template-columns:minmax(0,1fr)!important;
+  }
+  .support-workspace > .support-request-compose,
+  .support-workspace > .support-request-history{
+    grid-column:1!important;
+  }
+}
