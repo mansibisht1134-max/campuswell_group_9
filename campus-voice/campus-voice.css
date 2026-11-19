@@ -2495,3 +2495,60 @@ input {
   .voice-footer { flex-direction: column; }
   .modal-card { padding: 20px; }
 }
+
+
+/* Compact, balanced Campus Voice layout */
+.dashboard-content { padding: 14px 22px 24px; }
+.voice-heading { margin-bottom: 14px; }
+.voice-message { max-width: 300px; padding: 13px 16px; }
+.voice-actions {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 11px;
+    margin: 14px 0;
+}
+.voice-action {
+    min-height: 88px;
+    padding: 13px;
+    gap: 10px;
+    align-items: center;
+}
+.voice-action-icon { width: 38px; height: 38px; min-width: 38px; }
+.voice-action strong { font-size: 11px; line-height: 1.35; }
+.voice-action span { font-size: 9px; line-height: 1.4; }
+.voice-layout {
+    grid-template-columns: minmax(0, 1.65fr) minmax(265px, .85fr);
+    gap: 14px;
+    align-items: start;
+}
+.voice-main, .voice-side { min-width: 0; gap: 13px; }
+.voice-main > .card, .voice-side > .card { padding: 16px; }
+.privacy-card { gap: 12px; }
+.privacy-content { flex: 1; min-width: 0; }
+.privacy-card .primary-button { white-space: nowrap; }
+.updates-grid { gap: 10px; }
+.update-card { min-width: 0; }
+.update-visual { height: 92px; }
+.update-body { padding: 11px; }
+.update-body h3 { font-size: 11px; line-height: 1.35; }
+.update-body p { font-size: 9px; line-height: 1.45; }
+.section-header { margin-bottom: 12px; }
+.impact-item { padding: 10px 0; }
+.status-summary { gap: 12px; }
+.poll-options { gap: 7px; }
+.voice-footer { margin-top: 14px; padding: 16px 20px; }
+@media (max-width: 1200px) {
+    .voice-actions { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .voice-layout { grid-template-columns: minmax(0, 1.35fr) minmax(250px, .9fr); }
+}
+@media (max-width: 900px) {
+    .voice-layout { grid-template-columns: 1fr; }
+    .voice-side { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .voice-side > .poll-card { grid-column: 1 / -1; }
+}
+@media (max-width: 600px) {
+    .dashboard-content { padding: 12px; }
+    .voice-actions { grid-template-columns: 1fr 1fr; }
+    .voice-side { display: flex; }
+    .privacy-card { flex-wrap: wrap; }
+    .privacy-card .primary-button { width: 100%; }
+}
