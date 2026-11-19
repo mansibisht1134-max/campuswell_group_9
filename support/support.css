@@ -2456,3 +2456,94 @@ input {
  .dashboard-content { padding:8px !important; }
  .support-main-grid { grid-template-columns:1fr !important; }
 }
+
+
+/* ===== Counselling & Support: refreshed balanced workspace ===== */
+.dashboard-content{padding:14px 20px 22px!important}
+.page-content{width:100%;max-width:100%;min-width:0}
+.support-heading{min-height:112px;margin:0 0 14px!important;padding:18px 22px;border:1px solid #e0e9ff;border-radius:18px;background:linear-gradient(110deg,#f8fbff 0%,#edf1ff 58%,#e8f5ff 100%)}
+.support-heading h1{font-size:26px;letter-spacing:-.6px}
+.support-heading p{font-size:12px}
+.heading-wellness-card{border:1px solid #dce8ff;border-radius:14px;background:rgba(255,255,255,.68);padding:12px 15px}
+.support-workspace{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(310px,.9fr);gap:14px;align-items:start;width:100%;min-width:0}
+.support-primary,.support-secondary{display:grid;gap:13px;min-width:0;align-content:start}
+.support-workspace .card{min-width:0;margin:0!important;border:1px solid #e0eafa;border-radius:17px;background:#fff;box-shadow:0 5px 18px rgba(44,83,146,.055)}
+.support-workspace .find-support-card,.support-workspace .counsellors-card,.support-workspace .support-tools-card,.support-workspace .requests-card,.support-workspace .urgent-help-card,.support-workspace .support-faq{padding:17px}
+.support-workspace .section-title{align-items:center;gap:12px;margin-bottom:13px}
+.support-workspace .section-title-icon{width:42px;height:42px;flex:0 0 42px;border-radius:13px}
+.support-workspace .section-title h2,.support-workspace .section-header h2{font-size:17px;line-height:1.3;color:#12345e}
+.support-workspace .section-title p,.support-workspace .section-header p{margin-top:4px;font-size:10px;line-height:1.5;color:#7088a8}
+.support-workspace .support-category-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.support-workspace .support-category{min-width:0;min-height:112px;padding:12px 9px;border:1px solid #e2eafa;border-radius:13px;background:linear-gradient(145deg,#fbfdff,#f7f9ff);transition:.18s}
+.support-workspace .support-category:hover{transform:translateY(-2px);border-color:#b5c9f4;box-shadow:0 6px 15px rgba(58,99,163,.07)}
+.support-workspace .support-category.active{border:1.5px solid #8b78ed;background:linear-gradient(140deg,#f0edff,#edf7ff);box-shadow:0 0 0 3px rgba(120,100,230,.08)}
+.support-workspace .category-icon{width:39px;height:39px;margin-bottom:7px;border-radius:12px}
+.support-workspace .support-category strong{font-size:11px}
+.support-workspace .support-category small{font-size:9px;line-height:1.4}
+.support-workspace .category-result{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px;padding:12px 14px;border:1px solid #e5e2ff;border-radius:13px;background:linear-gradient(100deg,#f0edff,#f0f8ff)}
+.support-workspace .category-result strong{font-size:11px;color:#283d75}
+.support-workspace .category-result p{margin-top:4px;font-size:9px;line-height:1.45;color:#687fa4}
+.support-workspace .result-button{flex:0 0 auto;padding:9px 12px;border-radius:9px;background:linear-gradient(100deg,#6e5ce2,#7b69e9);color:#fff;font-size:10px;font-weight:800;white-space:nowrap}
+.support-workspace .section-header{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:12px}
+.support-workspace .counsellor-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.support-workspace .counsellor-card{min-width:0;padding:12px;border:1px solid #e3ebf8;border-radius:13px;background:linear-gradient(145deg,#fff,#f8fbff)}
+.support-workspace .counsellor-card>strong{font-size:11px}
+.support-workspace .counsellor-card .specialization{font-size:9px}
+.support-workspace .counsellor-card p{font-size:9px;line-height:1.45}
+.support-workspace .counsellor-card .tag-row{gap:4px}
+.support-workspace .counsellor-card .tag-row span{font-size:8px;padding:4px 6px}
+.support-workspace .counsellor-meta{flex-wrap:wrap}
+.support-workspace .counsellor-meta span{font-size:8px}
+.support-workspace .counsellor-actions{display:flex;gap:6px}
+.support-workspace .counsellor-actions button{min-width:0;flex:1;padding:8px 6px;font-size:9px}
+.support-workspace .next-step-card{position:relative;overflow:hidden;padding:19px;background:linear-gradient(145deg,#f6f8ff,#eceeff 65%,#e9f6ff)}
+.support-workspace .next-step-card:after{content:"";position:absolute;width:145px;height:145px;right:-52px;top:-55px;border-radius:50%;background:rgba(128,119,236,.10)}
+.next-step-art{width:54px;height:54px;display:grid;place-items:center;margin-bottom:13px;border-radius:17px;background:#fff;color:#6d69dc;box-shadow:0 5px 14px rgba(90,100,190,.1)}
+.next-step-art svg{width:27px;height:27px}
+.support-workspace .next-step-card h2{max-width:290px;margin:0 0 7px;color:#12345e;font-size:18px;line-height:1.3}
+.support-workspace .next-step-card p{margin-bottom:14px;color:#6a81a3;font-size:10px;line-height:1.55}
+.next-step-button{display:inline-flex;align-items:center;gap:8px;padding:10px 14px;border-radius:10px;background:linear-gradient(100deg,#167fc2,#6b65df);color:#fff;font-size:10px;font-weight:800;box-shadow:0 6px 14px rgba(73,106,202,.2)}
+.next-step-button svg{width:15px;height:15px}
+.privacy-note{display:flex;align-items:flex-start;gap:11px;padding:13px 14px!important;background:linear-gradient(110deg,#effaf7,#f4f8ff)!important}
+.privacy-icon{width:36px;height:36px;flex:0 0 36px;display:grid;place-items:center;border-radius:11px;background:#dcf7ed;color:#099b7f}
+.privacy-icon svg{width:19px}
+.privacy-note strong{font-size:10px;color:#164c64}
+.privacy-note p{margin-top:4px;color:#6d879d;font-size:9px;line-height:1.5}
+.support-request-form{display:grid;gap:10px}
+.support-request-form label{display:grid;gap:5px;color:#29496e;font-size:9px;font-weight:750}
+.support-request-form input,.support-request-form select,.support-request-form textarea{width:100%;min-width:0;padding:10px 11px;border:1px solid #dfe8f5;border-radius:9px;outline:0;background:#fbfdff;color:#183a62;font:inherit;font-size:10px}
+.support-request-form textarea{min-height:70px;resize:vertical;line-height:1.45}
+.support-request-form input:focus,.support-request-form select:focus,.support-request-form textarea:focus{border-color:#8ea4ef;background:#fff;box-shadow:0 0 0 3px rgba(111,103,221,.08)}
+.request-submit{display:flex;align-items:center;justify-content:center;gap:8px;min-height:40px;border:0;border-radius:10px;background:linear-gradient(100deg,#168bce,#7164df);color:#fff;font-size:10px;font-weight:800;cursor:pointer}
+.request-submit svg{width:15px;height:15px}
+#supportFormMessage{min-height:14px;color:#54799b;font-size:9px;line-height:1.4}
+.support-workspace .request-table{border:1px solid #e4ebf6;border-radius:10px;overflow:hidden}
+.support-workspace .request-row{grid-template-columns:minmax(0,1.2fr) minmax(0,.7fr) minmax(0,.8fr) minmax(0,.7fr);gap:6px;padding:9px 8px}
+.support-workspace .request-row>span,.support-workspace .request-row>strong,.support-workspace .request-row>b{min-width:0;font-size:8px;overflow-wrap:anywhere}
+.support-workspace .request-head{background:#f4f7ff}
+.support-workspace .urgent-help-card{display:flex;align-items:flex-start;gap:11px;background:linear-gradient(120deg,#fff7f7,#fff 80%)}
+.urgent-help-icon{width:40px;height:40px;flex:0 0 40px;display:grid;place-items:center;border-radius:13px;background:#ffe8ed;color:#d95772}
+.urgent-help-icon svg{width:21px}
+.urgent-help-card h2{margin:2px 0 5px;color:#17395f;font-size:13px}
+.urgent-help-card p{margin-bottom:8px;color:#7188a7;font-size:9px;line-height:1.5}
+.urgent-help-card a{display:inline-flex;align-items:center;gap:6px;color:#c0445c;font-size:10px;font-weight:850}
+.urgent-help-card a svg{width:13px}
+.support-faq h2{margin:3px 0 9px;color:#12345e;font-size:14px}
+.support-faq details{padding:10px 0;border-top:1px solid #edf1f7}
+.support-faq summary{color:#29496e;font-size:9px;font-weight:750;cursor:pointer;list-style:none}
+.support-faq summary:after{content:"+";float:right;color:#7568df;font-size:14px}
+.support-faq details[open] summary:after{content:"−"}
+.support-faq details p{padding:7px 16px 0 0;color:#7188a7;font-size:9px;line-height:1.5}
+.support-tool-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.support-tool{display:flex;align-items:center;gap:9px;min-width:0;padding:11px 9px;border:1px solid #e5ecf8;border-radius:12px;background:#fbfdff;transition:.18s}
+.support-tool:hover{transform:translateY(-2px);border-color:#b6c9ef;box-shadow:0 5px 13px rgba(45,91,151,.07)}
+.tool-icon{width:34px;height:34px;flex:0 0 34px;display:grid;place-items:center;border-radius:10px}
+.tool-icon svg{width:17px}
+.tool-blue{background:#e1f2ff;color:#0879c9}.tool-purple{background:#eeebff;color:#7864e7}.tool-green{background:#ddf8f0;color:#0aa58b}
+.support-tool>span:nth-child(2){min-width:0;flex:1}
+.support-tool strong{display:block;color:#193d66;font-size:9px;line-height:1.35}
+.support-tool small{display:block;margin-top:3px;color:#7a90ac;font-size:8px;line-height:1.35}
+.support-tool>svg{width:13px;flex:0 0 13px;color:#8aa2c0}
+@media(max-width:1120px){.support-workspace{grid-template-columns:minmax(0,1.2fr) minmax(290px,.8fr)}.support-tool-grid{grid-template-columns:1fr}.support-tool{padding:9px}}
+@media(max-width:900px){.support-workspace{grid-template-columns:1fr}.support-secondary{grid-template-columns:repeat(2,minmax(0,1fr))}.support-secondary .requests-card,.support-secondary .support-faq{grid-column:1/-1}.support-tool-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.dashboard-content{padding:10px!important}.support-heading{padding:15px!important}.heading-wellness-card{display:none}.support-workspace .support-category-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.support-workspace .counsellor-grid{grid-template-columns:1fr}.support-secondary{grid-template-columns:1fr}.support-secondary .requests-card,.support-secondary .support-faq{grid-column:auto}.support-tool-grid{grid-template-columns:1fr}.support-workspace .category-result{align-items:flex-start;flex-direction:column}.support-workspace .request-row{grid-template-columns:1fr 1fr}.support-workspace .request-head{display:none}}
