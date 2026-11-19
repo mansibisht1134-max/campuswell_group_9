@@ -1001,3 +1001,116 @@
   #wellnessForm .mood-field,#wellnessForm label[for="notesInput"],#wellnessForm #notesInput,#wellnessForm #wellnessSubmit { grid-column:1 !important; }
   #wellnessForm #wellnessSubmit { grid-row:auto !important; }
 }
+
+
+/* APPROVED CAMPUSWELL WELLNESS DASHBOARD — final visual composition */
+.main-content > .topbar { display:none !important; }
+.dashboard-content { padding:14px 20px 22px !important; }
+.page-content { padding:0 !important; }
+.wellness-welcome {
+ display:flex !important; align-items:center !important; gap:18px !important;
+ padding:16px 22px !important; margin:0 0 14px !important;
+ min-height:94px; border:1px solid #e1e9ff; border-radius:22px;
+ background:linear-gradient(110deg,#f9fbff,#e9edff 65%,#e4f3ff) !important;
+}
+.wellness-welcome .welcome-mark {
+ width:66px;height:66px; flex:0 0 66px; display:grid;place-items:center;
+ border-radius:50%; background:#edf6ff; color:#3c8fce;font-size:38px;
+}
+.wellness-welcome h1 { margin:0 0 5px !important;color:#102f5c;font-size:25px !important;letter-spacing:-.6px; }
+.wellness-welcome p { margin:0 !important;color:#55749e;font-size:13px !important; }
+.wellness-welcome .journey-pill {
+ margin-left:auto;padding:11px 17px;border-radius:30px;background:#e3f2ff;
+ color:#1769aa;font-size:11px;font-weight:750;white-space:nowrap;
+}
+.wellness-grid {
+ display:grid !important;
+ grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+ grid-template-areas:"checkin checkin" "summary recent" !important;
+ gap:14px !important;margin:0 !important;align-items:stretch !important;
+}
+.wellness-grid > .checkin-card { grid-area:checkin; }
+.wellness-grid > .wellness-summary { grid-area:summary; }
+.wellness-grid > .wellness-recent { grid-area:recent; }
+.wellness-grid .card { border:1px solid #e1e9fb !important;border-radius:20px !important;box-shadow:0 7px 24px rgba(56,91,155,.07) !important; }
+.checkin-card {
+ display:block !important;position:relative;overflow:hidden;
+ padding:20px 22px !important;
+ background:linear-gradient(115deg,#f9fbff 0%,#eef5ff 58%,#f0edff 100%) !important;
+}
+.checkin-card:after {
+ content:"You matter ♡";position:absolute;right:36px;top:22px;
+ color:#687bd0;font-family:Georgia,serif;font-style:italic;font-size:26px;opacity:.85;
+}
+.checkin-icon {display:none !important;}
+.checkin-content {width:100% !important;position:relative;z-index:1;}
+.checkin-content .eyebrow {display:inline-flex !important;padding:7px 12px;border-radius:20px;background:#dff2ff;color:#0876c7;font-size:10px !important;margin-bottom:8px !important;}
+.checkin-content .eyebrow:before {content:"☀";margin-right:5px;}
+.checkin-content h2 {font-size:25px !important;color:#102f5c !important;margin:0 !important;}
+.checkin-content > p {font-size:12px !important;margin:5px 0 15px !important;color:#55749e !important;}
+#wellnessForm.wellness-api-form {
+ display:grid !important;grid-template-columns:minmax(1.7fr,1.7fr) repeat(3,minmax(0,1fr)) !important;
+ gap:10px !important;align-items:stretch !important;margin:0 !important;
+}
+#wellnessForm .visual-field {
+ min-width:0;padding:12px !important;border:1px solid #e3eafa !important;
+ border-radius:17px !important;background:rgba(255,255,255,.72) !important;box-shadow:0 5px 16px rgba(70,100,160,.05) !important;
+}
+#wellnessForm .mood-field {grid-column:auto !important;}
+#wellnessForm .visual-label {display:block !important;font-size:13px !important;font-weight:800 !important;color:#17365f !important;margin:0 0 10px !important;}
+#wellnessForm .mood-picker {display:grid !important;grid-template-columns:repeat(5,minmax(0,1fr)) !important;gap:7px !important;}
+#wellnessForm .mood-choice {
+ display:flex !important;flex-direction:column !important;align-items:center !important;justify-content:center !important;
+ gap:5px !important;min-height:91px !important;padding:7px 3px !important;
+ border:1px solid #e6ebf8 !important;border-radius:13px !important;background:#f9faff !important;color:#18365f !important;
+}
+#wellnessForm .mood-choice span {font-size:29px !important;}
+#wellnessForm .mood-choice small {font-size:11px !important;font-weight:700 !important;}
+#wellnessForm .mood-choice.selected {border:2px solid #9b82ff !important;background:#f0ebff !important;box-shadow:0 3px 12px #8e7be522 !important;}
+#wellnessForm .sleep-input-wrap {min-height:49px !important;border:0 !important;background:transparent !important;padding:0 2px !important;}
+#wellnessForm .sleep-symbol {font-size:22px !important;}
+#wellnessForm .sleep-input-wrap input {font-size:23px !important;font-weight:800 !important;color:#143763 !important;}
+#wellnessForm .sleep-unit {font-size:11px !important;}
+#wellnessForm .sleep-quick-picks {gap:4px !important;margin-top:9px !important;}
+#wellnessForm .sleep-quick-picks button {padding:6px 7px !important;font-size:9px !important;}
+#wellnessForm .level-picker {grid-template-columns:1fr !important;gap:6px !important;}
+#wellnessForm .level-picker button {min-height:31px !important;flex-direction:row !important;justify-content:flex-start !important;padding:5px 8px !important;font-size:11px !important;}
+#wellnessForm .level-picker button span {font-size:16px !important;}
+#wellnessForm label[for="notesInput"] {grid-column:1 / 4 !important;align-self:end !important;margin:0 0 -5px !important;font-size:12px !important;font-weight:750 !important;color:#17365f !important;}
+#wellnessForm #notesInput {grid-column:1 / 4 !important;min-height:56px !important;height:56px !important;border-radius:12px !important;border:1px solid #dce5f7 !important;background:#fff !important;padding:12px !important;font-size:12px !important;}
+#wellnessForm #wellnessSubmit {grid-column:4 !important;grid-row:3 !important;align-self:end !important;justify-self:stretch !important;min-height:56px !important;border-radius:14px !important;background:linear-gradient(110deg,#6654e8,#6751d7) !important;font-size:14px !important;font-weight:800 !important;box-shadow:0 7px 17px #6857d633 !important;}
+#wellnessForm #wellnessFormStatus {grid-column:1 / -1 !important;margin:0 !important;}
+.wellness-summary,.wellness-recent {padding:18px !important;min-height:210px;}
+.wellness-summary h2,.recent-title h2 {font-size:17px !important;}
+.wellness-summary .score-content {margin-top:13px !important;}
+.wellness-summary .score-circle {width:118px !important;height:118px !important;min-width:118px !important;border-width:10px !important;}
+.wellness-summary .score-circle strong {font-size:30px !important;}
+.wellness-summary .score-text h3 {font-size:13px !important;}
+.wellness-summary .score-text p {font-size:11px !important;}
+.wellness-summary .score-bar {margin-top:12px !important;}
+.wellness-recent .recent-heading {margin-bottom:12px !important;}
+.wellness-recent .empty-history {min-height:95px !important;border-radius:14px !important;background:#f3f7ff !important;}
+.history-entry {display:flex;justify-content:space-between;align-items:center;padding:14px;border-radius:13px;background:#edf4ff;margin-bottom:8px;}
+@media(max-width:1050px) {
+ #wellnessForm.wellness-api-form {grid-template-columns:repeat(2,minmax(0,1fr)) !important;}
+ #wellnessForm .mood-field {grid-column:1 / -1 !important;}
+ #wellnessForm label[for="notesInput"],#wellnessForm #notesInput {grid-column:1 / -1 !important;}
+ #wellnessForm #wellnessSubmit {grid-column:1 / -1 !important;grid-row:auto !important;}
+}
+@media(max-width:760px) {
+ .dashboard-content {padding:10px !important;}
+ .wellness-welcome {padding:13px !important;gap:10px !important;}
+ .wellness-welcome .welcome-mark {width:45px;height:45px;flex-basis:45px;font-size:27px;}
+ .wellness-welcome h1 {font-size:19px !important;}
+ .wellness-welcome .journey-pill {display:none;}
+ .wellness-grid {grid-template-columns:1fr !important;grid-template-areas:"checkin" "summary" "recent" !important;}
+ .checkin-card:after {display:none;}
+ #wellnessForm.wellness-api-form {grid-template-columns:1fr 1fr !important;}
+ #wellnessForm .mood-field,#wellnessForm label[for="notesInput"],#wellnessForm #notesInput,#wellnessForm #wellnessSubmit {grid-column:1 / -1 !important;}
+}
+@media(max-width:480px) {
+ #wellnessForm.wellness-api-form {grid-template-columns:1fr !important;}
+ #wellnessForm .mood-picker {gap:4px !important;}
+ #wellnessForm .mood-choice {min-height:68px !important;}
+ .checkin-card {padding:14px !important;}
+}
