@@ -583,3 +583,52 @@
  #wellnessForm textarea,.wellness-api-form textarea { grid-column:1; }
  .checkin-card { padding:12px; }
 }
+
+
+/* Tight layout correction: eliminate tall/empty wellness panels */
+.page-content { padding-top: 0 !important; }
+.page-heading { margin-bottom: 8px !important; }
+.wellness-grid { gap: 10px !important; margin-top: 8px !important; align-items: start !important; }
+.wellness-grid > section { align-self: start !important; height: auto !important; min-height: 0 !important; }
+.overview-card,.score-card,.checkin-card,.insights-card,.recent-card { padding: 12px !important; }
+.card-top { gap: 9px !important; }
+.card-icon { width: 38px !important; height: 38px !important; min-width: 38px !important; }
+.overview-stats { margin-top: 9px !important; gap: 7px !important; }
+.wellness-stat { padding: 8px !important; }
+.score-content { margin-top: 8px !important; gap: 10px !important; }
+.score-circle { width: 68px !important; height: 68px !important; min-width: 68px !important; border-width: 6px !important; }
+.score-bar { margin-top: 8px !important; }
+.checkin-card { gap: 10px !important; align-items: flex-start !important; }
+.checkin-icon { width: 38px !important; height: 38px !important; min-width: 38px !important; }
+.checkin-content > p { margin: 3px 0 7px !important; line-height: 1.4 !important; }
+#wellnessForm.wellness-api-form {
+ display:grid !important;
+ grid-template-columns: 1fr 1.15fr 1fr 1.15fr !important;
+ gap: 6px 8px !important;
+ align-items:center !important;
+ margin-top: 6px !important;
+}
+#wellnessForm.wellness-api-form label { margin:0 !important; font-size:10px !important; }
+#wellnessForm.wellness-api-form select,
+#wellnessForm.wellness-api-form input { min-height:32px !important; padding:5px 7px !important; font-size:11px !important; }
+#wellnessForm.wellness-api-form label[for="notesInput"],
+#wellnessForm.wellness-api-form textarea,
+#wellnessForm.wellness-api-form #wellnessSubmit,
+#wellnessForm.wellness-api-form #wellnessFormStatus { grid-column:1 / -1 !important; }
+#wellnessForm.wellness-api-form textarea { min-height:44px !important; }
+#wellnessForm.wellness-api-form #wellnessSubmit { justify-self:start !important; }
+.insights-heading { margin-bottom:6px !important; }
+.insight-row { padding:6px 0 !important; }
+.recent-card { grid-column:1 / -1 !important; }
+.recent-heading { margin-bottom:6px !important; }
+.empty-history { min-height:48px !important; padding:7px !important; }
+@media(max-width:900px) {
+ .wellness-grid { grid-template-columns:1fr !important; }
+ #wellnessForm.wellness-api-form { grid-template-columns:1fr 1fr !important; }
+}
+@media(max-width:560px) {
+ #wellnessForm.wellness-api-form { grid-template-columns:1fr !important; }
+ #wellnessForm.wellness-api-form label,
+ #wellnessForm.wellness-api-form select,
+ #wellnessForm.wellness-api-form input { grid-column:1 !important; }
+}
