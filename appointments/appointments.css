@@ -680,3 +680,30 @@ textarea:focus {
         font-size: 21px;
     }
 }
+
+/* Clear, compact counsellor recommendation */
+.counsellor-recommendation {
+    margin: 0 0 9px;
+    padding: 9px 11px;
+    border: 1px solid #cfe6f8;
+    border-radius: 8px;
+    background: #f2f9ff;
+    color: #17669c;
+    font-size: 10px;
+    line-height: 1.45;
+}
+.counsellor-card {
+    min-width: 0;
+    min-height: 70px;
+}
+.counsellor-card.active {
+    border-color: #168bce;
+    background: #edf7ff;
+}
+.reason-option { min-height: 36px; }
+@media (max-width: 800px) {
+    .counsellor-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 520px) {
+    .counsellor-grid { grid-template-columns: 1fr; }
+}
